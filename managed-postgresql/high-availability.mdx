@@ -1,0 +1,31 @@
+---
+title: 'High Availability'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+Ubicloud Managed PostgreSQL offers different levels of high availability. Depending on your needs, you can add one or two of high availability standbys during the provisioning of your database. Simply select the number standbys you want to have from the UI. Difference between high availability options.
+
+![High Availability](/managed-postgresql/high-availability-1.png)
+
+#### No Standby
+
+In this option, we only provision a primary node in the size of your preference. No standby node is provisioned. We still monitor your primary node against possible failures, however recovery might take a long time depending on the nature of the problem.
+
+#### 1 Standby
+
+In this option, we provision a standby node along with your primary node. The standby node will be in the same size with the primary and it waits ready to take over the place of the primary node in case of a failure.
+
+By default, in this option, the data will be replicated to the standby node with asynchronous replication. This means writes can be committed to the primary node without needing acknowledgement from the standby node. This ensures that having high availability does not slow down your writes due to additional network hop. However, it also means that the standby might not have a chance to see the most recent data at the time of the primary failure. For most applications, additional risk is worth the performance gain, however if this is not the case for you, you can also opt-in to use synchronous replication.
+
+#### 2 Standbys
+
+In this option, we provision two standby nodes along with your primary node. The standby nodes will be in the same size with the primary and they wait ready to take over the place of the primary node in case of a failure.
+
+By default, in this option, the data will be replicated to the standby node with synchronous replication and the primary node will wait for acknowledgement from at least one of the standbys. This provides higher durability guarantees than the asynchronous replication. Also since one acknowledgement is enough, it suffers less from the performance penalty of additional network hop (compared to using synchronous replication with just one standby). Still, if you prefer using asynchronous replication, you can change the default configuration.
+
+## Handling Failures
+
+We monitor all the PostgreSQL servers in our fleet, no matter if high availability is enabled or not. In all cases, our system tries to heal from failures automatically.
+
+However, if there is a standby available, automatic healing is faster and more straightforward. In such cases, the system usually recovers itself in the matter of a few minutes. In cases where high availability is not enabled, healing might require operator intervention and that would significantly increase the unavailable duration.

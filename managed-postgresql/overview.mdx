@@ -1,0 +1,34 @@
+---
+title: 'Overview'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+This page guides you through creating and connecting to a Ubicloud managed PostgreSQL instance. Ubicloud PostgreSQL handles backups, high availability, health monitoring, and many other aspects of managing a database for you, so that you can focus on your application.
+
+With Ubicloud PostgreSQL you will get the following benefits depending on the context.
+- 3x lower costs than comparable public cloud solutions
+- Available on Hetzner data centers
+- Open source, if you choose to manage Ubicloud Managed PostgreSQL yourself
+
+## Create managed PostgreSQL
+
+**Navigate to PostgreSQL Service:** From the left menu on the dashboard, select the "PostgreSQL" option.
+
+**Create PostgreSQL Database:** Click on the "+ New PostgreSQL database" button. This will take you to a new page where you can select the instance type based on your needs.
+
+![Overview 1](/managed-postgresql/overview-1.png)
+
+**Instance Configuration:** Type the desired database server name and choose the desired instance type. You don't need to set anything else. A secure password will be automatically generated.
+
+**Instance Creation:** After selecting the instance type, click the "Create" button. Your managed PostgreSQL instance will be set up and ready for use in a few minutes.
+
+## Connect to managed PostgreSQL
+
+**Get Connection Details:** Once your PostgreSQL instance is ready, go to the database details view to find the connection string. The connection string will be masked. You can reveal it or copy it to your clipboard directly.
+
+![Overview 2](/managed-postgresql/overview-2.png)
+
+**Use Connection String:** You can use "psql" or any other database client to establish a connection to your PostgreSQL instance.
+
+Ubicloud Managed PostgreSQL provides superuser access to users. This connection string is for accessing the database as a superuser. You can use it to create new users.

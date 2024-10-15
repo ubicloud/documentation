@@ -1,0 +1,27 @@
+---
+title: 'Control and Data Plane'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+Ubicloud follows an established pattern in building public cloud services. A control plane manages a data plane, where the data plane usually leverages open source software.The following architecture diagram shows the control and data plane components for our compute service. This service allows you to provision and use virtual machines (VMs); and also forms the basis of some of our other services.
+
+![Control and Data Plane](/architecture/control-and-data-plane-1.jpg)
+
+
+## Control plane
+
+Control plane manages users, data plane services, and resources. This is a Ruby program that stores its data in Postgres. We use the <Link title="Roda" url="https://roda.jeremyevans.net/"/> framework to serve HTTP requests and <Link title="Sequel" url="http://sequel.jeremyevans.net/"/> to access the database. We manage web authentication with <Link title="RodAuth" url="http://rodauth.jeremyevans.net/"/>. The control plane communicates with data plane servers using SSH, via the library <Link title="net-ssh" url="https://github.com/net-ssh/net-ssh"/>.
+
+Users communicate with the control plane through the cloud console or Ubicloud APIs. The console is a web app served by the Roda framework. For the visual design, we use <Link title="Tailwind CSS" url="https://tailwindcss.com/"/> with components from <Link title="Tailwind UI" url="https://tailwindui.com/"/>. We also use jQuery for interactivity.
+
+Once you’ve initialized the control plane, create a new user and sign into the cloud console.
+
+## Data plane
+
+The control plane communicates with Linux bare metal servers using SSH. Ubicloud expects Linux with KVM running on these servers. Our managed service uses Ubuntu 22.04 as the underlying Linux distribution.
+
+For our compute service, Ubicloud makes several additions on top of Linux KVM. We use <Link title="cloud-init" url="https://github.com/canonical/cloud-init"/> to bootstrap SSH access to the server. We use <Link title="Cloud Hypervisor" url="https://github.com/cloud-hypervisor/cloud-hypervisor"/> as our virtual machine monitor (VMM); and each instance of the VMM is contained within Linux namespaces for further isolation and security.
+
+This section also has design documents that explain how some Ubicloud services work. You can read them here or request new documents by getting in touch with us.
+

@@ -1,0 +1,83 @@
+---
+title: 'Ubicloud Cache'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+This guide describes how to integrate your GitHub Action workflows with Ubicloud Cache.
+
+Ubicloud starts a clean and ephemeral VM for each new workflow job for security purposes. Fresh VMs need to download job dependencies, leading to increased network usage, longer runtimes, and higher costs. GitHub Actions cache allows to share dependencies and other commonly reused files between workflow jobs.
+
+Ubicloud Cache improves on the GitHub Actions cache by storing cached files closer to Ubicloud runners, making cache downloading/uploading more reliable and up to 4x faster. Ubicloud Cache offers 10 GB of free storage per repository per week, similar to the default GitHub Actions Cache. If you exceed this limit, the oldest caches are automatically deleted to make space for new ones. Additionally, caches that haven't been accessed in the past seven days are automatically removed.
+
+## Migrating to `ubicloud/cache`
+
+The `ubicloud/cache` action serves as a drop-in replacement for `actions/cache`. To use Ubicloud Cache, all you need to do is change the `actions/cache lines with `ubicloud/cache` in your workflow files. Ubicloud Cache is fully compatible with GitHub Actions Cache.
+
+```yaml
+- uses: actions/cache@v4
++ uses: ubicloud/cache@v4
+with:
+   path: ~/.cache/pip
+   key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+   restore-keys: |
+     ${{ runner.os }}-pip-
+```
+
+
+## Migrating to Ubicloud's Language-Specific Cache Actions
+
+GitHub provides setup helper actions for popular languages and frameworks. When these actions are setting up an environment, they also cache any related dependencies for that environment.
+
+Ubicloud offers drop-in replacements for these actions, now with Ubicloud Cache support. To start using Ubicloud's language-specific cache actions, simply replace the actions/setup-* lines with ubicloud/setup-* in your workflow files. For languages and frameworks without a dedicated setup action, GitHub provides numerous examples of cache usage at <Link url="https://github.com/actions/cache/blob/main/examples.md"/>
+
+### Java
+
+```yaml
+- uses: actions/setup-java@v4
++ uses: ubicloud/setup-java@v4
+```
+
+### .Net
+
+```yaml
+- uses: actions/setup-dotnet@v4
++ uses: ubicloud/setup-dotnet@v4
+```
+
+### Python
+
+```yaml
+- uses: actions/setup-python@v5
++ uses: ubicloud/setup-python@v5
+```
+
+### Go
+
+```yaml
+- uses: actions/setup-go@v5
++ uses: ubicloud/setup-go@v5
+```
+
+### NodeJS
+
+```yaml
+- uses: actions/setup-node@v4
++ uses: ubicloud/setup-node@v4
+```
+
+Some other popular languages have their own setup-* actions, not maintained by GitHub. Ubicloud offers replacements for some of the most popular ones.
+
+### Ruby
+
+```yaml
+- uses: actions/setup-ruby@v1
++ uses: ubicloud/setup-ruby@v1
+```
+
+### Rust
+
+```yaml
+- uses: Swatinem/rust-cache@v2
++ uses: ubicloud/rust-cache@v2
+```

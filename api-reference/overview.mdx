@@ -1,0 +1,108 @@
+---
+title: 'Overview'
+description: 'Ubicloud APIs (Beta) allow users to programmatically manage their resources.'
+---
+
+
+The API is designed with predictable endpoints and an intuitive design, making it easy to understand and use. It adheres to REST principles, allowing users to send requests using any client that supports HTTPS requests to Ubicloud API endpoints. All request and response bodies are in JSON format.
+
+## Authentication
+API uses JWT tokens for authentication. A token can be obtained by sending a request to `api/login` with login email and password parameters in the body as
+
+```bash
+curl "https://api.ubicloud.com/login" \
+   -X POST \
+   -H "Content-Type: application/json" \
+   -i \
+   -d '{
+        "login": "username@mail.com", 
+        "password": "samplepassword" 
+      }'
+``` 
+
+The token will be returned in the authorization key of the response header. Once user has the JWT token, must pass it as the value of authorization key on the header for all subsequent requests. Examples are provided in the API reference.
+
+## Requests
+
+API communicates with clients via HTTPS requests. All data sent in request bodies must be in JSON format. The API supports the following HTTP methods:
+
+| Method | Usage                                                                                                                                         |
+|--------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| GET    | Retrieves either a single resource or a list of resources. Supports pagination for lists.                                                     |
+| POST   | Creates a resource. All required attributes must be included in the JSON body of the request. Also allows for executing actions on resources. |
+| DELETE | Deletes a resource. If the given resource URI is valid, it returns a 204 status code irrespective of the resource exists or not.              |
+
+## Responses
+
+Following HTTP response status codes can be returned from the API.
+
+| Status | Description                                        |
+|--------|----------------------------------------------------|
+| 200    | Request was successful                             |
+| 204    | Request was successful and no content returns back |
+| 400    | Invalid request                                    |
+| 401    | Not authenticated to the API                       |
+| 403    | Unauthorized user access                           |
+| 404    | Resource not found                                 |
+| 409    | Resource state is not valid to handle request      |
+| 419    | Invalid Token                                      |
+| 500    | Unexpected internal error                          |
+
+All the responses except the ones with the HTTP code 204 returns the content in the JSON format.
+
+## API Design
+
+This section explains core concepts of the Ubicloud API.
+
+### Global and Location Based Resources
+
+Ubicloud API users can manage two types of resources: global and location-based.
+
+Global resources on Ubicloud are created independently of any specific location. Global resources can be managed with the API currently are projects, firewalls and firewall rules. Global resources do not have a globally unique name but do have a globally unique ID. Therefore, users can create multiple global resource of the same type with the same name, and each will be assigned a unique ID.
+
+Resources created under a specific project and location are termed location-based resources. Users can create resources in various locations for a given project. Location-based resources have unique IDs and also names unique at the project and location level. The uniqueness of names allows API to make requests idempotent by using the name as an idempotency token.
+
+#### Accessing Resources
+
+As mentioned above, all resources have unique IDs, and location-based resources also have unique names. Resources can be accessed either by their ID or by their name (if available). We refer to the former as static access and the latter as dynamic access, because static access allows users to access the same resource even if its name changes (note that renaming resources is not supported yet).
+
+For global resources, which have only a unique ID, users can access a specific resource by its ID. For example, to retrieve a project with ID `pj1234ab9eyt7jd4zmwby6ymd3`, user would send a GET request to `api/project/pj1234ab9eyt7jd4zmwby6ymd3`.
+
+For location-based resources, which have both unique IDs and names, users can access them either way. For example, a VM named `my-ubicloud-vm` with ID `vm123451fzj3k70d3p8f1709s` in the `pj1234ab9eyt7jd4zmwby6ymd3` project located in `eu-north-h1` can be accessed either via `api/project/pj1234ab9eyt7jd4zmwby6ymd3/location/eu-north-h1/vm/my-ubicloud-vm` or `api/project/pj1234ab9eyt7jd4zmwby6ymd3/location/eu-north-h1/vm/id/vm123451fzj3k70d3p8f1709s`. This enables both dynamic and static access as described.
+
+#### Creating Resources
+
+To create a global resource all attributes must be sent in the body. For example to create a project, send a POST request to api/project with the required parameters in the body of the request. To create a firewall in the project pj1234ab9eyt7jd4zmwby6ymd3 user can send a POST request to api/project/pj1234ab9eyt7jd4zmwby6ymd3/firewall with all the required parameters in the body.
+
+For creating location-based resources, Ubicloud supports a more condensed and straightforward method. Instead of sending a POST request to the parent URI of the resource, user can send a POST request directly to the resource's URI using its unique name, making the requests idempotent. For example, to create the previously mentioned VM, user would send a POST request to api/project/pj1234ab9eyt7jd4zmwby6ymd3/location/eu-north-h1/vm/my-ubicloud-vm with other required parameters in the request body. Essentially, URIs including the name of location-based resources can be used like variables in programming, simplifying creation, access, and deletion. No need to have a special case forPOST requests.
+
+### Deleting Resources
+
+To delete a resource, user would send a DELETE request using the ID for global resources and either the ID or name for location-based resources. The DELETE endpoints return a 204 status code, whether the resource was deleted or did not exist to simplify client implementation. Note that, DELETE requests can still return 404 if the given resource URI is not a valid one. Please check the API reference for sample usage.
+
+### Listing Resources with Pagination Support
+
+Users would send a GET request to the resource's parent URI to retrieve a list of resources. For instance, a request to api/project will return all the projects user has created. All listing endpoints on Ubicloud support pagination, using cursor-based pagination as it scales better and handles parallel operations more effectively than offset-based pagination. Users can pass three different query parameters to list endpoints:
+
+‍order_column: Specifies the attribute by which pages will be ordered. Each list endpoint supports ordering by id, and those with unique names also support ordering by name.
+‍
+‍start_after: A polymorphic value after which the page will include resources. Its' type depends on the value of order_column. If order_column is id, the value of start_after must be a valid ID. If it is name, the value of start_after can be any text. For example, to get a paginated list of VMs named alphabetically after "my-ubi", set the order_column to "name" and start_after to "my_ubi".
+
+‍page_size: Indicates how many items will be returned in a page. The default value is 10, and it must be between 0 and 100.
+
+This polymorphic start_after value helps us continue returning pages even if the record with the given start_after value is deleted in parallel. We do not try to retrieve a resource with the start_after value but compare existing items' related column with the passed value directly, overcoming a main limitation of cursor-based pagination.
+
+List endpoints return the response JSON with two keys: items, which holds the list of resources, and count, which keeps track of how many resources exist in total.
+
+### UBID
+
+You might be curious why unique IDs for projects start with "pj" and those for virtual machines start with "vm". This is intentional to make life easier for both Ubicloud developers and users. As soon as you see a resource's ID, you can immediately understand its type, as different types of resources have different two-letter prefixes. We call these ubids, and you can see how they are both user-friendly and globally unique from the implementation.
+
+## Idempotency
+
+GET and DELETE requests are idempotent by definition.
+
+Idempotency of POST requests depends on the resource type.
+
+If the resource is a global one, POST requests are idempotent if creating a resource with same parameters is not allowed, which is the case for firewall rules. Otherwise, requests won't be idempotent as sending the same POST request will create two different global resources with different unique IDs.
+If the resource is a location based resource, POST requests will be idempotent. If the resource with given attributes exists, the new one won't be created. Having a unique name guarantees idempotency.

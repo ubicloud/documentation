@@ -1,0 +1,23 @@
+---
+title: 'Metric Destinations'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+It is possible to send various metrics such as CPU usage, disk IO, database locks from your database to external targets. Metrics destinations use Prometheus’ remote-write protocol to send metrics. Any destination that supports remote-write protocol, can be used as a destination of Ubicloud PostgreSQL metrics. You can find destinations that support remote-write protocol <Link title="here" url="https://prometheus.io/docs/operating/integrations/#remote-endpoints-and-storage"/>.
+
+## Setting Up
+Setting up a metric destination is easy. Just open the PostgreSQL server details page. You can enter connection details of the remote destination in the “Metric Destinations” section.
+
+![Metric Destinations](/managed-postgresql/metric-destinations-1.png)
+
+We need 3 pieces of information; URL for sending metrics to, and also username/password for authentication. We only accept https:// endpoints. In this way we ensure that the data we are sending is encrypted at transit.
+
+## Type of Metrics
+
+We are sending two types of metrics:
+- **Metrics from the database itself:** Database metrics are collected by <Link title="postgres_exporter" url="https://github.com/prometheus-community/postgres_exporter"/>. It contains information about database size, active connections, write/read activity, replication, WAL archival, autovacuum and many more.
+- **Metrics from the underlying virtual machine:** Virtual machine metrics are collected by <Link title="node_exporter" url="https://github.com/prometheus/node_exporter"/>. It contains information about CPU usage, disk IO, filesystem usage, memory consumption and network transfe
+
+
+

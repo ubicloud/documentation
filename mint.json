@@ -1,0 +1,136 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Ubicloud Documentation",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#FF5C12",
+    "light": "#FF5C12",
+    "dark": "#FF5C12"
+  },
+  "layout": "solidSidenav",
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@ubicloud.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Sign in",
+    "url": "https://console.ubicloud.com",
+    "style": "roundedRectangle"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference",
+      "openapi": "/api-reference/openapi.yml"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Give a star",
+      "icon": "github",
+      "url": "https://github.com/ubicloud/ubicloud"
+    },
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "overview"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://www.ubicloud.com/blog"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "",
+      "pages": [
+        "overview"
+      ]
+    },
+    {
+      "group": "Quickstart",
+      "pages": [
+        "quickstart/managed-services",
+        "quickstart/build-your-own-cloud",
+        "quickstart/using-kamal-with-ubicloud"
+      ]
+    },
+    {
+      "group": "Architecture",
+      "pages": [
+        "architecture/control-and-data-plane",
+        "architecture/attribute-based-access-control-abac"
+      ]
+    },
+    {
+      "group": "Github Actions Integration",
+      "pages": [
+        "github-actions-integration/quickstart",
+        "github-actions-integration/migrate-to-arm-runners",
+        "github-actions-integration/use-gpu-runners",
+        "github-actions-integration/ubicloud-cache",
+        "github-actions-integration/price-performance"
+      ]
+    },
+    {
+      "group": "Managed PostgreSQL",
+      "pages": [
+        "managed-postgresql/overview",
+        "managed-postgresql/backup-and-restore",
+        "managed-postgresql/high-availability",
+        "managed-postgresql/extensions",
+        "managed-postgresql/metric-destinations",
+        "managed-postgresql/price-performance",
+        "managed-postgresql/paradedb-on-ubicloud"
+      ]
+    },
+    {
+      "group": "Networking",
+      "pages": [
+        "networking/private-subnet",
+        "networking/firewall",
+        "networking/load-balancer"
+      ]
+    },
+    {
+      "group": "Security",
+      "pages": [
+        "security/overview",
+        "security/soc2"
+      ]
+    },
+    {
+      "group": "About",
+      "pages": [
+        "about/pricing",
+        "about/regions",
+        "about/support",
+        "about/security",
+        "about/privacy-policy",
+        "about/terms-of-service"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/overview"
+      ]
+    }
+   ],
+  "footerSocials": {
+    "github": "https://github.com/ubicloud/ubicloud",
+    "x": "https://x.com/UbicloudHQ",
+    "linkedin": "https://linkedin.com/company/ubicloud"
+  }
+}

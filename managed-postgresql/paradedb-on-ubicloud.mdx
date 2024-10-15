@@ -1,0 +1,37 @@
+---
+title: 'ParadeDB on Ubicloud'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+## Getting Started
+
+ParadeDB is an Elasticsearch alternative built on Postgres. It provides powerful search and analytics capabilities built on top of PostgreSQL and now it is available on Ubicloud as a managed service.
+
+Our managed ParadeDB service combines the unique expertise of both Ubicloud and ParadeDB teams. Underlying infrastructure is managed by the Ubicloud team and the ParadeDB instances are managed by the ParadeDB team. This allows you to access both teams’ technical expertise as needed.
+
+ParadeDB is a good fit for:
+- Developers who trust Postgres and don't want to operate a non-Postgres database / query engine
+- Elasticsearch users who want to consolidate their data stack on Postgres
+- Full-text, similarity, or hybrid search over large volumes of operational data with zero ETL
+- Building rich search experiences with analytical queries and facets
+
+**Navigate to ParadeDB Service:** To create a ParadeDB instance, start by clicking to the "PostgreSQL" option from the left menu on the dashboard and then click “Create ParadeDB PostgreSQL Database”.
+
+![ParadeDB on Ubicloud](/managed-postgresql/paradedb-on-ubicloud-1.png)
+
+**Instance Configuration:** Type the desired database server name and choose the desired instance type. Since this database will be managed by the ParadeDB team as well, you will need to accept terms of service and privacy policy of ParadeDB. You don't need to set anything else. A secure password will be automatically generated.
+
+**Instance Creation:** After selecting the instance type, click the "Create" button. Your managed PostgreSQL instance will be set up and ready for use in a few minutes.
+
+## Connect to managed ParadeDB instance
+
+**Get Connection Details:** Once your ParadeDB instance is ready, go to the database details view to find the connection string. The connection string will be masked. You can reveal it or copy it to your clipboard directly.
+
+**Use Connection String:** You can use "psql" or any other database client to establish a connection to your PostgreSQL instance.
+
+Ubicloud managed ParadeDB service provides superuser access to users. This connection string is for accessing the database as a superuser. You can use it to create new users.
+
+## Getting most out of your ParadeDB instance
+
+You can learn more about ParadeDB's capabilities and how to use them in <Link title="this quick start guide" url="https://docs.paradedb.com/documentation/getting-started/quickstart"/>.

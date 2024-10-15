@@ -1,0 +1,45 @@
+---
+title: 'Price / Performance'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+## Price
+Ubicloud runners provide a number of price/performance advantages over GitHub runners. These include:
+
+- Prices are 10x cheaper than GitHub Actions
+- Ubicloud Runners outperform GitHub Runners even at this price point
+- Ubicloud cloud services are open source under the AGPL v3 license, if you choose to manage your infrastructure yourself
+
+We charge only for usage and at per minute granularity. Every account gets a $1/month credit that's equivalent to 1,250 minutes of Ubicloud (2 vCPU) runner time. You can read more about our Linux x64 and Arm64 prices, as well as our GPU runners, in the <Link title="general pricing page" url="/about/pricing"/>.
+
+## Performance
+
+In addition to being 10x more cost-effective, Ubicloud runners are also faster. This is because Ubicloud VMs run on newer hardware than those of GitHub's Azure VMs.
+
+Below is a sample of run times across open source projects for GitHub and Ubicloud runners. We also display Ubicloud 4 vCore runner times. Since Ubicloud comes with a significant price advantage, we recommend trying more powerful runners for faster builds.
+
+![Performance 1](/github-actions-integration/price-performance-1.svg)
+Repo source: https://github.com/facebook/folly (C++ Build and Test)
+Run source: https://github.com/enescakir/astrobee/actions/runs/6403956193
+Run date: 2023-10-04
+
+![Performance 2](/github-actions-integration/price-performance-2.svg)
+Repo source: https://github.com/google/xls (C++ Build and Test)
+Run source: https://github.com/enescakir/xls/actions/runs/6405033359
+Run date: 2023-10-04
+
+![Performance 3](/github-actions-integration/price-performance-3.svg)
+Repo source: https://github.com/PeerDB-io/peerdb (Rust Cargo Build and Test)
+Run source: https://github.com/enescakir/peerdb/actions/runs/6404580654
+Run date: 2023-10-04
+
+![Performance 4](/github-actions-integration/price-performance-4.svg)
+Repo source: https://github.com/supabase/supabase (Check code with Typescript)
+Run source: https://github.com/enescakir/supabase/actions/runs/6659044529
+Run date: 2023-10-26
+
+![Performance 5](/github-actions-integration/price-performance-5.svg)
+Repo source: https://github.com/nasa/astrobee (C++ Build and Test)
+Run source: https://github.com/enescakir/astrobee/actions/runs/6403956193
+Run date: 2023-10-04

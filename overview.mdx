@@ -1,0 +1,44 @@
+---
+title: Overview
+---
+
+import { Link } from '/snippets/link.mdx';
+import { Callout } from '/snippets/callout.mdx';
+
+<Callout text="Reduce costs. Avoid lock-in. Win back your infrastructure." />
+
+## What is Ubicloud?
+
+Ubicloud is an open, free, and portable cloud. Think of it as an alternative to public cloud providers, like what Linux is to proprietary operating systems.
+
+Ubicloud offers infrastructure-as-a-service (IaaS) features on providers that lease bare metal instances, such as Hetzner, OVH, and AWS Bare Metal. It’s also available as a managed service.
+
+The low cost of the bare metal instances we use in our managed service allows us to pass those low prices to you, reducing cloud costs by 3x - 10x.
+
+## Why Ubicloud?
+
+Cloud services like AWS, Azure, and Google Cloud made life easier for start-ups and enterprises. But they are closed source, have you rent computers at a huge premium, and lock you in. Ubicloud offers an open alternative, reduces your costs, and returns control of your infrastructure back to you. All without sacrificing the cloud's convenience.
+
+Today, AWS offers about two hundred cloud services. Ultimately, we will implement 10% of the cloud services that make up 80% of total consumption.
+
+Example workloads/reasons to use Ubicloud today include:
+- You're using GitHub Actions. Ubicloud supports managed x64 and arm64 runners; and reduces your bill by 10x. To get started, you just need to change 1 line in your workflow file.
+- You need managed PostgreSQL. Ubicloud is open source and portable. This way, you can see how we operate and avoid cloud vendor lock-in. Our managed Postgres is also fast thanks to its use of local NVMe and costs 3x less than comparable solutions.
+- You have batch processing workloads that are compute/memory intensive. For example, you're doing scientific computing or video processing. You need secure virtual machines (VMs), encryption in-transit and at-rest; and you'd like to pay 3x less.
+
+## Licenses
+
+Our GitHub repo is here: <Link url="https://github.com/ubicloud/ubicloud"/> available to use for free under the GNU Affero General Public License version 3 (AGPL v3).
+
+## Product
+Ubicloud is in public alpha. You can provide us with feedback, get help, or ask us to support your bare metal provide by sending us an email at [support@ubicloud.com](mailto:support@ubicloud.com)
+
+‍Existing cloud services and additional components include the following:
+  - Elastic Compute - Provision, use, and delete isolated VMs on bare metal
+  - Block Storage (non-replicated) - Block devices with encryption at rest
+  - Virtual Networking - Public and private networking. IPv4 and IPv6. Encryption in transit
+  - Load Balancer - Distributes traffic across VMs, built-in health checks
+  - Managed PostgreSQL - Postgres with backup/restore, high availability, and extensions
+  - Attribute-Based Access Control (ABAC) - Define roles for different users. Provide fine-grained access control
+  - Control plane - Communicates with the data plane using SSH and manages resources
+  - Cloud console - A dashboard for users to use cloud services

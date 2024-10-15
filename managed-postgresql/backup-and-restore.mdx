@@ -1,0 +1,28 @@
+---
+title: 'Backup and Restore'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+## Backups
+
+Ubicloud ensures the safety and availability of your data through robust backup and restore processes.
+
+**Daily Backups:** We take daily full backups. We also store Write-Ahead Log (WAL) files every 60 seconds or 16 MB of WAL updates, whichever comes first. Ubicloud stores these backup files in an internal blob storage service.
+
+Storage for backups are isolated at the bucket level. We create separate buckets for each PostgreSQL server in our blob storage. The credentials provided to each PostgreSQL server only allow access to its own bucket.
+
+**Backup Duration:** We retain backups for a period of 7 days, offering a sufficient window for recovery in case of data loss. If you need a longer backup retention period, feel free to contact us at <Link title="support@ubicloud.com" url="mailto:support@ubicloud.com"/>.
+
+## Restore
+
+To restore a database, use the "Fork" functionality available in the database details view.
+
+![Backup and Restore](/managed-postgresql/backup-and-restore-1.png)
+
+Two input boxes, one textbox for server name of restored database and the other is a date time picker for target restore time.
+You can select the target date for the restore at per minute granularity; and specify the name for the new database server. This restore operation creates a new instance with the state of your database as it was at the selected point in time.
+
+## Restoring a Deleted Database
+
+Even if you delete your database, we still keep backups for 7 days. You can restore a deleted database by opening a support ticket.
