@@ -97,12 +97,3 @@ List endpoints return the response JSON with two keys: items, which holds the li
 ### UBID
 
 You might be curious why unique IDs for projects start with "pj" and those for virtual machines start with "vm". This is intentional to make life easier for both Ubicloud developers and users. As soon as you see a resource's ID, you can immediately understand its type, as different types of resources have different two-letter prefixes. We call these ubids, and you can see how they are both user-friendly and globally unique from the implementation.
-
-## Idempotency
-
-GET and DELETE requests are idempotent by definition.
-
-Idempotency of POST requests depends on the resource type.
-
-If the resource is a global one, POST requests are idempotent if creating a resource with same parameters is not allowed, which is the case for firewall rules. Otherwise, requests won't be idempotent as sending the same POST request will create two different global resources with different unique IDs.
-If the resource is a location based resource, POST requests will be idempotent. If the resource with given attributes exists, the new one won't be created. Having a unique name guarantees idempotency.
