@@ -2,17 +2,32 @@
 title: 'Load Balancer'
 ---
 
-The Ubicloud Load Balancer distributes traffic across multiple virtual machines (VMs) and ensures high availability for your applications. The load balancer operates at Layer 4 of the Open Systems Interconnection (OSI) model.
+The Ubicloud Load Balancer distributes traffic across multiple virtual machines
+(VMs) and ensures high availability for your applications. The load balancer
+operates at Layer 4 of the Open Systems Interconnection (OSI) model. 
 
-Ubicloud Load Balancers offer a DNS name that's the single point of contact for clients. This DNS name maps to the public IPv4 and IPv6 addresses of the VMs attached to the load balancer. Incoming traffic is distributed across VMs based on load balancing algorithms and health probes.
+Ubicloud Load Balancers offer a DNS name that's the single point of contact for
+clients. This DNS name maps to the public IPv4 and IPv6 addresses of the VMs
+attached to the load balancer. Incoming traffic is distributed across VMs based on
+load balancing algorithms and health probes.
 
-When traffic reaches the load balancer's network namespace, it directs traffic  to the appropriate VM by evaluating the load balancing algorithm, VM health status, and connection state. This redirection uses IPSec Tunnels in tunnel mode, ensuring that all inter-VM traffic is fully encrypted.
+When traffic reaches the load balancer's network namespace, it directs traffic
+to the appropriate VM by evaluating the load balancing algorithm, VM health
+status, and connection state. This redirection uses IPSec Tunnels in tunnel mode,
+ensuring that all inter-VM traffic is fully encrypted.
 
-The following diagram shows the overall structure of the Ubicloud Load Balancers;
+The following diagram shows the overall structure of the Ubicloud Load
+Balancers;
 
-If a VM becomes unhealthy, Ubicloud Load Balancer stops sending traffic to the VM until it becomes healthy again. These health probes and load balancer updates are managed by external and fault tolerant processes. This way, clients can continue to connect to their VMs even if one or multiple of their VMs are unavailable. If you remove a VM from behind the load balancer, Ubicloud updates the DNS entries and keeps the load balancer node in place until the TTL expires. This ensures a graceful removal.
+![Load Balancer](/networking/load-balancer-1.png)
 
-This document provides detailed instructions on configuring and managing Ubicloud Load Balancers.
+If a VM becomes unhealthy, Ubicloud Load Balancer stops sending traffic to the
+VM until it becomes healthy again. These health probes and load balancer updates
+are managed by external and fault tolerant processes. This way, clients can
+continue to connect to their VMs even if one or multiple of their VMs are
+unavailable. If you remove a VM from the load balancer, Ubicloud updates the DNS
+entries and keeps the load balancer node in place until the TTL expires. This
+ensures a graceful removal.
 
 ## Key Features
 
