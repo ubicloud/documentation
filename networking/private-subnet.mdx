@@ -2,14 +2,26 @@
 title: 'Private Subnet'
 ---
 
-This guide is designed to assist you in creating and managing your private subnets within Ubicloud. Private subnets offer a secure environment for your virtual machines (VMs), ensuring private and secure internal communication without the need for public IP addresses.
+This guide is designed to assist you in creating and managing your private
+subnets within Ubicloud. Private subnets offer a secure environment for your
+virtual machines (VMs), ensuring private and secure internal communication
+without the need for public IP addresses.
 
+Ubicloud imagines private subnets as security perimeters, where every resource
+within the subnet can communicate with each other using their private IPv4 or
+IPv6 addresses. Firewalls are attached to the whole private subnet and they are
+applied to the private networking as well to further enhance security.
 ## Key Features
 
-- **Fully Encrypted Communication:** Every resource within a subnet is connected through IPSec tunnels, ensuring secure communication.
-- **Supports both IPv4 and IPv6:** IPv4 and IPv6 support ensures scalable security solutions for Ubicloud's private subnets. We use /26 subnet size for IPv4 and /80 for IPv6, allowing up to 63 resources in a single subnet.
-- **Automatic Key Rotation:** IPSec tunnels are automatically rekeyed every 24 hours, ensuring continuous secure communication without traffic disruption.
-- **Firewall Integration:** Attach and detach multiple firewalls to control access to resources within your private subnet.
+- **Fully Encrypted Communication:** Every resource within a subnet is connected
+  through IPSec tunnels, ensuring secure communication.
+- **Supports both IPv4 and IPv6:** IPv4 and IPv6 support ensures scalable
+  security solutions for Ubicloud's private subnets. We use /26 subnet size for
+  IPv4 and /80 for IPv6, allowing up to 63 resources in a single subnet.
+- **Automatic Key Rotation:** IPSec tunnels are automatically rekeyed every 24
+  hours, ensuring continuous secure communication without traffic disruption.
+- **Firewall Integration:** Attach and detach multiple firewalls to control
+  access to resources within your private subnet.
 
 ## Getting Started
 
@@ -17,10 +29,12 @@ This guide is designed to assist you in creating and managing your private subne
 
 <Steps>
   <Step title="Navigate to Private Subnet">
-    On the dashboard, select the "Private Subnet" option from the left menu.
+    On the dashboard, select the "Networking" option from the left menu and then
+    choose the "Private Subnet" tab.
   </Step>
   <Step title="‍Create a Private Subnet">
-    Click on the "+ New Private Subnet" button. You will be directed to a new page, where you can specify the subnet's name and its cloud region.
+    Click on the "+ New Private Subnet" button. You will be directed to a new
+    page, where you can specify the subnet's name and its cloud region.
   </Step>
 </Steps>
 
@@ -28,13 +42,16 @@ This guide is designed to assist you in creating and managing your private subne
 
 <Steps>
   <Step title="Provisioning">
-    When creating a new VM, choose an existing private subnet to provision the resource in.
+    When creating a new VM, choose an existing private subnet to provision the
+    resource in.
   </Step>
   <Step title="Connectivity">
-    Start connecting to other VMs within the same private subnet using their private IPv4 or IPv6 addresses, visible on the Overview page.
+    Start connecting to other VMs within the same private subnet using their
+    private IPv4 or IPv6 addresses, visible on the Overview page.
   </Step>
   <Step title="IPSec Tunnels">
-    Upon successful VM creation, Ubicloud automatically establishes IPSec tunnels to and from every other resource in the subnet.
+    Upon successful VM creation, Ubicloud automatically establishes IPSec
+    tunnels to and from every other resource in the subnet.
   </Step>
 </Steps>
 
@@ -44,44 +61,74 @@ This guide is designed to assist you in creating and managing your private subne
 
 <Steps>
   <Step title="Access the Private Subnet">
-    From the dashboard's left menu, select the "Private Subnet" option.
+    From the dashboard's left menu, select the "Networking" option and then
+    choose the "Private Subnet" tab.
   </Step>
   <Step title="‍Show Private Subnet Details">
-    Click to the name of  the desired private subnet to view its details, including name, region, private IP blocks, and attached VMs and firewalls.
+    Click to the name of the desired private subnet to view its details,
+    including name, region, private IP blocks, and attached VMs and firewalls.
   </Step>
 </Steps>
 
-
 ### Overview Page
 
-The overview page of your Private Subnet provides a comprehensive view of your subnet's configuration and resources. Here, you'll find:
+The overview page of your Private Subnet provides a comprehensive view of your
+subnet's configuration and resources. Here, you'll find:
 
-- **Subnet Name and Region:** Easily identify your subnet and its Ubicloud region.
+- **Subnet Name and Region:** Easily identify your subnet and its Ubicloud
+  region.
 - **IP Blocks:** View the assigned private IPv4 and IPv6 blocks for your subnet.
-- **Attached Resources:** See a list of all VMs and firewalls currently attached to the subnet.
+- **Attached Resources:** See a list of all VMs and firewalls currently attached
+  to the subnet.
 
-## IPSec Tunnel Implementation in Ubicloud Private Subnets
+## How Does Ubicloud Implement Private Networking?
 
-Ubicloud leverages IPSec tunnels to ensure secure and private communication between virtual machines (VMs) within its private subnets. This section provides a detailed overview of how Ubicloud uses IPSec tunnels, focusing on their creation, management, and encryption processes.
+Ubicloud leverages IPSec tunnels to ensure secure and private communication
+between virtual machines (VMs) within its private subnets. This section provides
+a detailed overview of how Ubicloud uses IPSec tunnels, focusing on their
+creation, management, and encryption processes.
 
 ### Overview of IPSec Tunnels in Ubicloud
 
-IPSec (Internet Protocol Security) is a suite of protocols designed to secure Internet Protocol (IP) communications by authenticating and encrypting each IP packet of a session. Ubicloud employs IPSec tunnels in tunnel mode, which encapsulates the entire IP packet within an Encapsulation Security Payload (ESP) packet. This encapsulation is crucial for maintaining the confidentiality and integrity of data as it moves between VMs within a private subnet.
+IPSec (Internet Protocol Security) is a suite of protocols designed to secure
+Internet Protocol (IP) communications by authenticating and encrypting each IP
+packet of a session. Ubicloud employs IPSec tunnels in tunnel mode, which
+encapsulates the entire IP packet within an Encapsulation Security Payload (ESP)
+packet. This encapsulation is crucial for maintaining the confidentiality and
+integrity of data as it moves between VMs within a private subnet. Essentially,
+all traffic is public traffic, if you are not operating in the same LAN. Any
+cloud VM lives in a public data center. Therefore, we need to find a way to
+address these VMs in a secure, encrypted way to call it private. Ubicloud has to
+do that because we do not have our own data centers, we do not have absolute
+control over the network.
 
 ### Key Components of Ubicloud's IPSec Implementation
 
 #### ESP Packet Creation and Encryption
 
-In Ubicloud's environment, ESP packets are generated using the ip xfrm command, which establishes specific rules and policies for packet handling.These ESP packets encapsulate the original IP packet in its entirety. The encapsulation process involves encrypting the data, thereby ensuring that the packet's contents are secure from unauthorized access or eavesdropping.
-
-#### Use of Public IPv6 Addresses
-
-Ubicloud uniquely uses public IPv6 addresses to manage and route IPSec tunnels. This approach not only leverages the extensive address space provided by IPv6 but also enhances the security and efficiency of data transmission within the private subnet.
+In Ubicloud's environment, ESP packets are generated using the ip xfrm command,
+which establishes specific rules and policies for packet handling. These ESP
+packets encapsulate the original IP packet in its entirety. The encapsulation
+process involves encrypting the data, thereby ensuring that the packet's
+contents are secure from unauthorized access or eavesdropping. The whole
+encapsulation happens in the dedicated network namespace of the VM and it gets
+decrypted only when it arrives at the destination network namespace. So, the
+whole traffic is private, end to end.
 
 #### Automatic Key Management
 
-Security keys for the IPSec tunnels are automatically generated and refreshed daily. This practice of frequent key rotation significantly enhances the security posture by minimizing the risk of key compromise.
+Security keys for the IPSec tunnels are automatically generated and refreshed
+daily. This practice of frequent key rotation significantly enhances the
+security posture by minimizing the risk of key compromise. We only generate the
+keys and we keep them in Ubicloud Control Plane until the rekeying process is
+completed. We clean up the old tunnels and any key material that is no longer
+in use.
 
-#### Tunnel Mode Operation
+#### Use of Public IPv6 Addresses
 
-Ubicloud's IPSec tunnels operate in tunnel mode, where the entire IP packet, including the original header, is encapsulated within an ESP packet. This method is particularly effective for creating a secure communication channel between VMs, as it ensures that all aspects of the packet are protected.
+Ubicloud uniquely uses internally allocated public IPv6 addresses to manage and
+route IPSec tunnels. This approach not only leverages the extensive address
+space provided by IPv6 but also enhances the security and efficiency of data
+transmission within the private subnet. Our VMs get a public IPv6 prefix, and
+we allocate the same size sister subnet for our own internal use. This way, we
+can address our VMs using the public IPv6 addresses.

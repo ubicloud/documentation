@@ -2,26 +2,50 @@
 title: 'Firewall'
 ---
 
-This guide provides detailed instructions on configuring and managing firewalls for your private subnets within Ubicloud. Ubicloud firewalls are designed to enhance the security of your virtual machines (VMs) by controlling inbound traffic based on predefined rules. These firewalls are stateful and apply exclusively to the entire private subnet, ensuring a robust security perimeter for your whole private subnet.
+This guide provides detailed instructions on configuring and managing firewalls
+for your private subnets within Ubicloud. Ubicloud firewalls are designed to
+enhance the security of your virtual machines (VMs) by controlling inbound
+traffic based on predefined rules. These firewalls are stateful and apply
+exclusively to the entire private subnet, ensuring a robust security perimeter
+for your whole private subnet.
 
 ## Key Features
 
-- **Stateful Inspection:** Ubicloud firewalls remember the state of network connections (TCP/UDP) and can make decisions based on the connection state, which adds an extra layer of security. That said, if you add a rule that blocks a certain IP address, the existing connections would continue to stay alive until shutdown deliberately.
-- **Ingress Filtering:** Firewalls in Ubicloud only allow inbound traffic based on explicitly defined rules. If no rules are specified, all inbound traffic is blocked except for communication within the private subnet. We currently do not support outbound rules.
-- **Non-Impact on Private IPs:** The configuration of firewalls does not affect the internal private networking setup. Private IP addresses within the subnet can communicate freely, ensuring uninterrupted internal service operation.
-- **Simplified Management:** Attach or detach one or more firewalls to your private subnet with ease, directly from the Ubicloud console.
+- **Stateful Inspection:** Ubicloud firewalls remember the state of network
+  connections (TCP/UDP) and can make decisions based on the connection state,
+  which adds an extra layer of security. That said, if you add a rule that
+  blocks a certain IP address, the existing connections would continue to stay
+  alive until shutdown deliberately.
+- **Ingress Filtering:** Firewalls in Ubicloud only allow inbound traffic based
+  on explicitly defined rules. If no rules are specified, all inbound traffic is
+  blocked except for communication within the private subnet. We currently do
+  not support outbound rules.
+- **Simplified Management:** Attach or detach one or more firewalls to your
+  private subnet with ease, directly from the Ubicloud console.
 
 ## Getting Started with Firewalls
 
 ### Creating a Firewall
 
-**Navigate to Firewalls:** On the dashboard, select the "Firewall" option from the left menu.
-
-**Create a New Firewall:** Click on the "+ New Firewall" button. You will be prompted to enter details such as the firewall's name, description and the subnet you wish to attach. After filling the details, click “Create”.
+<Steps>
+  <Step title="Navigate to Firewalls">
+    On the dashboard, select the "Networking" option from the left menu. Then,
+    select the "Firewalls" tab.
+  </Step>
+  <Step title="Create a New Firewall">
+    Click on the "+ New Firewall" button. You will be prompted to enter details
+    such as the firewall's name, description and the subnet you wish to attach.
+    After filling the details, click “Create”.
+  </Step>
+</Steps>
 
 ### Configuring Firewall Rules
 
-**Specify Ingress Rules:** Define which incoming traffic is allowed into your private subnet. You can specify rules based on IP addresses and port numbers. You can input a CIDR range and define the continuous port range to be allowed. After specifying CIDR and Port ranges, you simply hit “Create”. Some example CIDR and Port range usage can be like the following;
+**Specify Ingress Rules:** Define which incoming traffic is allowed into your
+private subnet. You can specify rules based on IP addresses and port numbers.
+You can input a CIDR range and define the continuous port range to be allowed.
+After specifying CIDR and Port ranges, you simply hit “Create”. Some example CIDR
+and Port range usage can be like the following;
 
 |                       Case                      |       CIDR      | Port Range |
 |:-----------------------------------------------:|:---------------:|:----------:|
@@ -30,16 +54,36 @@ This guide provides detailed instructions on configuring and managing firewalls 
 | Allow a specific IP and ports between 80 and 90 | 123.123.123.123 | 80..90     |
 | Allow a subnet for a specific port              | 1.1.1.0/24      | 22         |
 
-**Default Deny Rule:** Remember, if no rules are set, the firewall will deny all incoming traffic except for traffic within the private subnet itself.
+**Default Deny Rule:** Remember, if no rules are set, the firewall will deny all
+incoming traffic, including traffic within the private subnet.
 
 ### Attaching a Firewall to a Private Subnet
 
-**Access Firewall Details:** From the dashboard, select "Firewalls" and then choose the specific firewall you want to attach.
-
-**Attach to Subnet:** Click on the "Select a Subnet" option, choose the private subnet and click “Attach”. This action applies the firewall rules to all incoming traffic to the subnet.
+<Steps>
+  <Step title="Access Firewall Details">
+    From the dashboard, select "Networking", choose the "Firewall" tab. Select the
+    firewall you want to attach.
+  </Step>
+  <Step title="Attach to Subnet">
+    Click on the "Select a Subnet" option, choose the private subnet and click
+    “Attach”. This action applies the firewall rules to all incoming traffic in
+    the subnet.
+  </Step>
+</Steps>
 
 ### Best Practices
 
-**Regularly Update Firewall Rules:** As your network requirements change, regularly review and update your firewall rules to ensure they accurately reflect the desired traffic flow and security posture.
+**Regularly Update Firewall Rules:** As your network requirements change,
+regularly review and update your firewall rules to ensure they accurately
+reflect the desired traffic flow and security posture.
 
-**‍Restrictive Rule Configuration:** Start with a restrictive approach by denying all traffic and then selectively allow specific traffic as needed. This minimizes potential exposure to unanticipated threats.
+**‍Restrictive Rule Configuration:** Start with a restrictive approach by denying
+all traffic and then selectively allow specific traffic as needed. This
+minimizes potential exposure to unanticipated threats. By default, Ubicloud adds
+allow all traffic rule to minimize the initial configuration efforts.
+
+## How Does Ubicloud implement Firewalls?
+
+Ubicloud firewalls are implemented using linux nftables. Please refer to our
+blog post [here](https://www.ubicloud.com/blog/ubicloud-firewalls-how-linux-nftables-enables-flexible-rules)
+for more details. 
