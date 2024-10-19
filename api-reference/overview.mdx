@@ -3,7 +3,6 @@ title: 'Overview'
 description: 'Ubicloud APIs (Beta) allow users to programmatically manage their resources.'
 ---
 
-
 The API is designed with predictable endpoints and an intuitive design, making it easy to understand and use. It adheres to REST principles, allowing users to send requests using any client that supports HTTPS requests to Ubicloud API endpoints. All request and response bodies are in JSON format.
 
 ## Authentication
@@ -72,9 +71,9 @@ For location-based resources, which have both unique IDs and names, users can ac
 
 #### Creating Resources
 
-To create a global resource all attributes must be sent in the body. For example to create a project, send a POST request to api.ubicloud.com/project with the required parameters in the body of the request. To create a firewall in the project pj1234ab9eyt7jd4zmwby6ymd3 user can send a POST request to api.ubicloud.com/project/pj1234ab9eyt7jd4zmwby6ymd3/firewall with all the required parameters in the body.
+To create a global resource all attributes must be sent in the body. For example to create a project, send a POST request to `api.ubicloud.com/project` with the required parameters in the body of the request. To create a firewall in the project `pj1234ab9eyt7jd4zmwby6ymd3` user can send a POST request to `api.ubicloud.com/project/pj1234ab9eyt7jd4zmwby6ymd3/firewall` with all the required parameters in the body.
 
-For creating location-based resources, Ubicloud supports a more condensed and straightforward method. Instead of sending a POST request to the parent URI of the resource, user can send a POST request directly to the resource's URI using its unique name, making the requests idempotent. For example, to create the previously mentioned VM, user would send a POST request to api.ubicloud.com/project/pj1234ab9eyt7jd4zmwby6ymd3/location/eu-north-h1/vm/my-ubicloud-vm with other required parameters in the request body. Essentially, URIs including the name of location-based resources can be used like variables in programming, simplifying creation, access, and deletion. No need to have a special case forPOST requests.
+For creating location-based resources, Ubicloud supports a more condensed and straightforward method. Instead of sending a POST request to the parent URI of the resource, user can send a POST request directly to the resource's URI using its unique name, making the requests idempotent. For example, to create the previously mentioned VM, user would send a POST request to `api.ubicloud.com/project/pj1234ab9eyt7jd4zmwby6ymd3/location/eu-north-h1/vm/my-ubicloud-vm` with other required parameters in the request body. Essentially, URIs including the name of location-based resources can be used like variables in programming, simplifying creation, access, and deletion. No need to have a special case forPOST requests.
 
 ### Deleting Resources
 
@@ -82,18 +81,19 @@ To delete a resource, user would send a DELETE request using the ID for global r
 
 ### Listing Resources with Pagination Support
 
-Users would send a GET request to the resource's parent URI to retrieve a list of resources. For instance, a request to api.ubicloud.com/project will return all the projects user has created. All listing endpoints on Ubicloud support pagination, using cursor-based pagination as it scales better and handles parallel operations more effectively than offset-based pagination. Users can pass three different query parameters to list endpoints:
+Users would send a GET request to the resource's parent URI to retrieve a list of resources. For instance, a request to `api.ubicloud.com/project` will return all the projects user has created. All listing endpoints on Ubicloud support pagination, using cursor-based pagination as it scales better and handles parallel operations more effectively than offset-based pagination. Users can pass three different query parameters to list endpoints:
 
-‍order_column: Specifies the attribute by which pages will be ordered. Each list endpoint supports ordering by id, and those with unique names also support ordering by name.
+**‍order_column:** Specifies the attribute by which pages will be ordered. Each list endpoint supports ordering by id, and those with unique names also support ordering by name.
 ‍
-‍start_after: A polymorphic value after which the page will include resources. Its' type depends on the value of order_column. If order_column is id, the value of start_after must be a valid ID. If it is name, the value of start_after can be any text. For example, to get a paginated list of VMs named alphabetically after "my-ubi", set the order_column to "name" and start_after to "my_ubi".
 
-‍page_size: Indicates how many items will be returned in a page. The default value is 10, and it must be between 0 and 100.
+‍**start_after:** A polymorphic value after which the page will include resources. Its' type depends on the value of order_column. If order_column is id, the value of start_after must be a valid ID. If it is name, the value of start_after can be any text. For example, to get a paginated list of VMs named alphabetically after "my-ubi", set the order_column to "name" and start_after to "my_ubi".
 
-This polymorphic start_after value helps us continue returning pages even if the record with the given start_after value is deleted in parallel. We do not try to retrieve a resource with the start_after value but compare existing items' related column with the passed value directly, overcoming a main limitation of cursor-based pagination.
+‍**page_size:** Indicates how many items will be returned in a page. The default value is 10, and it must be between 0 and 100.
 
-List endpoints return the response JSON with two keys: items, which holds the list of resources, and count, which keeps track of how many resources exist in total.
+This polymorphic **start_after** value helps us continue returning pages even if the record with the given **start_after** value is deleted in parallel. We do not try to retrieve a resource with the **start_after** value but compare existing items' related column with the passed value directly, overcoming a main limitation of cursor-based pagination.
+
+List endpoints return the response JSON with two keys: **items**, which holds the list of resources, and **count**, which keeps track of how many resources exist in total.
 
 ### UBID
 
-You might be curious why unique IDs for projects start with "pj" and those for virtual machines start with "vm". This is intentional to make life easier for both Ubicloud developers and users. As soon as you see a resource's ID, you can immediately understand its type, as different types of resources have different two-letter prefixes. We call these ubids, and you can see how they are both user-friendly and globally unique from the implementation.
+You might be curious why unique IDs for projects start with "pj" and those for virtual machines start with "vm". This is intentional to make life easier for both Ubicloud developers and users. As soon as you see a resource's ID, you can immediately understand its type, as different types of resources have different two-letter prefixes. We call these ubids, and you can see how they are both user-friendly and globally unique from the [implementation](https://github.com/ubicloud/ubicloud/blob/main/ubid.rb).
