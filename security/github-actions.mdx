@@ -1,0 +1,23 @@
+---
+title: 'GitHub Actions'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+Ubicloud is committed to keeping customer data safe and secure. You can read more about our security practices in <Link title="the general security page" url="/about/security"/>. This page shares certain best practices that are relevant in the context of our GitHub Actions integration.
+
+## Clean and Ephemeral VM for Each Job
+
+Ubicloud uses VMs to securely isolate your data from other users. For each new CI/CD job, we also provide you with a clean and ephemeral VM. Upon the job's completion, we decommission the VM and delete the block storage device associated with the VM.
+
+This ensures that there is no way to persistently compromise the GitHub Actions environment or otherwise gain access to more information than was placed in this environment during the bootstrap process.
+
+## Using Just-In-Time Runners
+
+Ubicloud follows GitHub's recommendation of using <Link title="just-in-time (JIT) runner APIs" url="https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-just-in-time-runners"/> to improve runner registration security. We use GitHub's REST API to create and receive a JIT config file from GitHub and pass on this file to the Ubicloud runner at start-up. We don't store this JIT config file in any way.
+
+This ensures that we create ephemeral, JIT runners. These runners perform at most one job before being automatically removed from the repository
+
+## Log Retention
+
+We retain metadata logs containing information about CI/CD jobs, including the initiator, start time, duration, and selected hardware. With this metadata, we can maintain an audit log and analyze security incidents, if there are any, in more detail.

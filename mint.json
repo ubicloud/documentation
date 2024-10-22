@@ -20,43 +20,43 @@
     {
       "name": "Support",
       "url": "mailto:support@ubicloud.com"
+    },
+    {
+      "name": "Sign In",
+      "url": "https://console.ubicloud.com"
     }
   ],
   "topbarCtaButton": {
-    "name": "Sign in",
-    "url": "https://console.ubicloud.com",
-    "style": "roundedRectangle"
+    "type": "github",
+    "url": "https://github.com/ubicloud/ubicloud"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference",
-      "openapi": "/api-reference/openapi.yml"
-    }
-  ],
   "anchors": [
-    {
-      "name": "Give a star",
-      "icon": "github",
-      "url": "https://github.com/ubicloud/ubicloud"
-    },
     {
       "name": "Documentation",
       "icon": "book-open-cover",
       "url": "overview"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://www.ubicloud.com/blog"
+      "name": "Pricing",
+      "icon": "credit-card",
+      "url": "pricing"
+    },
+    {
+      "name": "API Reference",
+      "icon": "terminal",
+      "url": "api-reference",
+      "openapi": "/api-reference/openapi.yml"
+    },
+    {
+      "name": "Architecture",
+      "icon": "lightbulb",
+      "url": "architecture"
     }
   ],
   "navigation": [
     {
       "group": "",
-      "pages": [
-        "overview"
-      ]
+      "pages": ["overview"]
     },
     {
       "group": "Quickstart",
@@ -64,13 +64,6 @@
         "quickstart/managed-services",
         "quickstart/build-your-own-cloud",
         "quickstart/using-kamal-with-ubicloud"
-      ]
-    },
-    {
-      "group": "Architecture",
-      "pages": [
-        "architecture/control-and-data-plane",
-        "architecture/attribute-based-access-control-abac"
       ]
     },
     {
@@ -105,29 +98,38 @@
     },
     {
       "group": "Security",
-      "pages": [
-        "security/overview",
-        "security/soc2"
-      ]
+      "pages": ["security/overview", "security/github-actions", "security/soc2"]
     },
     {
       "group": "About",
       "pages": [
-        "about/pricing",
         "about/regions",
         "about/support",
-        "about/security",
         "about/privacy-policy",
         "about/terms-of-service"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Pricing",
       "pages": [
-        "api-reference/overview"
+        "pricing/overview",
+        "pricing/compute",
+        "pricing/github-actions",
+        "pricing/managed-postgresql"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": ["api-reference/overview"]
+    },
+    {
+      "group": "Architecture",
+      "pages": [
+        "architecture/control-and-data-plane",
+        "architecture/attribute-based-access-control-abac"
       ]
     }
-   ],
+  ],
   "footerSocials": {
     "github": "https://github.com/ubicloud/ubicloud",
     "x": "https://x.com/UbicloudHQ",
