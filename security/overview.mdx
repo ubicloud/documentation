@@ -1,23 +1,46 @@
 ---
 title: 'Overview'
+description: 'Ubicloud is committed to keeping customer data safe and secure. This is a hard problem and we take it seriously.'
 ---
 
 import { Link } from '/snippets/link.mdx';
 
-Ubicloud is committed to keeping customer data safe and secure. You can read more about our security practices in <Link title="the general security page" url="/about/security"/>. This page shares certain best practices that are relevant in the context of our GitHub Actions integration.
+## Network / Infrastructure Security
 
-## Clean and Ephemeral VM for Each Job
+We use established best practices to provide cloud security. Those practices and their applications are also publicly available in our GitHub repository. In summary, we take the following steps.
 
-Ubicloud uses VMs to securely isolate your data from other users. For each new CI/CD job, we also provide you with a clean and ephemeral VM. Upon the job's completion, we decommission the VM and delete the block storage device associated with the VM.
+- For our managed service, we review and select hosting providers based on their physical and digital security practices.
+- **Elastic Compute:** We use Linux KVM for full virtualization. We further use the Cloud Hypervisor as our virtual machine monitor (VMM); and contain each VMM within Linux namespaces for isolation and security.
+- **Block Storage:** We use Storage Performance Development Toolkit (SPDK) to provide virtualized block storage to VMs. We encrypt the data encryption key itself, ensuring that a compromised host isn't enough to decrypt customer data. We also regularly rotate encryption keys.
+- **Virtual Networking:** We use IPsec tunneling to establish an encrypted and private network environment; and regularly rotate encryption keys. For security, each customer's VMs operate in their own networking namespace.
+- **Firewalls:** By default, we block incoming traffic to all virtual machines (VMs). The exception to this is our managed PostgreSQL database, which allows incoming traffic to the PostgreSQL port (5432). We allow connections initiated by the VM and any return traffic.
 
-This ensures that there is no way to persistently compromise the GitHub Actions environment or otherwise gain access to more information than was placed in this environment during the bootstrap process.
+## Software Security
 
-## Using Just-In-Time Runners
+Ubicloud cloud services are available under the AGPL v3 License. We follow an open development model and our source code is available for review in GitHub: https://github.com/ubicloud/ubicloud
 
-Ubicloud follows GitHub's recommendation of using <Link title="just-in-time (JIT) runner APIs" url="https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-just-in-time-runners"/> to improve runner registration security. We use GitHub's REST API to create and receive a JIT config file from GitHub and pass on this file to the Ubicloud runner at start-up. We don't store this JIT config file in any way.
+Additionally, we follow standard security best prices to receive vulnerability alerts. These include:
+- Code scanning alters through industry-leading semantic code analysis engine CodeQL
+- Security issue alerts through language specific static code analysis engine Ruby Brakeman
+- Secret scanning alerts
+- Dependabot alerts to receive notifications when one of our dependencies has a vulnerability
 
-This ensures that we create ephemeral, JIT runners. These runners perform at most one job before being automatically removed from the repository
+## Security Issues
 
-## Log Retention
+### Reporting A Security Vulnerability
 
-We retain metadata logs containing information about CI/CD jobs, including the initiator, start time, duration, and selected hardware. With this metadata, we can maintain an audit log and analyze security incidents, if there are any, in more detail.
+If you have a security concern or believe you have found a vulnerability in our infrastructure, please send your report to security@ubicloud.com. This will give us a structured way to track and respond to your concerns.
+
+When we receive your report, we will reply within 24 hours and issue you a ticket ID for future tracking.
+
+### Vulnerability Remediation
+
+We will investigate each reported vulnerability according to its severity. We will then patch or remediate each issue within a timeframe that's appropriate to the vulnerability's severity, given that a patch or remediation steps are available.
+
+**Severity: Timeframe**
+- Critical: 24 hours
+- High: 1 week
+- Medium: 1 month
+- Others: As necessary
+
+If your vulnerability report includes a severity rating, we'll use that as our starting point. Based on our investigation, we may upgrade or downgrade the severity rating.
