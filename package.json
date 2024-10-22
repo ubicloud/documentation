@@ -1,0 +1,6 @@
+{
+  "name": "documentation",
+  "devDependencies": {
+    "mintlify": "^4.0.247"
+  }
+}
