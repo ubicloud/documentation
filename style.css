@@ -5,8 +5,55 @@
     text-decoration: none;
     border: none;
   }
-  
+
   a:hover {
     text-decoration: underline;
+  }
+
+  table {
+    width: 100%;
+    display: table;
+    text-align: center;
+    font-weight: 400;
+    border-collapse: collapse;
+  }
+
+  table thead {
+    background-color: #238afe;
+  }
+
+  table thead th {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 16px;
+    white-space: nowrap;
+  }
+
+  table tbody tr {
+    color: #505050;
+    font-size: 16px;
+  }
+
+  table tbody tr:nth-child(odd) {
+    background-color: #238afe0d;
+  }
+
+  table td,
+  table th {
+    border: #e1e1e1 1px solid;
+    padding: 10px;
+    vertical-align: middle;
+  }
+
+  table td:nth-child(1) {
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    table {
+      display: block;
+      overflow-x: scroll;
+    }
   }
 }
