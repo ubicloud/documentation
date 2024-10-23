@@ -3,13 +3,11 @@ title: 'Attribute-Based Access Control (ABAC) Design'
 sidebarTitle: 'ABAC Design'
 ---
 
-import { Link } from '/snippets/link.mdx';
-
 ## Motivation
 
 Authentication confirms that users are who they say they are. Authorization gives those users permissions to access a resource.
 
-Ubicloud uses <Link title="Rodauth" url="https://github.com/jeremyevans/rodauth"/> for authentication. For authorization, we need to implement a system that gives users the flexibility they need to access various resources across different cloud services on the cloud.
+Ubicloud uses [Rodauth](https://github.com/jeremyevans/rodauth) for authentication. For authorization, we need to implement a system that gives users the flexibility they need to access various resources across different cloud services on the cloud.
 
 Today, there's a big bifurcation of how authorization is implemented in the cloud. Hyperscalers such as AWS, Azure, and GCP, have powerful authorization models. Other cloud and hosting providers only have authorization at the most basic level (a user has access to a project or not).
 
@@ -23,9 +21,9 @@ For example, an administrator puts the user “Enes Cakir” into “engineering
 
 ABAC takes this one step further, where permissions to resources are defined over attributes. In addition to roles, attributes can also include things like a user's location, client device type, or authentication method. For example, the user “Enes Cakir” can access production resources when he's in Europe, but not when he's in the US. This ensures that organizations can define flexible policies to meet their business needs.
 
-<Link title="Tailscale has a great blog post" url="https://tailscale.com/blog/rbac-like-it-was-meant-to-be/"/> that describes security policies, RBAC, and ABAC in more detail.
+[Tailscale has a great blog post](https://tailscale.com/blog/rbac-like-it-was-meant-to-be/) that describes security policies, RBAC, and ABAC in more detail.
 
-All three hyperscalers seem to be moving towards the ABAC model. You can read more about <Link title="AWS" url="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html"/>, <Link title="Azure" url="https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-overview"/>, and <Link title="GCP" url="https://cloud.google.com/iam/docs/conditions-overview"/>'s ABAC designs on their websites. These designs rely on conditional expressions and are more complex than a clean-sheet ABAC design. This is probably because all hyperscalers need to be backwards compatible with their RBAC designs. We'd like to provide something much simpler, both in design and implementation.
+All three hyperscalers seem to be moving towards the ABAC model. You can read more about [AWS](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html), [Azure](https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-overview), and [GCP](https://cloud.google.com/iam/docs/conditions-overview)'s ABAC designs on their websites. These designs rely on conditional expressions and are more complex than a clean-sheet ABAC design. This is probably because all hyperscalers need to be backwards compatible with their RBAC designs. We'd like to provide something much simpler, both in design and implementation.
 
 ## An ABAC example
 In the following, we start with an ABAC example and build on top of it. The following diagram describes a simple scenario, where the users on the left have associated “tags” (classic roles) and the resources on the right also have “tags”.
@@ -97,7 +95,7 @@ The nice thing about this query is the following:
 
 - It's powerful. We can express all attribute-based access control policies with this one query, for user-defined tags.
 - It has an existence proof. When you run the query, if it returns a tuple, the subject can access the object. If it doesn't, the subject isn't authorized. Further, you can see all access paths from the subject to the object by looking at the tuples this query returns.
-- It's simple. We get an ABAC implementation in 10 lines of SQL. In fact, <Link title="the entire file" url="https://github.com/ubicloud/ubicloud/blob/main/lib/authorization.rb"/> that implements our authorization policy is 130 lines of code.
+- It's simple. We get an ABAC implementation in 10 lines of SQL. In fact, [the entire file](https://github.com/ubicloud/ubicloud/blob/main/lib/authorization.rb) that implements our authorization policy is 130 lines of code.
 
 Of course, you could argue that running a SQL query for each authorization action won't scale. When we reach that scale, we'd gladly optimize our implementation or rehaul it if need be. At that point, we would have also built a much deeper understanding of customer access patterns. Until then, we'll have a simple ABAC model that matches the expressiveness of AWS, Azure, and GCP, in an open source implementation.
 
@@ -105,5 +103,5 @@ Of course, you could argue that running a SQL query for each authorization actio
 
 ABAC enables a flexible way to authorize users. With it, organizations and users can express complex access relationships between users and resources. As importantly, ABAC is simpler than RBAC, simple enough to grasp without much effort. Ubicloud also has the benefit of not having to provide backwards compatibility to RBAC, like AWS or Azure. These properties enable us to express ABAC's data model in a few database tables and have the core implementation in one SQL query.
 
-We also expect our ABAC design to evolve over time. If you have any questions or feedback about this design document, we'd love to hear from you. Please start a conversation on GitHub discussions or reach out to us at <Link title="info@ubicloud.com" url="mailto:info@ubicloud.com"/>.
+We also expect our ABAC design to evolve over time. If you have any questions or feedback about this design document, we'd love to hear from you. Please start a conversation on GitHub discussions or reach out to us at [info@ubicloud.com](mailto:info@ubicloud.com).
 

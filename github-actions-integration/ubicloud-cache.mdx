@@ -2,8 +2,6 @@
 title: 'Ubicloud Cache'
 ---
 
-import { Link } from '/snippets/link.mdx';
-
 This guide describes how to integrate your GitHub Action workflows with Ubicloud Cache.
 
 Ubicloud starts a clean and ephemeral VM for each new workflow job for security purposes. Fresh VMs need to download job dependencies, leading to increased network usage, longer runtimes, and higher costs. GitHub Actions cache allows to share dependencies and other commonly reused files between workflow jobs.
@@ -29,7 +27,7 @@ with:
 
 GitHub provides setup helper actions for popular languages and frameworks. When these actions are setting up an environment, they also cache any related dependencies for that environment.
 
-Ubicloud offers drop-in replacements for these actions, now with Ubicloud Cache support. To start using Ubicloud's language-specific cache actions, simply replace the actions/setup-* lines with ubicloud/setup-* in your workflow files. For languages and frameworks without a dedicated setup action, GitHub provides numerous examples of cache usage at <Link url="https://github.com/actions/cache/blob/main/examples.md"/>
+Ubicloud offers drop-in replacements for these actions, now with Ubicloud Cache support. To start using Ubicloud's language-specific cache actions, simply replace the actions/setup-* lines with ubicloud/setup-* in your workflow files. For languages and frameworks without a dedicated setup action, GitHub provides numerous examples of cache usage at [https://github.com/actions/cache/blob/main/examples.md](https://github.com/actions/cache/blob/main/examples.md).
 
 ### Java
 

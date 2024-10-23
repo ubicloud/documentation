@@ -1,0 +1,12 @@
+#content-area {
+  a {
+    color: rgb(var(--primary-light));
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+}

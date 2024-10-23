@@ -2,8 +2,6 @@
 title: 'Migrate to Arm runners'
 ---
 
-import { Link } from '/snippets/link.mdx';
-
 GitHub Actions runs on x64 architectures. If you're building or testing for arm64 architectures and using QEMU emulation to do so, you can change your workflow file to natively use arm64.
 
 For this, you simply need to change your platform and remove the QEMU step.
@@ -16,4 +14,4 @@ GitHub Actions doesn't currently have an official Arm image available. As a resu
 
 If your workflow has a package dependency that doesn't exist on Ubicloud's arm image, we recommend installing the dependency manually for the time being.
 
-If you're a large customer and need commonly used packages on arm64, you contact us <Link title="support@ubicloud.com" url="mailto:support@ubicloud.com"/>.
+If you're a large customer and need commonly used packages on arm64, you contact us [support@ubicloud.com](mailto:support@ubicloud.com).

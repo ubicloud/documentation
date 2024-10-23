@@ -2,8 +2,6 @@
 title: 'Quickstart'
 ---
 
-import { Link } from '/snippets/link.mdx';
-
 This guide describes how to integrate your GitHub Action workflows with Ubicloud runners. For this, you’re going to sign up to Ubicloud, use our GitHub App to connect to your GitHub repo, and change one line in your GitHub workflow file. This will provide the following benefits:
 
 - Reduce your GitHub Actions bill by 10x
@@ -13,7 +11,7 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
 
 <Steps stepSize="h1">
   <Step title="Sign up and sign in">
-    The first time you use Ubicloud, you'll need to <Link title="create a new account" url="https://console.ubicloud.com/create-account"/>. Once you do that and sign in, you'll be directed to Ubicloud's home page.
+    The first time you use Ubicloud, you'll need to [create a new account](https://console.ubicloud.com/create-account). Once you do that and sign in, you'll be directed to Ubicloud's home page.
   </Step>
   <Step title="Enter billing details">
     Ubicloud requires an active, valid credit card on file before you can create resources. This is primarily a means to prevent abuse and to ensure that we can collect payment at the end of the month.
@@ -36,7 +34,7 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
 
     When you merge this change, GitHub Actions will start using Ubicloud runners. If your workflow file has builds configured on merging a change, you see your build start in your project's Actions tab. If not, you can manually start a build to see the change take effect.
 
-    By default, `ubicloud-standard-2` starts a VM with the same vCPU and memory configuration as paid GitHub runners. Given Ubicloud's 10x price advantage, you might want to pick a more powerful VM such as `ubicloud-standard-8` and see if your pipelines move faster. You can find the full list of runners and their prices in the <Link title="Pricing documents" url="/about/pricing#github-actions"/>.
+    By default, `ubicloud-standard-2` starts a VM with the same vCPU and memory configuration as paid GitHub runners. Given Ubicloud's 10x price advantage, you might want to pick a more powerful VM such as `ubicloud-standard-8` and see if your pipelines move faster. You can find the full list of runners and their prices in the [Pricing documents](/about/pricing#github-actions).
   </Step>
 </Steps>
 

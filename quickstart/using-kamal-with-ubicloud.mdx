@@ -2,8 +2,6 @@
 title: 'Using Kamal with Ubicloud'
 description: 'Kamal is an open source tool to deploy web apps anywhere. It simplifies the process of deploying and managing your web app in production with Docker.'
 ---
-import { Link } from '/snippets/link.mdx';
-
 Even with Kamal, you still need certain infrastructure primitives, including DNS management, load balancers, and managed databases. Ubicloud offers these primitives on the cloud. We believe the combination of Kamal and Ubicloud provide a compelling open source web app deployment platform.
 
 In this guide, we'll show steps to deploy an example web app through Kamal using Ubicloud services.
@@ -14,7 +12,7 @@ We will demonstrate how to deploy an HTTPS-enabled Rails app using Kamal and Ubi
 
 
 <Note>
-    This content is heavily inspired by DHH’s demo at <Link url="https://kamal-deploy.org"/>. We will use similar steps when deploying to Ubicloud.
+    This content is heavily inspired by DHH’s demo at [https://kamal-deploy.org](https://kamal-deploy.org). We will use similar steps when deploying to Ubicloud.
 </Note>
 
 ### Step 1: Install Kamal
@@ -55,8 +53,8 @@ root "posts#index"
 
 ### Step 4: Set Up Docker Registry
 
-Now, we need to set up a dockerhub repository to store and fetch our images. For that, you need to create an account at <Link url="https://hub.docker.com"/>.
-Once you have the account, please create a new repository named “blog” in the docker hub page and generate a new key at <Link url=" https://app.docker.com/settings/personal-access-tokens"/> and paste it to the .env file as shown below.
+Now, we need to set up a dockerhub repository to store and fetch our images. For that, you need to create an account at [https://hub.docker.com](https://hub.docker.com).
+Once you have the account, please create a new repository named “blog” in the docker hub page and generate a new key at [https://app.docker.com/settings/personal-access-tokens](https://app.docker.com/settings/personal-access-tokens) and paste it to the .env file as shown below.
 
 ```bash
 KAMAL_REGISTRY_PASSWORD=DOCKER_REGISTRY_KEY
