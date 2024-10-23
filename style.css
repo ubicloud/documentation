@@ -56,4 +56,18 @@
       overflow-x: scroll;
     }
   }
+
+  .prose :where(ul) {
+    padding-left: 1.25em !important;
+  }
+
+  .prose :where(ul > li) {
+    padding-left: 1.25em !important;
+  }
+
+  .prose :where(ul > li)::before {
+    width: 0.4em;
+    height: 0.4em;
+    top: 0.675em;
+  }
 }
