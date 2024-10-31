@@ -55,59 +55,65 @@
   ],
   "navigation": [
     {
-      "group": "",
-      "pages": ["overview"]
-    },
-    {
-      "group": "Quickstart",
+      "group": "Documentation",
       "pages": [
-        "quickstart/managed-services",
-        "quickstart/build-your-own-cloud",
-        "quickstart/using-kamal-with-ubicloud"
-      ]
-    },
-    {
-      "group": "Github Actions Integration",
-      "pages": [
-        "github-actions-integration/quickstart",
-        "github-actions-integration/migrate-to-arm-runners",
-        "github-actions-integration/use-gpu-runners",
-        "github-actions-integration/ubicloud-cache",
-        "github-actions-integration/price-performance"
-      ]
-    },
-    {
-      "group": "Managed PostgreSQL",
-      "pages": [
-        "managed-postgresql/overview",
-        "managed-postgresql/backup-and-restore",
-        "managed-postgresql/high-availability",
-        "managed-postgresql/extensions",
-        "managed-postgresql/metric-destinations",
-        "managed-postgresql/price-performance",
-        "managed-postgresql/paradedb-on-ubicloud",
-        "managed-postgresql/lantern-on-ubicloud"
-      ]
-    },
-    {
-      "group": "Networking",
-      "pages": [
-        "networking/private-subnet",
-        "networking/firewall",
-        "networking/load-balancer"
-      ]
-    },
-    {
-      "group": "Security",
-      "pages": ["security/overview", "security/github-actions", "security/soc2"]
-    },
-    {
-      "group": "About",
-      "pages": [
-        "about/regions",
-        "about/support",
-        "about/privacy-policy",
-        "about/terms-of-service"
+        "overview",
+        {
+          "group": "Quickstart",
+          "pages": [
+            "quickstart/managed-services",
+            "quickstart/build-your-own-cloud",
+            "quickstart/using-kamal-with-ubicloud"
+          ]
+        },
+        {
+          "group": "Github Actions Integration",
+          "pages": [
+            "github-actions-integration/quickstart",
+            "github-actions-integration/migrate-to-arm-runners",
+            "github-actions-integration/use-gpu-runners",
+            "github-actions-integration/ubicloud-cache",
+            "github-actions-integration/price-performance"
+          ]
+        },
+        {
+          "group": "Managed PostgreSQL",
+          "pages": [
+            "managed-postgresql/overview",
+            "managed-postgresql/backup-and-restore",
+            "managed-postgresql/high-availability",
+            "managed-postgresql/extensions",
+            "managed-postgresql/metric-destinations",
+            "managed-postgresql/price-performance",
+            "managed-postgresql/paradedb-on-ubicloud",
+            "managed-postgresql/lantern-on-ubicloud"
+          ]
+        },
+        {
+          "group": "Networking",
+          "pages": [
+            "networking/private-subnet",
+            "networking/firewall",
+            "networking/load-balancer"
+          ]
+        },
+        {
+          "group": "Security",
+          "pages": [
+            "security/overview",
+            "security/github-actions",
+            "security/soc2"
+          ]
+        },
+        {
+          "group": "About",
+          "pages": [
+            "about/regions",
+            "about/support",
+            "about/privacy-policy",
+            "about/terms-of-service"
+          ]
+        }
       ]
     },
     {
