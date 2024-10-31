@@ -27,7 +27,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:support@ubicloud.com"
+      "url": "about/support"
     },
     {
       "name": "Sign In",
