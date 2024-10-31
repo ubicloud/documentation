@@ -11,6 +11,14 @@
     "light": "#FF5C12",
     "dark": "#FF5C12"
   },
+  "font": {
+    "headings": {
+      "family": "Be Vietnam Pro"
+    },
+    "body": {
+      "family": "Be Vietnam Pro"
+    }
+  },
   "layout": "solidSidenav",
   "modeToggle": {
     "default": "light",
