@@ -12,7 +12,7 @@ We will demonstrate how to deploy an HTTPS-enabled Rails app using Kamal and Ubi
 
 
 <Note>
-    This content is heavily inspired by DHH’s demo at [https://kamal-deploy.org](https://kamal-deploy.org). We will use similar steps when deploying to Ubicloud.
+    This content is heavily inspired by DHH's demo at [https://kamal-deploy.org](https://kamal-deploy.org). We will use similar steps when deploying to Ubicloud.
 </Note>
 
 ### Step 1: Install Kamal
@@ -73,8 +73,8 @@ image: YOUR_DOCKER_REGISTRY_NAME/blog
 Create the following resources:
 
 - **Virtual Machines (VMs):** Create two VMs from console.ubicloud.com. When creating the VM, you need to pay attention to three things.
-    - For the location, pick Germany. Later, we’re going to provision a managed Postgres in the same region.
-    - Use the same private subnet for VMs, load balancer, and managed Postgres. If you don’t already have a private subnet, create a new one the very first time.
+    - For the location, pick Germany. Later, we're going to provision a managed Postgres in the same region.
+    - Use the same private subnet for VMs, load balancer, and managed Postgres. If you don't already have a private subnet, create a new one the very first time.
     - Change the user from `ubi` to `root`. We use `root` because Kamal installs Docker and connects to it on the VMs. Using `root` avoids the need to manage users and groups.
 
 - **Load Balancer:** Create a load balancer to distribute traffic and utilize SSL certificates. Pick the private subnet you chose for your VMs, use `/up` endpoint, ports 443 and HTTPS as the health check protocol. If you need more info, you can also visit our Load Balancer Guide.

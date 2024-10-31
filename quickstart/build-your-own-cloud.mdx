@@ -2,7 +2,7 @@
 title: 'Build Your Own Cloud'
 ---
 
-In this guide, you’re going to build your own cloud on a bare metal provider. You’re going to set up Ubicloud’s control plane, lease bare metal instance(s) for the data plane, and cloudify those bare metal instances. Once cloudified, you can use elastic compute, virtual networking, and (local) block storage services.
+In this guide, you're going to build your own cloud on a bare metal provider. You're going to set up Ubicloud's control plane, lease bare metal instance(s) for the data plane, and cloudify those bare metal instances. Once cloudified, you can use elastic compute, virtual networking, and (local) block storage services.
 
 ## Create your control plane
 
@@ -22,15 +22,15 @@ docker-compose -f demo/docker-compose.yml up
 # Visit localhost:3000
 ```
 
-Once you’ve initialized the control plane, create a new user and sign into the cloud console.
+Once you've initialized the control plane, create a new user and sign into the cloud console.
 
 ## Lease bare metal instance(s) for data plane
 
-You’ll now need to lease instance(s) for the data plane. The easiest way to do this is to lease an instance from a bare metal provider. Hetzner has server auctions available, where you pay monthly for bare metal: [https://www.hetzner.com/sb](https://www.hetzner.com/sb)
+You'll now need to lease instance(s) for the data plane. The easiest way to do this is to lease an instance from a bare metal provider. Hetzner has server auctions available, where you pay monthly for bare metal: [https://www.hetzner.com/sb](https://www.hetzner.com/sb)
 
 ## Cloudify your instance(s)
 
-Run the following script for each instance you’d like to cloudify. By default, the script cloudifies bare metal instances leased from Hetzner. After you cloudify your instance(s), you can provision and manage resources.
+Run the following script for each instance you'd like to cloudify. By default, the script cloudifies bare metal instances leased from Hetzner. After you cloudify your instance(s), you can provision and manage resources.
 
 ```bash
 # Enter hostname/IP and provider, and install SSH key as instructed by script
