@@ -3,7 +3,8 @@
   "name": "Ubicloud Documentation",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.svg",
+    "href": "https://www.ubicloud.com/"
   },
   "favicon": "/favicon.png",
   "colors": {
@@ -27,7 +28,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "about/support"
+      "url": "/about/support"
     },
     {
       "name": "Sign In",
