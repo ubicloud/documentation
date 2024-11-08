@@ -171,10 +171,6 @@
     {
       "source": "/quick-start/using-kamal-with-ubicloud",
       "destination": "/quickstart/using-kamal-with-ubicloud"
-    },
-    {
-      "source": "/quick-start/using-kamal-with-ubicloud",
-      "destination": "/quickstart/using-kamal-with-ubicloud"
     }
   ]
 }
