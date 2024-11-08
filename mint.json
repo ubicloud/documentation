@@ -150,5 +150,31 @@
     "github": "https://github.com/ubicloud/ubicloud",
     "x": "https://x.com/UbicloudHQ",
     "linkedin": "https://linkedin.com/company/ubicloud"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/about/pricing",
+      "destination": "/pricing/overview"
+    },
+    {
+      "source": "/about/security",
+      "destination": "/security/overview"
+    },
+    {
+      "source": "/quick-start/managed-services",
+      "destination": "/quickstart/managed-services"
+    },
+    {
+      "source": "/quick-start/build-your-own-cloud",
+      "destination": "/quickstart/build-your-own-cloud"
+    },
+    {
+      "source": "/quick-start/using-kamal-with-ubicloud",
+      "destination": "/quickstart/using-kamal-with-ubicloud"
+    },
+    {
+      "source": "/quick-start/using-kamal-with-ubicloud",
+      "destination": "/quickstart/using-kamal-with-ubicloud"
+    }
+  ]
 }
