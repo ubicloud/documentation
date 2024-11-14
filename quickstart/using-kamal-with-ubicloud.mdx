@@ -2,50 +2,39 @@
 title: 'Using Kamal with Ubicloud'
 description: 'Kamal is an open source tool to deploy web apps anywhere. It simplifies the process of deploying and managing your web app in production with Docker.'
 ---
-Even with Kamal, you still need certain infrastructure primitives, including DNS management, load balancers, and managed databases. Ubicloud offers these primitives on the cloud. We believe the combination of Kamal and Ubicloud provide a compelling open source web app deployment platform.
 
-In this guide, we'll show steps to deploy an example web app through Kamal using Ubicloud services.
+Even with Kamal, you still need certain infrastructure primitives, including virtual machines and managed databases. Ubicloud offers these primitives on the cloud. We believe the combination of Kamal and Ubicloud provide a compelling open source web app deployment platform.
 
-## Example Kamal App
-
-We will demonstrate how to deploy an HTTPS-enabled Rails app using Kamal and Ubicloud from scratch.
-
-
-<Note>
-    This content is heavily inspired by DHH's demo at [https://kamal-deploy.org](https://kamal-deploy.org). We will use similar steps when deploying to Ubicloud.
-</Note>
+In this guide, we'll show steps for configuring an example Rails 8 application in a way that allows you to use Kamal 2 to deploy it to Ubicloud.
 
 ### Step 1: Install Kamal
 
-First things first, we need to install Rails and Kamal. Assuming you have Ruby installation in your local, run;
+First, we need to install Rails and Kamal. Assuming you have Ruby installation in your local machine, run:
 
 ```bash
-gem install rails
-gem install kamal
+gem install -N rails kamal
 ```
 
 ### Step 2: Create a Simple Rails App
 
-First, create a basic Rails app using PostgreSQL as the database and Tailwind CSS for the frontend:
+Next, create a basic Rails app using PostgreSQL as the database and Tailwind CSS for the frontend, and generate a scaffold:
 
 ```bash
 rails new blog -d postgresql -c tailwind
 cd blog
 rails generate scaffold post title:string content:text
-
-kamal init
 ```
-After generating the app, open the project in your favourite text editor.
 
-Now, copy the master key from `./config/master.key` and paste it into the `.env` file:
+Commit the generated application, so you can easily tell the changes you will be making from the defaults:
 
 ```bash
-RAILS_MASTER_KEY=YOUR_MASTER_KEY
+git add .
+git commit -m "Initial commit: rails new and rails generate scaffold post"
 ```
 
 ### Step 3: Configure Routes
 
-Set the root route to serve the `/posts` endpoint by updating `./config/routes.rb`:
+Set the root route to serve the `/posts` endpoint by updating `config/routes.rb`:
 
 ```ruby
 root "posts#index"
@@ -60,28 +49,33 @@ Once you have the account, please create a new repository named “blog” in th
 KAMAL_REGISTRY_PASSWORD=DOCKER_REGISTRY_KEY
 ```
 
-Configure the `deploy.yml` file to put your docker registry and the service names in place;
+Update `.kamal/secrets` to copy the key from the environment:
+
+```bash
+DATABASE_URL=$DATABASE_URL
+```
+
+Configure the `config/deploy.yml` file to make it load from `.env`, and include your docker registry and the service names in place:
 
 ```yaml
+<% require "dotenv"; Dotenv.load(".env") %>
+
 service: blog
 
 image: YOUR_DOCKER_REGISTRY_NAME/blog
+
+registry:
+  username: YOUR_DOCKER_REGISTRY_NAME
 ```
 
 ### Step 5: Set Up Ubicloud Resources
 
 Create the following resources:
 
-- **Virtual Machines (VMs):** Create two VMs from console.ubicloud.com. When creating the VM, you need to pay attention to three things.
+- **Virtual Machines (VMs):** Create a VM from console.ubicloud.com. When creating the VM, you need to pay attention to three things:
     - For the location, pick Germany. Later, we're going to provision a managed Postgres in the same region.
-    - Use the same private subnet for VMs, load balancer, and managed Postgres. If you don't already have a private subnet, create a new one the very first time.
+    - Make sure to include an IPv4 address, as Kamal 2 will have deployment issues in IPv6 only environments.
     - Change the user from `ubi` to `root`. We use `root` because Kamal installs Docker and connects to it on the VMs. Using `root` avoids the need to manage users and groups.
-
-- **Load Balancer:** Create a load balancer to distribute traffic and utilize SSL certificates. Pick the private subnet you chose for your VMs, use `/up` endpoint, ports 443 and HTTPS as the health check protocol. If you need more info, you can also visit our Load Balancer Guide.
-![Create load balancer](/quickstart/using-kamal-with-ubicloud-1-screenshot.png)
-
-- **Add VMs to the Load Balancer:** We need to attach our VMs to the load balancer as shown below.
-![Add vms to the load balancer](/quickstart/using-kamal-with-ubicloud-2-screenshot.png)
 
 - **Managed PostgreSQL Database:** Set up a managed PostgreSQL database.
 ![Create postgreSQL database](/quickstart/using-kamal-with-ubicloud-3-screenshot.png)
@@ -90,24 +84,15 @@ Create the following resources:
 
 After setting up the resources, collect the following information from the Ubicloud Console:
 
-- **Public IPs of the VMs:** IP1, IP2
-- **Load Balancer DNS name:** `myblog.xxx.lb.ubicloud.com`
-- **PostgreSQL Connection String:** `postgres://postgres:password@hostname?channel_binding=require`
+- **PostgreSQL Connection String:** Shown by clicking on the database name on the PostgreSQL page
+- **Public IP of the VM:** Shown in the IP Address column on the Compute page
 
 ### Step 7: Configure Kamal and Environment Variables
 
-Configure servers and the load balancer in `deploy.yml`:
+Next, copy the master key from `config/master.key` and paste it into the `.env` file:
 
-```yaml
-servers:
- web:
-   hosts:
-     - IP1
-     - IP2
-   labels:
-     traefik.http.routers.blog.rule: Host(`myblog.xxx.lb.ubicloud.com`)
-     traefik.http.routers.blog.tls: true
-     traefik.http.routers.blog.entrypoints: websecure
+```bash
+RAILS_MASTER_KEY=YOUR_MASTER_KEY
 ```
 
 Add the PostgreSQL connection string to the `.env` file:
@@ -116,7 +101,26 @@ Add the PostgreSQL connection string to the `.env` file:
 DATABASE_URL="postgres://postgres:password@hostname/?channel_binding=require"
 ```
 
-Update `deploy.yml` to pass the environment variables:
+Configure server IP address to deploy to in `config/deploy.yml`:
+
+```yaml
+servers:
+ web:
+   hosts:
+     - IP
+```
+
+Rails 8's Kamal 2 configuration defaults to an HTTPS-only application, using certificates from Let's Encrypt, so you need to edit the `config/deploy.yml` file to set the hostname for the application:
+
+```yaml
+proxy:
+  ssl: true
+  host: your-host.your-domain.com
+```
+
+You will need to create or update your DNS records so that the hostname you are using resolves to the IP address of the VM you created.  How you do this depends on your DNS provider.
+
+Update `config/deploy.yml` to pass the environment variables:
 
 ```yaml
 env:  
@@ -125,7 +129,7 @@ env:
    - DATABASE_URL
 ```
 
-Modify `database.yml` to use the environment variable. The `DATABASE_URL` environment variable will already contain the user, password and the database name:
+Modify `config/database.yml` to use the `DATABASE_URL` environment variable, which will already contain the user, password and the database name:
 
 ```yaml
 production:
@@ -133,73 +137,31 @@ production:
  url: <%= ENV["DATABASE_URL"] %>
 ```
 
-### Step 8: Configure Traefik for SSL Certificates
-
-Configure Traefik to use the SSL certificates provided by Ubicloud. Update `deploy.yml`:
-
-```yaml
-traefik:
- options:
-   publish:
-     - "443:443"
-   volume:
-     - "/etc/ssl/certs/ubi_cert.pem:/etc/ssl/certs/ubi.cert"
-     - "/etc/ssl/private/ubi_key.pem:/etc/ssl/private/ubi.key"
-     - "/root/providers.yml:/providers.yml"
- args:
-   entryPoints.websecure.address: ":443"
-   entryPoints.web.http.redirections.entryPoint.to: websecure
-   entryPoints.web.http.redirections.entryPoint.scheme: https
-   entryPoints.web.http.redirections.entryPoint.permanent: true
-   providers.file.filename: "/providers.yml"
-```
-
-### Step 9: Pre-Traefik Reboot Hook
-
-Use Kamal hooks to pull SSL certificates into the VM. Rename the `pre-traefik-reboot.sample` file at `.kamal/hooks/` directory to `pre-traefik-reboot` and insert the following script:
-
-```bash
-#!/bin/sh
-for ip in ${KAMAL_HOSTS//,/ }
-do
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "rm -rf /etc/ssl/certs/ubi_cert.pem"
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "rm -rf /etc/ssl/private/ubi_key.pem"
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "rm -rf /root/providers.yml"
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "curl [FD00:0B1C:100D:5afe:CE::]:8080/load-balancer/cert.pem > /etc/ssl/certs/ubi_cert.pem"
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "curl [FD00:0B1C:100D:5afe:CE::]:8080/load-balancer/key.pem > /etc/ssl/private/ubi_key.pem"
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "touch /root/providers.yml"
- ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o User=root $ip "echo 'tls:
- certificates:
-   - certFile: /etc/ssl/certs/ubi.cert
-     keyFile: /etc/ssl/private/ubi.key
-     stores:
-       - default' > /root/providers.yml"
-done
-```
-
-### Step 10: Deploy the Application
+### Step 8: Deploy the Application
 
 Commit your changes:
 
 ```bash
 git add .
-git commit -m "First Ubicloud and Kamal App"
+git commit -m "Changes to allow deploying to Ubicloud using Kamal"
 ```
 
-Run Kamal setup:
+Run Kamal setup, which will setup Docker on the VM you created, and then deploy your application to it:
 
 ```bash
-sudo kamal setup
+kamal setup
 ```
 
-Reboot Traefik to execute the `pre-traefik-reboot` hook:
+### Step 9: Enjoy Your HTTPS-Enabled Rails App
 
-```bash
-kamal traefik reboot
-```
-
-### Step 11: Enjoy Your HTTPS-Enabled Rails App
-
-Visit the load balancer DNS name and enjoy your newly deployed, secure Rails app!
+Visit the DNS name you configured and enjoy your newly deployed, secure Rails app!
 
 By following these steps, you can seamlessly integrate Kamal with Ubicloud services to deploy your web applications efficiently and securely. If you have any questions or need further assistance, feel free to reach out to our support team.
+
+### Step 10: Deploying Changes After Initial Setup
+
+After making and committing changes in your application, you can deploy them using:
+
+```bash
+kamal deploy
+```
