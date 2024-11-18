@@ -128,10 +128,7 @@
     {
       "group": "Pricing",
       "pages": [
-        "pricing/overview",
-        "pricing/compute",
-        "pricing/github-actions",
-        "pricing/managed-postgresql"
+        "pricing/overview"
       ]
     },
     {

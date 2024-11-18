@@ -8,7 +8,85 @@ The pricing information below is for our managed service. Billing is based on th
 
 At a high level, our prices are 3-10x lower than comparable offerings. For example, 2 vCPU instance prices for different services are:
 
-- [GitHub Actions](/pricing/github-actions): \$0.0008/min on Ubicloud vs. \$0.008/min on GitHub
-- [Compute (VMs)](/pricing/compute): \$25/month on Ubicloud vs. \$90/month on AWS Germany
-- [Managed PostgreSQL](/pricing/managed-postgresql): \$65/month on Ubicloud vs. \$200/month on AWS Germany
+- [GitHub Actions](#github-actions): \$0.0008/min on Ubicloud vs. \$0.008/min on GitHub
+- [Compute (VMs)](#compute): \$25/month on Ubicloud vs. \$90/month on AWS Germany
+- [Managed PostgreSQL](#managed-postgresql): \$65/month on Ubicloud vs. \$200/month on AWS Germany
+
+
+## GitHub Actions
+
+Ubicloud runners come with dedicated CPU, memory, local block storage, and a public IPv4 address. Our GitHub Managed Runner Application allocates virtual machines (VMs) across Germany and Finland regions to provide high availability. Every account gets a \$1/month credit that's equivalent to 1,250 minutes of Ubicloud runner time.
+
+The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's price advantage, we recommend trying 4 vCPUs if your pipeline benefits from parallelism.
+
+### Linux x64
+
+| YAML runner tag      | vCPU | Memory | Price       |
+|----------------------|------|--------|-------------|
+| ubicloud-standard-2  | 2    | 8GB    | \$0.0008/min |
+| ubicloud-standard-4  | 4    | 16GB   | \$0.0016/min |
+| ubicloud-standard-8  | 8    | 32GB   | \$0.0032/min |
+| ubicloud-standard-16 | 16   | 64GB   | \$0.0064/min |
+| ubicloud-standard-30 | 30   | 120GB  | \$0.0120/min |
+
+### Linux arm64
+
+| YAML runner tag          | vCPU | Memory | Price       |
+|--------------------------|------|--------|-------------|
+| ubicloud-standard-2-arm  | 2    | 6GB    | \$0.0008/min |
+| ubicloud-standard-4-arm  | 4    | 12GB   | \$0.0016/min |
+| ubicloud-standard-8-arm  | 8    | 24GB   | \$0.0032/min |
+| ubicloud-standard-16-arm | 16   | 48GB   | \$0.0064/min |
+| ubicloud-standard-30-arm | 30   | 90GB   | \$0.0120/min |
+
+### GPU runners (beta)
+
+| YAML runner tag | vCPU | RAM  | GPU                         | Pricing    |
+|-----------------|------|------|-----------------------------|------------|
+| ubicloud-gpu    | 6    | 32GB | 1x RTX 4000 Ada 20GB Memory | \$0.032/min |
+
+### Concurreny Limits
+
+By default, all Ubicloud for GitHub Actions accounts can run a total of **128 concurrent vCPUs**. This concurrency limit represents the maximum number of vCPUs that can be active in parallel across all runners and enables faster completion of queued workflow runs.
+
+For example, with the default concurrency limit of 128 vCPUs, you can run 64 x `ubicloud-standard-2` instances in parallel. Or, you can concurrently run 16 x `ubicloud-standard-4` and 8 x `ubicloud-standard-8` instances.
+
+If your project requires additional concurrency beyond the default limits, you can add Concurrency Extensions to your account. Each extension increases your capacity by 64 vCPUs for an additional fee. To learn more or buy additional Concurrency Extensions, please contact us at [support@ubicloud.com](mailto:support@ubicloud.com).
+
+
+## Compute
+
+Ubicloud virtual machines (VMs) come with dedicated CPU, memory, and local block storage. We use the name **standard** for our general purpose instance types.
+- Pricing for standard instances in Hetzner's Finland region is as follows.
+- Ubicloud prices for Hetzner's Germany region is 4.5% higher than those in Finland.
+
+| Virtual Machine | vCPU | Memory | Storage |               Pricing             |
+|:---------------:|:----:|:------:|:-------:|:---------------------------------:|
+|    standard-2   |   2  |   8GB  |   40GB  | \$0.00063/min <br/> (\$25.40/mo)  |
+|    standard-4   |   4  |  16GB  |   80GB  | \$0.00126/min <br/> (\$50.80/mo)  |
+|    standard-8   |   8  |  32GB  |  160GB  | \$0.00252/min <br/> (\$101.60/mo) |
+|   standard-16   |  16  |  64GB  |  320GB  | \$0.00504/min <br/> (\$203.20/mo) |
+|   standard-30   |  30  |  120GB |  600GB  | \$0.00945/min <br/> (\$381.00/mo) |
+|   standard-60   |  60  |  240GB |  1200GB | \$0.01890/min <br/> (\$762.00/mo) |
+
+### Networking
+
+Ubicloud creates each VM in a private subnet. For free, each VM gets a private IPv4 and IPv6 address. The VM also gets a public IPv6 address for free. For a public IPv4 address, we charge \$3.00/month pro-rated per minute. You can opt out of getting a public IPv4 when creating the VM.
+
+Each VM has a monthly egress quota of 0.625TB per 2 vCPUs. If you exceed this limit, we will charge you \$3 per TB of egress traffic. We don't charge for ingress traffic or traffic between your resources within the same cloud region.
+
+
+## Managed PostgreSQL
+ 
+Ubicloud Managed PostgreSQL offers six different SKUs for your needs. If you need a different configuration, please contact us.
+
+|  PostgreSQL | vCPU | Memory | Storage | Monthly Price |
+|:-----------:|:----:|:------:|:-------:|:-------------:|
+|  standard-2 |   2  |   8GB  |  128GB  |      $65      |
+|  standard-4 |   4  |  16GB  |  256GB  |      $130     |
+|  standard-8 |   8  |  32GB  |  512GB  |      $260     |
+| standard-16 |  16  |  64GB  | 1,024GB |      $520     |
+| standard-30 |  30  |  120GB | 2,048GB |      $990     |
+| standard-60 |  60  |  240GB | 4,096GB |     $1980     | 
+
 
