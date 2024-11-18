@@ -46,11 +46,6 @@
       "url": "overview"
     },
     {
-      "name": "Pricing",
-      "icon": "credit-card",
-      "url": "pricing"
-    },
-    {
       "name": "API Reference",
       "icon": "terminal",
       "url": "api-reference",
@@ -117,18 +112,13 @@
         {
           "group": "About",
           "pages": [
+            "about/pricing",
             "about/regions",
             "about/support",
             "about/privacy-policy",
             "about/terms-of-service"
           ]
         }
-      ]
-    },
-    {
-      "group": "Pricing",
-      "pages": [
-        "pricing/overview"
       ]
     },
     {
@@ -150,8 +140,8 @@
   },
   "redirects": [
     {
-      "source": "/docs/about/pricing",
-      "destination": "/docs/pricing/overview"
+      "source": "/docs/pricing/overview",
+      "destination": "/docs/about/pricing"
     },
     {
       "source": "/docs/about/security",
