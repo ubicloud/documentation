@@ -70,9 +70,9 @@
         {
           "group": "Quickstart",
           "pages": [
-            "quickstart/managed-services",
-            "quickstart/build-your-own-cloud",
-            "quickstart/using-kamal-with-ubicloud"
+            "quick-start/managed-services",
+            "quick-start/build-your-own-cloud",
+            "quick-start/using-kamal-with-ubicloud"
           ]
         },
         {
@@ -159,18 +159,6 @@
     {
       "source": "/docs/about/security",
       "destination": "/docs/security/overview"
-    },
-    {
-      "source": "/docs/quick-start/managed-services",
-      "destination": "/docs/quickstart/managed-services"
-    },
-    {
-      "source": "/docs/quick-start/build-your-own-cloud",
-      "destination": "/docs/quickstart/build-your-own-cloud"
-    },
-    {
-      "source": "/docs/quick-start/using-kamal-with-ubicloud",
-      "destination": "/docs/quickstart/using-kamal-with-ubicloud"
     }
   ]
 }
