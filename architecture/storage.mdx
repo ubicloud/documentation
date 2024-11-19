@@ -1,0 +1,40 @@
+---
+title: 'Storage Architecture'
+---
+
+import { Link } from '/snippets/link.mdx';
+
+Ubicloud provides encrypted, non-replicated storage for each VM. To do this, we use
+<Link title="SPDK" url="https://spdk.io/"/> (Storage Performance Development Toolkit).
+SPDK is an open-source set of tools and libraries for building high-performance, scalable,
+and efficient storage applications. SPDK uses a layered block device (bdev) framework,
+where each layer provides a specific function like file access, NVMe access, encryption,
+or compression.
+
+Each VM can have multiple disks. Disks are indexed starting at zero. A disk
+can be based on an OS image. OS images are stored at `/var/storage/images/`. Files
+specific to each disk is stored at `/var/storage/${vm_name}/${disk_index}`. This directory
+has 3 files:
+
+* `disk.raw`: Disk's actual data. Same size as the disk.
+* `data_encryption_key.json`: Encryption parameters of the disk. Keys inside this file
+  are encrypted using KEK (Key Encryption Key). See <Link title="this blogpost" url="https://www.ubicloud.com/blog/ubicloud-block-storage-encryption"/>
+  for more details.
+* `vhost.sock`: Unix domain socket which is used for communication between the VMM (Virtual
+   Machine Monitor) and SPDK. We use Cloud-Hypervisor as the VMM.
+
+In SPDK we create the following objects for each disk:
+
+* **The file access bdev**: this is used to read from and write to `disk.raw`, and is
+  created using the `bdev_aio_create` SPDK json-rpc command.
+* **The encryption key**: which is named `${vm_name}_${disk_index}_key`. This is created
+  using the `accel_crypto_key_create` SPDK json-rpc command.
+* **The encryption bdev**: which is layered on top of the file access bdev, and is
+  created using the `bdev_crypto_create` SPDK json-rpc command.
+* **The copy-on-write layer**: which is layered on top of the encryption bdev & provides
+  copy-on-write from an OS image. This is created using the `bdev_ubi_create` json-rpc
+  command.
+* **The vhost controller**: which is used to create the `vhost.sock` unix domain socket.
+
+Finally, we add the following argument to Cloud-Hyperisor's command line, which attaches
+the disk to the VM: `--disk vhost_user=true,socket=#{vhost_socket_path},num_queues=1,queue_size=256`.
