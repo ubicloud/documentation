@@ -6,11 +6,49 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
 
 Ubicloud starts a clean and ephemeral VM for each new workflow job for security purposes. Fresh VMs need to download job dependencies, leading to increased network usage, longer runtimes, and higher costs. GitHub Actions cache allows to share dependencies and other commonly reused files between workflow jobs.
 
-Ubicloud Cache improves on the GitHub Actions cache by storing cached files closer to Ubicloud runners, making cache downloading/uploading more reliable and up to 4x faster. Ubicloud Cache offers 10 GB of free storage per repository per week, similar to the default GitHub Actions Cache. If you exceed this limit, the oldest caches are automatically deleted to make space for new ones. Additionally, caches that haven't been accessed in the past seven days are automatically removed.
+Ubicloud Cache improves on the GitHub Actions cache by storing cached files closer to Ubicloud runners, making cache downloading/uploading more reliable and up to 4x faster. Ubicloud Cache offers 30 GB of free storage per repository per week, at 3x of GitHub’s default cache size. If you exceed this limit, the oldest caches are automatically deleted to make space for new ones. Additionally, caches that haven't been accessed in the past seven days are automatically removed.
 
-## Migrating to `ubicloud/cache`
+There are two ways to use Ubicloud Cache:
 
-The `ubicloud/cache` action serves as a drop-in replacement for `actions/cache`. To use Ubicloud Cache, all you need to do is change the `actions/cache lines with `ubicloud/cache` in your workflow files. Ubicloud Cache is fully compatible with GitHub Actions Cache.
+1. [Ubicloud Transparent Cache](#ubicloud-transparent-cache) (Recommended)
+2. [Ubicloud Cache Actions](#ubicloud-cache-actions)
+
+## Ubicloud Transparent Cache
+
+It is the recommended way to use Ubicloud's cache infrastructure. Transparent cache gives you immense flexibility when using Ubicloud’s runners, allowing you to switch between Ubicloud’s runners and GitHub’s default runners without modifying your workflow files. You only need to enable it in the Ubicloud console.
+
+![Enable Transparent Cache](/github-actions-integration/transparent-cache-enable-screenshot.png)
+
+Transparent cache supports all actions caching files, including:
+
+- **File/Folder Caching** with `actions/cache`: Cache specific files or directories like dependencies or build outputs to speed up workflows.
+
+- **Package Manager Caching** with `actions/setup-*`: Automatically caches dependencies for languages such as Python (`actions/setup-python`), Node.js (`actions/setup-node`), and Go (`actions/setup-go`). 3rd party actions are also supported for some languages like Rust (`Swatinem/rust-cache`).
+
+- **Docker Layer Caching** with `docker/build-push-action`: Speeds up container builds by caching unchanged layers using `type=gha`:
+
+```yaml
+- name: Build and push Docker images
+  uses: docker/build-push-action
+  with:
+    cache-from: type=gha
+    cache-to: type=gha
+```
+
+Transparent cache improves download performance by 4x and upload performance by 3x on Ubicloud runners, with ongoing efforts to enhance upload speeds even further. 
+
+For a deep dive into its implementation and detailed performance metrics, check out the [GitHub Actions Transparent Cache Blog Post](https://www.ubicloud.com/blog/github-actions-transparent-cache).
+
+## Ubicloud Cache Actions
+
+Ubicloud Cache Actions are drop-in replacements for `actions/cache` as `ubicloud/cache` and `actions/setup-*` as `ubicloud/setup-*`. 
+
+It requires you to change the action names in your workflow files. It also doesn't support docker layer caching. Only advantage of using Ubicloud Cache Actions over Transparent Cache is that it has 65% better save performance as it is optimized to increase concurrency during file uploads. We are working on improving Transparent Cache's upload performance to match it.
+
+### Migrating to `ubicloud/cache`
+
+Replace `actions/cache` with `ubicloud/cache` in your workflows. Ubicloud Cache fully supports GitHub Actions Cache functionality.
+
 
 ```yaml
 - uses: actions/cache@v4
@@ -22,12 +60,9 @@ with:
      ${{ runner.os }}-pip-
 ```
 
+### Migrating to Ubicloud's Language-Specific Cache Actions
 
-## Migrating to Ubicloud's Language-Specific Cache Actions
-
-GitHub provides setup helper actions for popular languages and frameworks. When these actions are setting up an environment, they also cache any related dependencies for that environment.
-
-Ubicloud offers drop-in replacements for these actions, now with Ubicloud Cache support. To start using Ubicloud's language-specific cache actions, simply replace the actions/setup-* lines with ubicloud/setup-* in your workflow files. For languages and frameworks without a dedicated setup action, GitHub provides numerous examples of cache usage at [https://github.com/actions/cache/blob/main/examples.md](https://github.com/actions/cache/blob/main/examples.md).
+Ubicloud offers optimized replacements for `actions/setup-*`. To migrate, replace `actions/setup-*` with `ubicloud/setup-*` in your workflows.
 
 ### Java
 
