@@ -107,6 +107,7 @@
       "group": "Security",
       "pages": [
         "security/overview",
+        "security/authorization",
         "security/github-actions",
         "security/soc2"
       ]
