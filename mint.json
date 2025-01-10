@@ -73,6 +73,14 @@
       ]
     },
     {
+      "group": "AI Inference",
+      "pages": [
+        "inference/endpoint",
+        "inference/api-key",
+        "inference/playground"
+      ]
+    },
+    {
       "group": "Github Actions Integration",
       "pages": [
         "github-actions-integration/quickstart",
