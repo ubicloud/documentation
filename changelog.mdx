@@ -3,25 +3,43 @@ title: Changelog
 ---
 
 <Update label="January 2025">
-  HUGE authorization changes
+  * Authorization changes refactored:  Manage granular access more simply, and also through UI in a single screen (vs. JSON policy)
 
-  * Test
+  * AI Inference UI is released to all: QwQ and Llama. Started charging for inference endpoints
 
-  * HUGE authorization changes
-
-  * Manage granular access more simply, and also through UI (vs. JSON policy), in a single screen
-
-  * AI Inference UI is released to all: QwQ and Llama
-
-  * Load balancer stack is added to UI and API
+  * Load balancer stack (ipv4, ipv6 or dual) is added to UI and API
 
   * Inference token is renamed to Inference API Key
 
   * Larger storage options in US for PG
 
-  * Lots of networking bugfixes (LB port rewriting, race condition during VM provisioning, etc.)
+  * Social login (Google, Github) & passwordless
 
-  * Updated runner images to [20250105.1.1](https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20250105.1)
+  * AI Playground
+
+  * Tags for inference endpoints for showing more details
+
+  * Minimum disk size for PG is reduced from 128G to 64G
+
+  * Now the cheapest PG is 50$/month
+
+  * GHA: All caches from all scopes are accessible (behind ff)
+
+  * Faster runner provisioning times via Pool improvements for GHA
+
+
+
+  Bug fixes / maintenance
+
+  * Sequel 5.88
+
+  * JS, production and dev dependencies bumped
+
+  * Updated Github Actions runner images to [20250105.1.1](https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20250105.1)
+
+  * Networking bugfixes (LB port rewriting, race condition during VM provisioning, etc.)
+
+  * Broken starter docker image is fixed
 </Update>
 
 <Update label="December 2024">
@@ -29,7 +47,7 @@ title: Changelog
 
   ## **Managed Github Runners**
 
-  ### Transparent caching for Ubicloud managed Github Actions
+  **Transparent caching for Ubicloud managed Github Actions**
 
   This feature improves your GitHub Actions cache and Docker caching performance by 4x, without changing the caching instructions. You can enable it by clicking a button on the Ubicloud UI.
 
@@ -37,7 +55,9 @@ title: Changelog
 
   (PR)
 
-  ### Improve display of GitHub caches in UI by grouping by repository
+
+
+  **Improve display of GitHub caches in UI by grouping by repository**
 
   ([<u>PR #2345</u>](https://github.com/ubicloud/ubicloud/pull/2345))
 
@@ -45,51 +65,55 @@ title: Changelog
 
   ## APIs
 
-  ### Update OpenAPI schema
+  **OpenAPI schema updated**
 
   We updated the OpenAPI schema to align with latest backend changes. Going forward, alignment between OpenAPI schema and backend is also now enforced, through the use of [committee](https://github.com/interagent/committee).
 
-  ### Update API reference with sample responses and interactive playground
+
+
+  **API reference updated with sample responses and interactive playground**
 
   See here for examples and the playground:
 
   https://www.ubicloud.com/docs/api-reference/overview<img height="308" width="624" src="/Screenshot2025-01-16at11.19.27AM.png" />
 
-  ### Personal access tokens for API auth
-
-  Personal access tokens can now be used for API authentication, with token-specific authorization on-top of account authorization
+  **Personal access tokens can now be used for API authentication, with token-specific authorization on-top of account authorization**
 
   ## New project dashboard
 
   This redesign of our main dashboard in the Ubicloud console includes a more intuitive layout, allowing you to quickly view a summary of your project's resources at a glance. Additionally, we've added detailed "Getting Started" links to help you navigate your project with ease. ([PR #2381](https://github.com/ubicloud/ubicloud/pull/2381))
 
+
+
+  ![](/Screenshot2025-01-17at12.37.30AM.png)
+
   ## **VMs and Networking**
 
-  ### Add location-specific default subnets to make VM creation simpler.
+  **Add location-specific default subnets to make VM creation simpler.**
 
-  ### ![](/Screenshot2025-01-16at11.52.29PM.png)You can now restart VMs directly from the console.
+  ![](/Screenshot2025-01-16at11.52.29PM.png)**You can now restart VMs directly from the console.**
 
   ![](/Screenshot2025-01-17at12.06.43AM.png)
 
   ## **Managed PostgreSQL**
 
-  ### Improved Lantern Postgres instances with PostgreSQL 17 support
-
-  ### PG superuser password reset now in danger zone
+  **Improved Lantern Postgres instances with PostgreSQL 17 support**
 
 
 
-  ## **Other improvements**
+  **PG superuser password reset now in danger zone**
 
-  ### **Bug fixes**&#x20;
+  ## **Bug fixes** / maintenance
 
-  Multiple bug fixes and minor improvements, including PR1, PR2, ..
+  **Multiple bug fixes and minor improvements, including**&#x20;
 
-  ### Moved all Ubicloud Documentation to git repo:&#x20;
+  * PR1, PR2, ..
+
+  ## Moved all Ubicloud documentation to git repo
+
+  Please feel free to contribute to docs directly if you notice anything that you'd like to improve!
 
   https://github.com/ubicloud/documentation
 
 
-
-  Please feel free to contribute to docs directly if you notice anything that you'd like to improve.
 </Update>
