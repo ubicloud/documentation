@@ -3,7 +3,11 @@ title: Changelog
 ---
 
 <Update label="January 2025">
-  * HUGE authorization changes:
+  HUGE authorization changes
+
+  * Test
+
+  * HUGE authorization changes
 
   * Manage granular access more simply, and also through UI (vs. JSON policy), in a single screen
 
@@ -21,25 +25,25 @@ title: Changelog
 </Update>
 
 <Update label="December 2024">
-  * Social login (Google, Github) & passwordless
+  This month we've had many exciting features, including Github Actions transparent Cache, updated API reference, new project dashboard.
 
-  * AI Playground
+  ## New project dashboard
 
-  * Tags for inference endpoints for showing more details
+  We've redesigned our main dashboard. This update includes a more intuitive layout, allowing you to quickly view a summary of your project's resources at a glance. Additionally, we've added more detailed "Getting Started" links to help you navigate your project with ease. [PR #2381](https://github.com/ubicloud/ubicloud/pull/2381)
 
-  * Started charging for inference endpoints
+  <img height="292" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXenImHD4AGluUZSa6ECUZgZD_yRYlE3O9_DKYakp-e6XjoG8nF96rNwW_btZxdRwhkn9Ni8V5-1KMxN1aijBMEMMilpbsgY_zYsCbviUNlQAJ3nfxYzjP65TLxeed6sFfVJajWQaw?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+  APIs
+  ----
 
-  * Overall billing calculation is changed, now using vCPU in billing rates
+  Updated the OpenAPI schema to align with latest backend changes. Going forward, alignment between OpenAPI schema and backend is now enforced, through the use of [committee](https://github.com/interagent/committee).
 
-  * Minimum disk size for PG is reduced from 128G to 64G
 
-  * Now the cheapest PG is 50$/month
 
-  * GHA: All caches from all scopes are accessible (behind ff)
+  Refreshed our API reference, with sample responses and interactive playground
 
-  * Pool improvements for GHA
+  https://www.ubicloud.com/docs/api-reference/overview
 
-  * Lots of UI improvements:
 
-  * Console landing page update
+
+  <img height="308" width="624" src="/Screenshot2025-01-16at11.19.27AM.png" />Personal access tokens can now be used for API authentication, with token-specific authorization on-top of account authorization
 </Update>
