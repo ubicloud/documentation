@@ -1,18 +1,45 @@
 ---
-title: What's New
+title: Changelog
 ---
 
+<Update label="January 2025">
+  * HUGE authorization changes:
 
-#### October 20th 2014
+  * Manage granular access more simply, and also through UI (vs. JSON policy), in a single screen
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur
-- feature2
+  * AI Inference UI is released to all: QwQ and Llama
 
-#### October 18th 2014
+  * Load balancer stack is added to UI and API
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur
+  * Inference token is renamed to Inference API Key
 
-#### October 12th 2014
+  * Larger storage options in US for PG
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec pur
+  * Lots of networking bugfixes (LB port rewriting, race condition during VM provisioning, etc.)
 
+  * Updated runner images to [20250105.1.1](https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20250105.1)
+</Update>
+
+<Update label="December 2024">
+  * Social login (Google, Github) & passwordless
+
+  * AI Playground
+
+  * Tags for inference endpoints for showing more details
+
+  * Started charging for inference endpoints
+
+  * Overall billing calculation is changed, now using vCPU in billing rates
+
+  * Minimum disk size for PG is reduced from 128G to 64G
+
+  * Now the cheapest PG is 50$/month
+
+  * GHA: All caches from all scopes are accessible (behind ff)
+
+  * Pool improvements for GHA
+
+  * Lots of UI improvements:
+
+  * Console landing page update
+</Update>
