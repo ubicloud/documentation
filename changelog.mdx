@@ -3,6 +3,9 @@ title: Changelog
 ---
 
 <Update label="January 2025">
+
+  ## New features
+  
   * Authorization changes refactored:  Manage granular access more simply, and also through UI in a single screen (vs. JSON policy)
 
   * AI Inference UI is released to all: QwQ and Llama. Started charging for inference endpoints
@@ -43,9 +46,7 @@ title: Changelog
 <Update label="December 2024">
   ## Managed Github Runners
 
-  <Check>
-    Transparent caching now available for Github runners
-  </Check>
+  <Check>Transparent caching now available for Github runners</Check>
 
   This feature improves your GitHub Actions cache and Docker caching performance by 4x, without changing the caching instructions. You can enable it by clicking a button on the Ubicloud UI.
 
@@ -53,9 +54,7 @@ title: Changelog
 
   (PR)
 
-  <Check>
-    Improved reporting for GitHub cache usage, grouped by repository
-  </Check>
+  <Check>Improved reporting for GitHub cache usage, grouped by repository</Check>
 
   ([<u>PR #2345</u>](https://github.com/ubicloud/ubicloud/pull/2345))
 
@@ -63,9 +62,11 @@ title: Changelog
 
   ## APIs
 
-  <Check>OpenAPI schema updated; and now enforced</Check>We updated the OpenAPI schema to align with latest backend changes. Going forward, alignment between OpenAPI schema and backend is also now enforced, through the use of [committee](https://github.com/interagent/committee).
+  <Check>OpenAPI schema updated; and now enforced</Check>
+  We updated the OpenAPI schema to align with latest backend changes. Going forward, alignment between OpenAPI schema and backend is also now enforced, through the use of [committee](https://github.com/interagent/committee).
 
-  <Check>API reference updated with sample responses and interactive playground</Check>See here for examples and the playground:
+  <Check>API reference updated with sample responses and interactive playground</Check>
+  See here for examples and the playground:
 
   https://www.ubicloud.com/docs/api-reference/overview<img height="308" width="624" src="/Screenshot2025-01-16at11.19.27AM.png" />
 
@@ -86,6 +87,7 @@ title: Changelog
   ## **Managed PostgreSQL**
 
   <Check>Improved Lantern Postgres instances with PostgreSQL 17 support</Check>
+  
   <Check>PG superuser password reset now in danger zone</Check>
 
   ## **Bug fixes / maintenance**
