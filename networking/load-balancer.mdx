@@ -37,6 +37,7 @@ ensures a graceful removal.
 - **IPv4 / IPv6:** Supports diverse network configurations, including load balancing of IPv6.
 - **Security:** Ubicloud Load Balancers live and operate inside your Ubicloud Private Subnet. Therefore, the traffic that is managed by the load balancer is fully encrypted and secure.
 - **Multiple Algorithms:** Supports round-robin and hash based load balancing.
+- **SSL Certificates:** We provision ZeroSSL certificates for the load balancer hostname that you can directly use for your HTTPS enabled web apps.
 
 ## Getting Started
 
@@ -70,3 +71,14 @@ The overview page of your Private Subnet provides a comprehensive view of your s
 
 After the VM is attached, you can detach it back from the same page, at the “Attached VMs” section, you will need to click to the “Detach” button on the right hand side of the VM that you want to be detached.
 
+### SSL Certificates
+
+Ubicloud load balancers do not support SSL termination. However, we automatically generated public SSL certificates for the load balancer public hostname once you create it. Attached VMs can easily download the `cert` and `key` files from the following endpoint by using a `sudo curl` command:
+
+```
+sudo curl -f -L3 [FD00:0B1C:100D:5afe:CE::]/load-balancer/cert.pem
+sudo curl -f -L3 [FD00:0B1C:100D:5afe:CE::]/load-balancer/key.pem
+```
+Once you have these files stored inside the VM, you can start your web server using these certificate and key files to serve your HTTPS enabled web applications.
+
+Ubicloud automatically renews certificates every 2 to 3 months and make the new certificates available in the same endpoint. Therefore, it is suggested to create a script that downloads the new certificates and stores it in the VM as a systemctl service.
