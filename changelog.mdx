@@ -1,0 +1,115 @@
+---
+title: Changelog
+---
+
+<Update label="January 2025">
+  ## AI inference endpoints (new)
+
+  You can now hit our OpenAI compatible API endpoints through AI Inference on Ubicloud console. 
+
+  ### **There are 7 models available, all open source**;&#x20;
+
+  * Ds-r1-qwen-32b (Text-generation) 
+
+  * llama-3-1-8b-it
+
+  * E5-mistral-7b-it (Embedding)
+
+  * Llama-3-2-3b-it
+
+  * Llama-3-3-70b-it
+
+  * qwen-2-5-14b-it
+
+  * qwq-32b-preview
+
+  **Models are priced between $0.10 - $0.60 per million tokens:**
+
+  ### **Each model's overview and examples are summarized in a card in the console** 
+
+  <img height="419" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfEA3t7w87RyH200bEuA5cMGGjBNbqWADicRMdgE0XzOimzt8hVx3nvkKAVqLcdkCnssqJxiIxyWXfWmkwU7z8WzCSDAvWlZMEP-aCJrzAOPL4tb0u2TQYhlA4D5_aM5j-gAqW0?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+
+  ### **Playground allows you to to test models on the spot**
+
+  <img height="289" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfvVR6kmKz05f6guuyUtONV5UBYIiYC8ir0PlryV7v7Z4ywYZUpkkmyAbzR2DDF50XrGhPcowU1qvNJYGVfyROrp4eoNjxMaDU4NWYFU5912yPU5XhZiTIfyIARoW5XJc_wMSY9lQ?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+
+  ## **Managed PostgreSQL**
+
+  **We reduced our PostgreSQL prices by 15-20%. This puts our lowest cost PostgreSQL instances below $50/month** – with equivalent (or better) performance compared to AWS RDS instances that cost $200 / month. 
+
+  <img height="391" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXeJeyDHxJmr8kphYt_mLdRFKRdpAd33xmCNsAUhlKoEnuJvcwHwu6B2dhLpXBLycSiveKLJzW8W2nM0nWLHezqEA-e5eKDnF4TtBOCkCyYRSwB_rYlHwd1zbnZ1ln8p66oymSINWQ?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+
+  ### **Minimum disk size for PG is reduced from 128G to 64G**
+
+  ### **Larger storage options in US for PG**
+
+  ### **Download PG CA certs from Console** (verify cert via SSL for more secure connections)
+
+  ### **ParadeDB new images: v0.14.1**
+
+  * https://www.paradedb.com/blog/block\_storage\_part\_one
+
+  * [<u>https://docs.paradedb.com/changelog/0.14.0</u>](https://docs.paradedb.com/changelog/0.14.0)
+</Update>
+
+<Update label="December 2024">
+  ## Managed Github Runners
+
+  <Check>Transparent caching now available for Github runners</Check>
+
+  This feature improves your GitHub Actions cache and Docker caching performance by 4x, without changing the caching instructions. You can enable it by clicking a button on the Ubicloud UI.
+
+  [<u>https://www.ubicloud.com/blog/github-actions-transparent-cache</u>](https://www.ubicloud.com/blog/github-actions-transparent-cache)
+
+  (PR)
+
+  <Check>Improved reporting for GitHub cache usage, grouped by repository</Check>
+
+  ([PR #2345](https://github.com/ubicloud/ubicloud/pull/2345))
+
+  ![](/Screenshot2025-01-17at12.01.44AM.png)
+
+  ## APIs
+
+  <Check>OpenAPI schema updated; and now enforced</Check>
+  We updated the OpenAPI schema to align with latest backend changes. Going forward, alignment between OpenAPI schema and backend is also now enforced, through the use of [committee](https://github.com/interagent/committee).
+
+  <Check>API reference updated with sample responses and interactive playground</Check>
+  See here for examples and the playground:
+
+  https://www.ubicloud.com/docs/api-reference/overview<img height="308" width="624" src="/Screenshot2025-01-16at11.19.27AM.png" />
+
+  <Check>Personal access tokens can now be used for API authentication, with token-specific authorization on-top of account authorization</Check>
+
+  ## New project dashboard
+
+  This redesign of our main dashboard in the Ubicloud console includes a more intuitive layout, allowing you to quickly view a summary of your project's resources at a glance. Additionally, we've added detailed "Getting Started" links to help you navigate your project with ease. ([PR #2381](https://github.com/ubicloud/ubicloud/pull/2381))
+
+  ![](/Screenshot2025-01-17at12.37.30AM.png)
+
+  ## **VMs and Networking**
+
+  <Check>Default subnets added to each region to make VM creation simpler </Check>![](/Screenshot2025-01-16at11.52.29PM.png)
+
+  <Check>You can now restart  VMs directly from the console.</Check>![](/Screenshot2025-01-17at12.06.43AM.png)
+
+  ## **Managed PostgreSQL**
+
+  <Check>Improved Lantern Postgres instances with PostgreSQL 17 support</Check>
+
+  <Check>PG superuser password reset now in danger zone</Check>
+
+  ## **Bug fixes / maintenance**
+
+  **Multiple bug fixes and minor improvements, including**
+
+  * PR1,&#x20;
+
+  * PR2, ..
+
+  ## Moved Ubicloud documentation to git repo
+
+  We welcome your contributions to Ubicloud docs directly, if you notice anything that you'd like to improve on docs:
+
+  https://github.com/ubicloud/documentation
+</Update>
