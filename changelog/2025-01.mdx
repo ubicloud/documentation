@@ -32,18 +32,88 @@ Models are priced between $0.10 - $0.60 per million tokens: <img height="419" w
 
 ## Managed PostgreSQL
 
-**We reduced our PostgreSQL prices by 15-20%. This puts our lowest cost PostgreSQL instances below $50/month** - with equivalent (or better) performance compared to AWS RDS instances that cost $200 / month.
+**We reduced our PostgreSQL prices by 15-20%, as new hardware continues to improve price-performance.**&#x20;
+
+![](/2025-01-best-postgres-cloud-pricing.png)
+
+<Tip> Our standard-2 PostgreSQL instances are now below $50 / month. This cost is 4x lower than AWS RDS while also delivering more performance, with NVMe disks contributing to the speed. </Tip>
+
+**Minimum disk size for PG reduced from 128 GB to 64 GB.**&#x20;
 
 <img height="391" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXeJeyDHxJmr8kphYt_mLdRFKRdpAd33xmCNsAUhlKoEnuJvcwHwu6B2dhLpXBLycSiveKLJzW8W2nM0nWLHezqEA-e5eKDnF4TtBOCkCyYRSwB_rYlHwd1zbnZ1ln8p66oymSINWQ?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
 
-**Minimum disk size for PG is reduced from 128G to 64G**
+**Larger storage options introduced also in the US.**
 
-**Larger storage options in US for PG**
+<Note> For large storage options in PostgreSQL that exceed 16 TB, please contact us via support. </Note>
 
-**Download PG CA certs from Console** (verify cert via SSL for more secure connections)
+**You can now download PostgreSQL CA certs from Console**&#x20;
+
+This makes it easier to verify certs via SSL for more secure connections.
 
 **ParadeDB new images: v0.14.1**
 
 * [https://www.paradedb.com/blog/block\_storage\_part\_one](https://www.paradedb.com/blog/block_storage_part_one)
 
 * [<u>https://docs.paradedb.com/changelog/0.14.0</u>](https://docs.paradedb.com/changelog/0.14.0)
+
+## Sign in with Google and Github
+
+**You can now use your existing Google or Github accounts to login to Ubicloud.** Passwordless login is also enabled.
+
+<img width="300" alt="Social Login" src="/2025-01-social-login.png" />
+
+## Fine-grained access controls, managed through Ubicloud console
+
+Ubicloud comes with granular access controls that can be assigned to each user, for different resources. These Attribute Based Access Controls (ABAC) can now be managed much more simply through the console.
+
+### Attribute Based Access Controls (ABAC) managed via console  
+
+![](/2025-01-auth-rbac.png)
+
+### Step-by-step guide to user and API access management
+
+Given these major changes to how authorization is managed, we published a detailed documentation page, with examples: [https://www.ubicloud.com/docs/security/authorization](https://www.ubicloud.com/docs/security/authorization)
+
+### Granular access also extended to APIs via personal access tokens
+
+![](/2025-01-personal-access-tokens.png)
+
+With these changes, we also deprecated the prior JSON based policy editor in the console.&#x20;
+
+## Managed Github Actions Runners
+
+### Transparent Cache is enabled by default for all new customers
+
+We launched this feature last month, and given its strong performance, now made it the default for all new accounts.
+
+<Tip> Transparent cache can speed up runs by 4x, without making any changes to your Github Actions caches. </Tip>
+
+### **Faster runner provisioning times via improved pools**
+
+By optimizing the types of runners we pre-provision and keep ready for incoming jobs, we've cut down average runner provisioning times by a further 2+ seconds.
+
+### Github Actions caches can now be accessible from all scopes of your Github Repos
+
+This is not a common usage pattern, but is helpful for certain projects.
+
+<Note> This feature is behind a feature flag, please contact us at support@ to enable. </Note>
+
+## VMs and Networking
+
+### Simplified Load Balancer port mapping for private networking
+
+Clients now just need to open up the private port for private subnet range.![](/2025-01-private-subnet-console.png)
+
+### Load balancer stack (ipv4, ipv6 or dual) is selectable - in both UI and API
+
+![](/2025-01-load-balancer-dual-stack.png)
+
+## Bug fixes / maintenance
+
+Multiple bug fixes and minor improvements, including …
+
+* Demo docker image updated (Github demo was broken) <u>(</u>[<u>PR #2586</u>](https://github.com/ubicloud/ubicloud/pull/2586)<u>)</u>
+
+* Race condition fixed during VM provisioning ([<u>PR #2544</u>](https://github.com/ubicloud/ubicloud/pull/2544)<u>)</u>
+
+* Autofocus on OTP input field (external contribution) ([<u>PR #2605</u>](https://github.com/ubicloud/ubicloud/pull/2605)<u>)</u>
