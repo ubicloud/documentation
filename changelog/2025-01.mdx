@@ -9,24 +9,24 @@ You can now use our OpenAI compatible API endpoints through AI Inference on Ubic
 ### 7 open source LLM and embedding models
 
 * Ds-r1-qwen-32b (Text-generation) 
-
 * llama-3-1-8b-it
-
 * Llama-3-2-3b-it
-
 * Llama-3-3-70b-it
-
 * qwen-2-5-14b-it
-
 * qwq-32b-preview
-
 * E5-mistral-7b-it (Embedding)
 
 Summary cards display each model's key properties in the console. 
 
 <img height="419" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfEA3t7w87RyH200bEuA5cMGGjBNbqWADicRMdgE0XzOimzt8hVx3nvkKAVqLcdkCnssqJxiIxyWXfWmkwU7z8WzCSDAvWlZMEP-aCJrzAOPL4tb0u2TQYhlA4D5_aM5j-gAqW0?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
 
-<Note> Models are priced between $0.10 - $0.60 per million tokens. </Note>
+<Note> Models are priced between \$0.10 - \$0.60 per million tokens </Note>
+<Tip> Ubicloud API endpoints cost 100x less when compared to OpenAI models at \$10.00 - \$60.00. While clearly not equivalent models, the open source models on Ubicloud provide notable performance for their price. </Tip>
+
+<sub>
+[<u>PR #2640</u>
+](https://github.com/ubicloud/ubicloud/pull/2640), [<u>#2554</u>](https://github.com/ubicloud/ubicloud/pull/2554)
+</sub>
 
 ### Playground for testing models
 
@@ -34,11 +34,13 @@ Summary cards display each model's key properties in the console. 
 
 ## Managed PostgreSQL
 
-### Reduced prices by 15-20%, as new hardware continues to improve price-performance
+### Reduced prices by 15-20%, as new hardware continues to improve price-performance**
 
 ![](/2025-01-best-postgres-cloud-pricing.png)
 
-<Tip> Our standard-2 PostgreSQL instances are now below $50 / month. This cost is 4x lower than AWS RDS while also delivering more performance, with NVMe disks contributing to the speed. </Tip>
+<Note>Ubicloud standard-2 PostgreSQL instances now cost below \$50 per month. </Note>
+
+<Tip> This is 4x lower than AWS RDS, while also delivering better performance, driven by new hardware and NVMe disks. </Tip>
 
 ### Minimum disk size reduced from 128 GB to 64 GB
 
@@ -48,7 +50,7 @@ Summary cards display each model's key properties in the console. 
 
 <Note> For large storage options in PostgreSQL that exceed 16 TB, please contact us via support. </Note>
 
-### Download PostgreSQL CA certs from Console
+### Download PostgreSQL CA certs from Ubicloud console
 
 This makes it easier to verify certs via SSL for more secure connections.
 
@@ -58,13 +60,26 @@ This makes it easier to verify certs via SSL for more secure connections.
 
 * [https://docs.paradedb.com/changelog/0.14.0](https://docs.paradedb.com/changelog/0.14.0)
 
+<sub>
+[<u>PR #2649</u>
+](https://github.com/ubicloud/ubicloud/pull/2649)[<u>#2643</u>
+](https://github.com/ubicloud/ubicloud/pull/2643)[<u>#2572</u>](https://github.com/ubicloud/ubicloud/pull/2572)
+[<u>#2523</u>
+](https://github.com/ubicloud/ubicloud/pull/2523)[<u>#2506</u>
+](https://github.com/ubicloud/ubicloud/pull/2506)[<u>#2464</u>](https://github.com/ubicloud/ubicloud/pull/2464)
+</sub>
+
 ## Sign in with Google and Github
 
 **You can now use your existing Google or Github accounts to login to Ubicloud.** Passwordless login is also enabled.
 
 <img width="300" alt="Social Login" src="/2025-01-social-login.png" />
 
-## Fine-grained access controls simplified
+<sub>
+[<u>PR #2463</u>](https://github.com/ubicloud/ubicloud/pull/2463)
+</sub>
+
+## Simplified fine-grained access controls
 
 Ubicloud comes with granular access controls that can be assigned to each user, for different resources. These Attribute Based Access Controls (ABAC) can now be managed much more simply through the console.
 
@@ -72,24 +87,29 @@ Ubicloud comes with granular access controls that can be assigned to each user, 
 
 ![](/2025-01-auth-rbac.png)
 
-### Step-by-step guide to user and API access management
+### Step-by-step guide to user permissions & API access management
 
 With major changes to how authorization is managed, we created a detailed documentation page, with example scenarios: [https://www.ubicloud.com/docs/security/authorization](https://www.ubicloud.com/docs/security/authorization)
 
-### Granular access also extended to APIs via personal access tokens
+### Granular access extended to APIs via personal access tokens
 
 ![](/2025-01-personal-access-tokens.png)
 
 With these changes, we also deprecated our prior JSON based policy editor in the console.
 
+<sub>
+[<u>PR #2384</u>
+](https://github.com/ubicloud/ubicloud/pull/2384)[<u>#2516</u>
+](https://github.com/ubicloud/ubicloud/pull/2516)
+</sub>
 
 ## Managed Github Actions Runners
 
 ### Transparent Cache enabled by default for all new customers
 
-We launched this feature last month, and given its strong performance, now made it the default for all new accounts.
+We launched this feature last month, and given its favorable performance, now made it the default for all new accounts.
 
-<Tip> Transparent cache can speed up runs by 4x, without making any changes to your Github Actions caches. </Tip>
+<Tip> Enabling transparent cache can speed up runs by 4x, without making any changes to your Github Actions caches. </Tip>
 
 ### **Faster runner provisioning times via improved pools**
 
@@ -99,7 +119,12 @@ By optimizing the types of runners we pre-provision and keep ready for incoming 
 
 This is not a common usage pattern, but can be helpful for certain projects.
 
-<Note> This feature is behind a feature flag, please contact us at support@ to enable. </Note>
+<Note> This feature is behind a feature flag, please open a ticket to enable. </Note>
+
+<sub>
+[<u>PR #2345</u>
+](https://github.com/ubicloud/ubicloud/pull/2345)[<u>#2651</u>](https://github.com/ubicloud/ubicloud/pull/2651)
+</sub>
 
 ## VMs and Networking
 
@@ -111,12 +136,27 @@ This selection is available in both the UI and the API
 
 ![](/2025-01-load-balancer-dual-stack.png)
 
+<sub>
+[<u>PR #2543</u>
+](https://github.com/ubicloud/ubicloud/pull/2543)[<u>#2531</u>
+](https://github.com/ubicloud/ubicloud/pull/2531)[<u>#2548</u>
+](https://github.com/ubicloud/ubicloud/pull/2548)[<u>#2541</u>
+](https://github.com/ubicloud/ubicloud/pull/2541)
+</sub>
+
 ## Bug fixes / maintenance
 
 Multiple bug fixes and minor improvements, including:
 
-* Demo docker image updated (Github demo was broken) <u>(</u>[<u>PR #2586</u>](https://github.com/ubicloud/ubicloud/pull/2586)<u>)</u>
+* Demo docker image updated (Github demo was broken)
+* Race condition fixed during VM provisioning for private networking 
+* Autofocus on OTP input field. Thank you @@sh0n0 for the fix!
 
-* Race condition fixed during VM provisioning ([<u>PR #2544</u>](https://github.com/ubicloud/ubicloud/pull/2544)<u>)</u>
 
-* Autofocus on OTP input field (external contribution) ([<u>PR #2605</u>](https://github.com/ubicloud/ubicloud/pull/2605)<u>)</u>
+<sub>
+[<u>PR #2586</u>](https://github.com/ubicloud/ubicloud/pull/2586)
+[<u>#2544</u>](https://github.com/ubicloud/ubicloud/pull/2544)
+[<u>#2605</u>](https://github.com/ubicloud/ubicloud/pull/2605)
+</sub>
+
+
