@@ -41,11 +41,6 @@
   },
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "overview"
-    },
-    {
       "name": "API Reference",
       "icon": "terminal",
       "url": "api-reference",
