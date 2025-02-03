@@ -18,10 +18,10 @@ You can now use our OpenAI compatible API endpoints through AI Inference on Ubic
 
 Summary cards display each model's key properties in the console. 
 
-<img height="419" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfEA3t7w87RyH200bEuA5cMGGjBNbqWADicRMdgE0XzOimzt8hVx3nvkKAVqLcdkCnssqJxiIxyWXfWmkwU7z8WzCSDAvWlZMEP-aCJrzAOPL4tb0u2TQYhlA4D5_aM5j-gAqW0?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+![Ubicloud AI inference](/changelog/2025-01-ai-inference-endpoints.png)
 
 <Note> Models are priced between \$0.10 - \$0.60 per million tokens </Note>
-<Tip> Ubicloud API endpoints cost 100x less when compared to OpenAI models at \$10.00 - \$60.00. While clearly not equivalent models, the open source models on Ubicloud provide notable performance for their price. </Tip>
+<Tip> Ubicloud API endpoints cost 100x less when compared to OpenAI models at \$10.00 - \$60.00. While different models, the open source models on Ubicloud provide notable performance for their price. </Tip>
 
 <sub>
 [<u>PR #2640</u>
@@ -30,13 +30,14 @@ Summary cards display each model's key properties in the console. 
 
 ### Playground for testing models
 
-<img height="289" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXfvVR6kmKz05f6guuyUtONV5UBYIiYC8ir0PlryV7v7Z4ywYZUpkkmyAbzR2DDF50XrGhPcowU1qvNJYGVfyROrp4eoNjxMaDU4NWYFU5912yPU5XhZiTIfyIARoW5XJc_wMSY9lQ?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+![Ubicloud AI playground](/changelog/2025-01-ai-playground.png)
+
 
 ## Managed PostgreSQL
 
 ### Reduced prices by 15-20%, as new hardware continues to improve price-performance**
 
-![](/2025-01-best-postgres-cloud-pricing.png)
+![Ubicloud Managed PostgreSQL pricing](/changelog/2025-01-best-postgres-cloud-pricing.png)
 
 <Note>Ubicloud standard-2 PostgreSQL instances now cost below \$50 per month. </Note>
 
@@ -44,7 +45,8 @@ Summary cards display each model's key properties in the console. 
 
 ### Minimum disk size reduced from 128 GB to 64 GB
 
-<img height="391" width="624" src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXeJeyDHxJmr8kphYt_mLdRFKRdpAd33xmCNsAUhlKoEnuJvcwHwu6B2dhLpXBLycSiveKLJzW8W2nM0nWLHezqEA-e5eKDnF4TtBOCkCyYRSwB_rYlHwd1zbnZ1ln8p66oymSINWQ?key=bGOVQRWrVkBS1p7TmyD1FLV4" />
+![PostgreSQL disk sizes](/changelog/2025-01-pg-disk-size.png)
+
 
 ### Larger storage options introduced also in the US
 
@@ -56,7 +58,7 @@ This makes it easier to verify certs via SSL for more secure connections.
 
 ### ParadeDB new images: v0.14.1
 
-* [https://www.paradedb.com/blog/block\_storage\_part\_one](https://www.paradedb.com/blog/block_storage_part_one)
+ParadeDB got a major upgrade, supporting PostgreSQL block storage. Ubicloud managed ParadeDB has the updated images. Read more on the [ParadeDB blo.](https://www.paradedb.com/blog/block_storage_part_one) 
 
 * [https://docs.paradedb.com/changelog/0.14.0](https://docs.paradedb.com/changelog/0.14.0)
 
@@ -73,7 +75,7 @@ This makes it easier to verify certs via SSL for more secure connections.
 
 **You can now use your existing Google or Github accounts to login to Ubicloud.** Passwordless login is also enabled.
 
-<img width="300" alt="Social Login" src="/2025-01-social-login.png" />
+<img width="300" alt="Social Login" src="/changelog/2025-01-social-login.png" />
 
 <sub>
 [<u>PR #2463</u>](https://github.com/ubicloud/ubicloud/pull/2463)
@@ -85,7 +87,7 @@ Ubicloud comes with granular access controls that can be assigned to each user, 
 
 ### Attribute Based Access Controls (ABAC) managed via console
 
-![](/2025-01-auth-rbac.png)
+![](/changelog/2025-01-auth-rbac.png)
 
 ### Step-by-step guide to user permissions & API access management
 
@@ -93,7 +95,7 @@ With major changes to how authorization is managed, we created a detailed docume
 
 ### Granular access extended to APIs via personal access tokens
 
-![](/2025-01-personal-access-tokens.png)
+![](/changelog/2025-01-personal-access-tokens.png)
 
 With these changes, we also deprecated our prior JSON based policy editor in the console.
 
@@ -129,12 +131,12 @@ This is not a common usage pattern, but can be helpful for certain projects.
 ## VMs and Networking
 
 ### Simplified Load Balancer port mapping for private networking
-Clients now just need to open up the private port for private subnet range.![](/2025-01-private-subnet-console.png)
+Clients now just need to open up the private port for private subnet range.![](/changelog/2025-01-private-subnet-console.png)
 
 ### Load balancer stack (ipv4, ipv6 or dual) is selectable
 This selection is available in both the UI and the API
 
-![](/2025-01-load-balancer-dual-stack.png)
+![](/changelog/2025-01-load-balancer-dual-stack.png)
 
 <sub>
 [<u>PR #2543</u>
