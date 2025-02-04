@@ -50,6 +50,11 @@
       "name": "Architecture",
       "icon": "lightbulb",
       "url": "architecture"
+    },
+    {
+      "name": "Changelog",
+      "icon": "list-ol",
+      "url": "changelog"
     }
   ],
   "navigation": [
@@ -136,6 +141,13 @@
       "pages": [
         "architecture/control-and-data-plane",
         "architecture/attribute-based-access-control-abac"
+      ]
+    },
+    {
+      "group": "Changelog",
+      "pages": [
+        "changelog/2025-01",
+        "changelog/2024-12"
       ]
     }
   ],
