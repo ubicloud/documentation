@@ -1,0 +1,23 @@
+name: Prettier
+
+on:
+  push:
+    branches: [main, enes/prettier]
+
+jobs:
+  prettier:
+    runs-on: ubicloud-standard-4
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx prettier . --write
+
+      - run: git diff --exit-code
