@@ -1,6 +1,5 @@
 # Ubicloud Documentation [![Prettier](https://github.com/ubicloud/documentation/actions/workflows/prettier.yml/badge.svg)](https://github.com/ubicloud/documentation/actions/workflows/prettier.yml)
 
-
 [Ubicloud documentation](https://www.ubicloud.com/docs) is based on MDX and hosted by Mintlify.
 
 ### Preview

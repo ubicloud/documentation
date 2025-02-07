@@ -1,11 +1,10 @@
 ---
-title: 'Control and Data Plane'
+title: "Control and Data Plane"
 ---
 
 Ubicloud follows an established pattern in building public cloud services. A control plane manages a data plane, where the data plane usually leverages open source software.The following architecture diagram shows the control and data plane components for our compute service. This service allows you to provision and use virtual machines (VMs); and also forms the basis of some of our other services.
 
 ![Control and Data Plane](/architecture/control-and-data-plane-1.jpg)
-
 
 ## Control plane
 
@@ -22,4 +21,3 @@ The control plane communicates with Linux bare metal servers using SSH. Ubicloud
 For our compute service, Ubicloud makes several additions on top of Linux KVM. We use [cloud-init](https://github.com/canonical/cloud-init) to bootstrap SSH access to the server. We use [Cloud Hypervisor](https://github.com/cloud-hypervisor/cloud-hypervisor) as our virtual machine monitor (VMM); and each instance of the VMM is contained within Linux namespaces for further isolation and security.
 
 This section also has design documents that explain how some Ubicloud services work. You can read them here or request new documents by getting in touch with us.
-

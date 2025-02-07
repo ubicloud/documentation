@@ -60,9 +60,7 @@
   "navigation": [
     {
       "group": "",
-      "pages": [
-        "overview"
-      ]
+      "pages": ["overview"]
     },
     {
       "group": "Quickstart",
@@ -132,9 +130,7 @@
     },
     {
       "group": "API Documentation",
-      "pages": [
-        "api-reference/overview"
-      ]
+      "pages": ["api-reference/overview"]
     },
     {
       "group": "Architecture",
@@ -145,10 +141,7 @@
     },
     {
       "group": "Changelog",
-      "pages": [
-        "changelog/2025-01",
-        "changelog/2024-12"
-      ]
+      "pages": ["changelog/2025-01", "changelog/2024-12"]
     }
   ],
   "footerSocials": {

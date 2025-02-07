@@ -1,15 +1,30 @@
 export const Callout = ({ text }) => (
-    <div style={{
-        backgroundColor: 'rgb(var(--primary-light))',
-        backgroundImage: 'url("https://cdn.prod.website-files.com/64f9d9b4e737e7b37d4e39a4/6502c32a6306de3a2460bdf5_lines.png")',
-        backgroundPosition: '100%',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'contain',
-        borderRadius: '24px',
-        height: 'auto',
-        marginBottom: '40px',
-        padding: '32px'
-    }}>
-        <h2 style={{ color: 'white', fontSize: '32px', fontWeight: 400, marginTop: 0, marginBottom: 0 }}>{text}</h2>
-    </div>
+  <div
+    style={{
+      backgroundColor: "rgb(var(--primary-light))",
+      backgroundImage:
+        'url("https://cdn.prod.website-files.com/64f9d9b4e737e7b37d4e39a4/6502c32a6306de3a2460bdf5_lines.png")',
+      backgroundPosition: "100%",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "contain",
+      borderRadius: "24px",
+      height: "auto",
+      marginBottom: "40px",
+      padding: "32px",
+    }}
+  >
+    <h2
+      style={{
+        color: "white",
+        fontSize: "32px",
+        fontWeight: 400,
+        marginTop: 0,
+        marginBottom: 0,
+      }}
+    >
+      {text}
+    </h2>
+  </div>
 );
+
+;

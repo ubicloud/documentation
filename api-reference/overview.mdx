@@ -1,11 +1,12 @@
 ---
-title: 'Overview'
-description: 'Ubicloud APIs (Beta) allow users to programmatically manage their resources.'
+title: "Overview"
+description: "Ubicloud APIs (Beta) allow users to programmatically manage their resources."
 ---
 
 The API is designed with predictable endpoints and an intuitive design, making it easy to understand and use. It adheres to REST principles, allowing users to send requests using any client that supports HTTPS requests to Ubicloud API endpoints. All request and response bodies are in JSON format.
 
 ## Authentication
+
 API uses JWT tokens for authentication. A token can be obtained by sending a request to `api.ubicloud.com/login` with login email and password parameters in the body as
 
 ```bash
@@ -14,10 +15,10 @@ curl "https://api.ubicloud.com/login" \
    -H "Content-Type: application/json" \
    -i \
    -d '{
-        "login": "username@mail.com", 
-        "password": "samplepassword" 
+        "login": "username@mail.com",
+        "password": "samplepassword"
       }'
-``` 
+```
 
 The token will be returned in the authorization key of the response header. Once user has the JWT token, must pass it as the value of authorization key on the header for all subsequent requests. Examples are provided in the API reference.
 
@@ -26,7 +27,7 @@ The token will be returned in the authorization key of the response header. Once
 API communicates with clients via HTTPS requests. All data sent in request bodies must be in JSON format. The API supports the following HTTP methods:
 
 | Method | Usage                                                                                                                                         |
-|--------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | GET    | Retrieves either a single resource or a list of resources. Supports pagination for lists.                                                     |
 | POST   | Creates a resource. All required attributes must be included in the JSON body of the request. Also allows for executing actions on resources. |
 | DELETE | Deletes a resource. If the given resource URI is valid, it returns a 204 status code irrespective of the resource exists or not.              |
@@ -36,7 +37,7 @@ API communicates with clients via HTTPS requests. All data sent in request bodie
 Following HTTP response status codes can be returned from the API.
 
 | Status | Description                                        |
-|--------|----------------------------------------------------|
+| ------ | -------------------------------------------------- |
 | 200    | Request was successful                             |
 | 204    | Request was successful and no content returns back |
 | 400    | Invalid request                                    |

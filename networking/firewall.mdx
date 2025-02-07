@@ -1,5 +1,5 @@
 ---
-title: 'Firewall'
+title: "Firewall"
 ---
 
 This guide provides detailed instructions on configuring and managing firewalls
@@ -47,12 +47,12 @@ You can input a CIDR range and define the continuous port range to be allowed.
 After specifying CIDR and Port ranges, you simply hit “Create”. Some example CIDR
 and Port range usage can be like the following;
 
-|                       Case                      |       CIDR      | Port Range |
-|:-----------------------------------------------:|:---------------:|:----------:|
-| Allow all IP and port ranges                    | 0.0.0.0/0       |            |
-| Allow all IP and port ranges                    | 0.0.0.0/0       | 0..65536   |
-| Allow a specific IP and ports between 80 and 90 | 123.123.123.123 | 80..90     |
-| Allow a subnet for a specific port              | 1.1.1.0/24      | 22         |
+|                      Case                       |      CIDR       | Port Range |
+| :---------------------------------------------: | :-------------: | :--------: |
+|          Allow all IP and port ranges           |    0.0.0.0/0    |            |
+|          Allow all IP and port ranges           |    0.0.0.0/0    |  0..65536  |
+| Allow a specific IP and ports between 80 and 90 | 123.123.123.123 |   80..90   |
+|       Allow a subnet for a specific port        |   1.1.1.0/24    |     22     |
 
 **Default Deny Rule:** Remember, if no rules are set, the firewall will deny all
 incoming traffic, including traffic within the private subnet.
@@ -61,8 +61,8 @@ incoming traffic, including traffic within the private subnet.
 
 <Steps>
   <Step title="Access Firewall Details">
-    From the dashboard, select "Networking", choose the "Firewall" tab. Select the
-    firewall you want to attach.
+    From the dashboard, select "Networking", choose the "Firewall" tab. Select
+    the firewall you want to attach.
   </Step>
   <Step title="Attach to Subnet">
     Click on the "Select a Subnet" option, choose the private subnet and click
@@ -86,4 +86,4 @@ allow all traffic rule to minimize the initial configuration efforts.
 
 Ubicloud firewalls are implemented using linux nftables. Please refer to our
 blog post [here](https://www.ubicloud.com/blog/ubicloud-firewalls-how-linux-nftables-enables-flexible-rules)
-for more details. 
+for more details.

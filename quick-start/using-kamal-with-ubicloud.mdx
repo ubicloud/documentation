@@ -1,6 +1,6 @@
 ---
-title: 'Using Kamal with Ubicloud'
-description: 'Kamal is an open source tool to deploy web apps anywhere. It simplifies the process of deploying and managing your web app in production with Docker.'
+title: "Using Kamal with Ubicloud"
+description: "Kamal is an open source tool to deploy web apps anywhere. It simplifies the process of deploying and managing your web app in production with Docker."
 ---
 
 Even with Kamal, you still need certain infrastructure primitives, including virtual machines and managed databases. Ubicloud offers these primitives on the cloud. We believe the combination of Kamal and Ubicloud provide a compelling open source web app deployment platform.
@@ -73,12 +73,13 @@ registry:
 Create the following resources:
 
 - **Virtual Machines (VMs):** Create a VM from console.ubicloud.com. When creating the VM, you need to pay attention to three things:
-    - For the location, pick Germany. Later, we're going to provision a managed Postgres in the same region.
-    - Make sure to include an IPv4 address, as Kamal 2 will have deployment issues in IPv6 only environments.
-    - Change the user from `ubi` to `root`. We use `root` because Kamal installs Docker and connects to it on the VMs. Using `root` avoids the need to manage users and groups.
+
+  - For the location, pick Germany. Later, we're going to provision a managed Postgres in the same region.
+  - Make sure to include an IPv4 address, as Kamal 2 will have deployment issues in IPv6 only environments.
+  - Change the user from `ubi` to `root`. We use `root` because Kamal installs Docker and connects to it on the VMs. Using `root` avoids the need to manage users and groups.
 
 - **Managed PostgreSQL Database:** Set up a managed PostgreSQL database.
-![Create postgreSQL database](/quick-start/using-kamal-with-ubicloud-3-screenshot.png)
+  ![Create postgreSQL database](/quick-start/using-kamal-with-ubicloud-3-screenshot.png)
 
 ### Step 6: Gather Resource Information
 
@@ -105,9 +106,9 @@ Configure server IP address to deploy to in `config/deploy.yml`:
 
 ```yaml
 servers:
- web:
-   hosts:
-     - IP
+  web:
+    hosts:
+      - IP
 ```
 
 Rails 8's Kamal 2 configuration defaults to an HTTPS-only application, using certificates from Let's Encrypt, so you need to edit the `config/deploy.yml` file to set the hostname for the application:
@@ -118,15 +119,15 @@ proxy:
   host: your-host.your-domain.com
 ```
 
-You will need to create or update your DNS records so that the hostname you are using resolves to the IP address of the VM you created.  How you do this depends on your DNS provider.
+You will need to create or update your DNS records so that the hostname you are using resolves to the IP address of the VM you created. How you do this depends on your DNS provider.
 
 Update `config/deploy.yml` to pass the environment variables:
 
 ```yaml
-env:  
- secret:
-   - RAILS_MASTER_KEY
-   - DATABASE_URL
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - DATABASE_URL
 ```
 
 Modify `config/database.yml` to use the `DATABASE_URL` environment variable, which will already contain the user, password and the database name:

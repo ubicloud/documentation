@@ -1,10 +1,10 @@
 ---
-title: 'Load Balancer'
+title: "Load Balancer"
 ---
 
 The Ubicloud Load Balancer distributes traffic across multiple virtual machines
 (VMs) and ensures high availability for your applications. The load balancer
-operates at Layer 4 of the Open Systems Interconnection (OSI) model. 
+operates at Layer 4 of the Open Systems Interconnection (OSI) model.
 
 Ubicloud Load Balancers offer a DNS name that's the single point of contact for
 clients. This DNS name maps to the public IPv4 and IPv6 addresses of the VMs
@@ -47,14 +47,13 @@ ensures a graceful removal.
 
 **Create a New Load Balancer:** Click on the "+ New Load Balancer" button. You will be prompted to enter the following fields. After filling the details, click “Create”.
 
-
 - **Name:** The name of the load balancer, which will also be used in the hostname.
 - **Private Subnet:** Select the private subnet that the load balancer will operate in. Note that VMs from different private subnets cannot be mixed within a single load balancer.
 - **Load Balancing Algorithm:** Choose between round_robin and hash_based algorithms. For hash-based load balancing, the following fields are used:
-    - Source IP address
-    - Source Port number
-    - Destination IP address
-    - Destination Port number
+  - Source IP address
+  - Source Port number
+  - Destination IP address
+  - Destination Port number
 - **Load Balancer Port:** Configure the port (e.g., Port 80) that the load balancer will accept connections from.
 - **Application Port:** The port that the backend VM serves connections from.
 - **Health Check Endpoint:** The HTTP endpoint that is used for health checks, such as /up. Make sure your application sends a response code 200 to this URL.
@@ -79,6 +78,7 @@ Ubicloud load balancers do not support SSL termination. However, we automaticall
 sudo curl -f -L3 [FD00:0B1C:100D:5afe:CE::]/load-balancer/cert.pem
 sudo curl -f -L3 [FD00:0B1C:100D:5afe:CE::]/load-balancer/key.pem
 ```
+
 Once you have these files stored inside the VM, you can start your web server using these certificate and key files to serve your HTTPS enabled web applications.
 
 Ubicloud automatically renews certificates every 2 to 3 months and make the new certificates available in the same endpoint. Therefore, it is suggested to create a script that downloads the new certificates and stores it in the VM as a systemctl service.

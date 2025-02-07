@@ -1,6 +1,6 @@
 ---
-title: 'Attribute-Based Access Control (ABAC) Design'
-sidebarTitle: 'ABAC Design'
+title: "Attribute-Based Access Control (ABAC) Design"
+sidebarTitle: "ABAC Design"
 ---
 
 ## Motivation
@@ -26,6 +26,7 @@ ABAC takes this one step further, where permissions to resources are defined ove
 All three hyperscalers seem to be moving towards the ABAC model. You can read more about [AWS](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html), [Azure](https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-overview), and [GCP](https://cloud.google.com/iam/docs/conditions-overview)'s ABAC designs on their websites. These designs rely on conditional expressions and are more complex than a clean-sheet ABAC design. This is probably because all hyperscalers need to be backwards compatible with their RBAC designs. We'd like to provide something much simpler, both in design and implementation.
 
 ## An ABAC example
+
 In the following, we start with an ABAC example and build on top of it. The following diagram describes a simple scenario, where the users on the left have associated “tags” (classic roles) and the resources on the right also have “tags”.
 
 ![ABAC 1](/architecture/attribute-based-access-control-abac-1.png)
@@ -67,6 +68,7 @@ Our ABAC design follows this simple yet powerful example. All we need to do is m
 
 ABAC design's data model, where the model has five PostgreSQL tables
 These five Postgres tables are:
+
 1. An access policy table that represents the relationship between `<subject, action, object>`. Remember the subject here is the user and the object is the resource
 2. A namespace table to avoid naming collisions
 3. An access tags table to represent tags (we thought the name tags was just too generic, so picked something more descriptive)
@@ -104,4 +106,3 @@ Of course, you could argue that running a SQL query for each authorization actio
 ABAC enables a flexible way to authorize users. With it, organizations and users can express complex access relationships between users and resources. As importantly, ABAC is simpler than RBAC, simple enough to grasp without much effort. Ubicloud also has the benefit of not having to provide backwards compatibility to RBAC, like AWS or Azure. These properties enable us to express ABAC's data model in a few database tables and have the core implementation in one SQL query.
 
 We also expect our ABAC design to evolve over time. If you have any questions or feedback about this design document, we'd love to hear from you. Please start a conversation on GitHub discussions or reach out to us at [info@ubicloud.com](mailto:info@ubicloud.com).
-

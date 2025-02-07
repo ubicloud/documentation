@@ -1,5 +1,5 @@
 ---
-title: 'Quickstart'
+title: "Quickstart"
 ---
 
 This guide describes how to integrate your GitHub Action workflows with Ubicloud runners. For this, you're going to sign up to Ubicloud, use our GitHub App to connect to your GitHub repo, and change one line in your GitHub workflow file. This will provide the following benefits:
@@ -20,6 +20,7 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
 
     From the navigation menu on the left, choose Billing. Then, enter your credit card information.
     ![Quickstart 1](/github-actions-integration/quickstart-1-screenshot.png)
+
   </Step>
   <Step title="Integrate with GitHub">
     On the navigation menu, choose GitHub Runners. Then, click on Connect New Account on the right. This will take you to GitHub.
@@ -27,6 +28,7 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
 
     GitHub will ask you to install and authorize the Ubicloud Managed Runners app. Once you do this, you will be redirected to the Ubicloud cloud dashboard. Here, you should now see your GitHub repositories.
     ![Quickstart 3](/github-actions-integration/quickstart-3.png)
+
   </Step>
   <Step title="Change your `workflow.yml` file">
     To use Ubicloud for GitHub Actions, you need to edit your `.github/workflows` file. In particular, you need to change the `ubuntu-latest` runner label to `ubicloud-standard-2`.
@@ -35,6 +37,7 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
     When you merge this change, GitHub Actions will start using Ubicloud runners. If your workflow file has builds configured on merging a change, you see your build start in your project's Actions tab. If not, you can manually start a build to see the change take effect.
 
     By default, `ubicloud-standard-2` starts a VM with the same vCPU and memory configuration as paid GitHub runners. Given Ubicloud's 10x price advantage, you might want to pick a more powerful VM such as `ubicloud-standard-8` and see if your pipelines move faster. You can find the full list of runners and their prices in the [Pricing documents](/about/pricing#github-actions).
+
   </Step>
 </Steps>
 
@@ -42,4 +45,5 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
     **Summary:** In this guide, you created a Ubicloud account and integrated that account with your GitHub Account. You then changed a single line in your workflow file to use Ubicloud runners.
 
     This resulted in 10x lower prices and faster CI/CD, with Ubicloud's source code openly available under the AGPL license.
+
 </Info>
