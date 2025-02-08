@@ -1,0 +1,17 @@
+export const PrList = ({ ids }) => (
+  <sub>
+    {ids.map((id, index) => (
+      <>
+        {index > 0 && ", "}
+        <a
+          href={`https://github.com/ubicloud/ubicloud/pull/${id}`}
+          target="_blank"
+        >
+          <u>
+            {index === 0 ? "PR " : ""}#{id}
+          </u>
+        </a>
+      </>
+    ))}
+  </sub>
+);

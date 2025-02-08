@@ -2,6 +2,8 @@
 title: "January 2025"
 ---
 
+import { PrList } from "/snippets/pr-list.mdx";
+
 ## AI inference endpoints (new)
 
 You can now use our OpenAI compatible API endpoints through AI Inference on Ubicloud console. 
@@ -23,10 +25,7 @@ Summary cards display each model's key properties in the console. 
 <Note> Models are priced between \$0.10 - \$0.60 per million tokens </Note>
 <Tip> Ubicloud API endpoints cost ~10x less when compared to OpenAI models at \$4.40 - \$10.00. While different models, the open source models provide notable performance for their price. </Tip>
 
-<sub>
-[<u>PR #2640</u>
-](https://github.com/ubicloud/ubicloud/pull/2640), [<u>#2554</u>](https://github.com/ubicloud/ubicloud/pull/2554)
-</sub>
+<PrList ids={[2640, 2554]} />
 
 ### Playground for testing models
 
@@ -60,16 +59,9 @@ This makes it easier to verify certs via SSL for more secure connections.
 
 ParadeDB got a major upgrade, now running on PostgreSQL block storage. Ubicloud managed ParadeDB has the updated images. Read more on the [ParadeDB blog.](https://www.paradedb.com/blog/block_storage_part_one) 
 
-* [https://docs.paradedb.com/changelog/0.14.0](https://docs.paradedb.com/changelog/0.14.0)
+[https://docs.paradedb.com/changelog/0.14.0](https://docs.paradedb.com/changelog/0.14.0)
 
-<sub>
-[<u>PR #2649</u>
-](https://github.com/ubicloud/ubicloud/pull/2649)[<u>#2643</u>
-](https://github.com/ubicloud/ubicloud/pull/2643)[<u>#2572</u>](https://github.com/ubicloud/ubicloud/pull/2572)
-[<u>#2523</u>
-](https://github.com/ubicloud/ubicloud/pull/2523)[<u>#2506</u>
-](https://github.com/ubicloud/ubicloud/pull/2506)[<u>#2464</u>](https://github.com/ubicloud/ubicloud/pull/2464)
-</sub>
+<PrList ids={[2649, 2643, 2572, 2523, 2506, 2464]} />
 
 ## Sign in with Google and Github
 
@@ -77,9 +69,7 @@ ParadeDB got a major upgrade, now running on PostgreSQL block storage. Ubicloud 
 
 <img width="300" alt="Social Login" src="/changelog/2025-01-social-login.png" />
 
-<sub>
-[<u>PR #2463</u>](https://github.com/ubicloud/ubicloud/pull/2463)
-</sub>
+<PrList ids={[2463]} />
 
 ## Simplified fine-grained access controls
 
@@ -99,11 +89,7 @@ With major changes to how authorization is managed, we created a detailed docume
 
 With these changes, we also deprecated our prior JSON based policy editor in the console.
 
-<sub>
-[<u>PR #2384</u>
-](https://github.com/ubicloud/ubicloud/pull/2384)[<u>#2516</u>
-](https://github.com/ubicloud/ubicloud/pull/2516)
-</sub>
+<PrList ids={[2384, 2516]} />
 
 ## Managed Github Actions Runners
 
@@ -123,10 +109,7 @@ This is not a common usage pattern, but can be helpful for certain projects.
 
 <Note> This feature is behind a feature flag, please open a ticket to enable. </Note>
 
-<sub>
-[<u>PR #2345</u>
-](https://github.com/ubicloud/ubicloud/pull/2345)[<u>#2651</u>](https://github.com/ubicloud/ubicloud/pull/2651)
-</sub>
+<PrList ids={[2345, 2651]} />
 
 ## VMs and Networking
 
@@ -138,13 +121,7 @@ This selection is available in both the UI and the API
 
 ![](/changelog/2025-01-load-balancer-dual-stack.png)
 
-<sub>
-[<u>PR #2543</u>
-](https://github.com/ubicloud/ubicloud/pull/2543)[<u>#2531</u>
-](https://github.com/ubicloud/ubicloud/pull/2531)[<u>#2548</u>
-](https://github.com/ubicloud/ubicloud/pull/2548)[<u>#2541</u>
-](https://github.com/ubicloud/ubicloud/pull/2541)
-</sub>
+<PrList ids={[2543, 2531, 2548, 2541]} />
 
 ## Bug fixes / maintenance
 
@@ -154,11 +131,4 @@ Multiple bug fixes and minor improvements, including:
 * Race condition fixed during VM provisioning for private networking 
 * Autofocus on OTP input field. Thank you @sh0n0 for the fix!
 
-
-<sub>
-[<u>PR #2586</u>](https://github.com/ubicloud/ubicloud/pull/2586)
-[<u>#2544</u>](https://github.com/ubicloud/ubicloud/pull/2544)
-[<u>#2605</u>](https://github.com/ubicloud/ubicloud/pull/2605)
-</sub>
-
-
+<PrList ids={[2586, 2544, 2605]} />
