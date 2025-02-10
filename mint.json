@@ -77,7 +77,8 @@
       "pages": [
         "inference/endpoint",
         "inference/api-key",
-        "inference/playground"
+        "inference/playground",
+        "inference/chat-completion-python"
       ]
     },
     {
