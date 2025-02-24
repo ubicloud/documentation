@@ -22,7 +22,9 @@ We require an active, valid credit card on file before you can create resources.
 
 On the navigation menu, choose Compute service and then click on New Virtual Machine. This will take you to the VM creation page.
 
-Here, you can choose your region, server size, and Linux distribution. You also need to add your public SSH key so that you can connect to the VM after creation.
+Here, you can choose your region, server family and size, and Linux distribution. You also need to add your public SSH key so that you can connect to the VM after creation.
+
+We offer two server families - Standard and Burstable. Standard provides a dedicated CPU and 4GB of memory per vCPU. It is best suited for your general purpose and the most demanding workloads. Burstable provides a shared CPU with 2GB of memory per vCPU. It works best for variable workloads, low-traffic websites, development and testing workloads, and AI agents. 
 
 By default, we create a private subnet for each VM. If you have an existing private subnet, you can also choose to create your VM in that subnet. Each VM gets a private IPv4 and IPv6 address in your virtual network. The VM also gets a public IPv6 address for free and by default gets a public IPv4 address for a small fee.
 
