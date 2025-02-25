@@ -79,6 +79,7 @@
         "inference/api-key",
         "inference/playground",
         "inference/chat-completion-python"
+        "inference/deep-research-python"
       ]
     },
     {
