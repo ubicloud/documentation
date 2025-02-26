@@ -53,7 +53,8 @@
             "pages": [
               "quick-start/managed-services",
               "quick-start/build-your-own-cloud",
-              "quick-start/using-kamal-with-ubicloud"
+              "quick-start/using-kamal-with-ubicloud",
+              "quick-start/cli"
             ]
           },
           {
