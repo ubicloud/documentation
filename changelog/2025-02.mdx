@@ -1,0 +1,52 @@
+---
+title: "February 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## SOC2 Type 2 Compliance
+
+Ubicloud is now SOC2 Type 2 compliant! For a copy of the report and pen-test certificate, please feel free to contact us.
+
+## AI inference endpoints
+
+### New AI Inference Models Available
+
+We are pleased to announce the addition of **mistral-small-3** and the introduction of **llama-3-3-70b-turbo**, which replaces llama-3-3-70b-it for better cost efficiency.
+
+![Ubicloud AI inference](/changelog/2025-02-ai-inference-endpoints.png)
+
+<Tip>**mistral-small-3** model is also available in Openrouter from Ubicloud provider. For more information, visit our [Openrouter profile](https://openrouter.ai/provider/ubicloud)</Tip>
+
+### Faster EuroGPT and Inference Endpoints
+
+Our AI inference endpoints stack has been integrated with **FlashInfer**, a high-performance library and kernel generator designed for LLMs, to provide higher inference performance. Learn more about this enhancement in our GitHub pull request here.
+
+### Free AI Inference Tokens
+
+Our AI Inference Endpoints are free for the first 500.000 tokens a month. 
+
+### Simplified Model Catalog
+
+To streamline our AI inference endpoints collection, we have removed some lesser-used models, simplifying our model catalog.
+
+<PrList ids={[2824, 2869, 2840, 2816, 2818]} />
+
+## Managed PostgreSQL
+
+### Built-in connection pooling available on all plans
+
+Ubicloud Postgres now comes with [PgBouncer](https://www.pgbouncer.org/) preinstalled. By connecting to PgBouncer at port 6432, you can scale your connections to Postgres to higher levels.
+
+### ParadeDB on Ubicloud PostgreSQL Updated
+With the newest 0.15.6 version, ParadeDB on Ubicloud Postgres gains the `paradedb.match` query function, JSON support in `paradedb.term_set`, along with stability improvements and performance enhancements. 
+
+[https://docs.paradedb.com/changelog/0.15.6](https://docs.paradedb.com/changelog/0.15.6)
+
+<PrList ids={[2818]} />
+
+## Ubicloud CLI (Beta)
+We have developed a CLI tool, providing a secure and programmatic way to interact with your Ubicloud resources. The tool is available for preview in the [Ubicloud repository.](https://github.com/ubicloud/ubicloud/tree/main/cli)
+
+
+<PrList ids={[2671, 2857]} />

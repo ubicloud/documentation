@@ -18,4 +18,4 @@ mintlify dev
 
 ### Publishing Changes
 
-The changes will be uploaded to Ubicloud documentation automatically.
+The changes to the main branch will be reflected to Ubicloud documentation page automatically.
