@@ -5,7 +5,7 @@ description: "A Python tutorial for using Ubicloud’s managed AI Inference Endp
 
 The following is a step-by-step Python tutorial on using Ubicloud’s managed AI Inference Endpoints.
 This guide focuses on Python notebook environments like Google Colab or Jupyter Notebook but also works for a standard pip environment for running Python scripts locally.
-All scripts and examples are available in this [Google Colab Notebook](https://colab.research.google.com/drive/1xVyp5lMSsDEiljzLLHdFjfIn_MRH_DeQ?usp=sharing).
+All scripts and examples are available in this [Google Colab Notebook](https://colab.research.google.com/drive/1jKedtEzpAJx5Tzn7KuYZUoM0ti5UJkXK?usp=sharing).
 
 ## Overview of Concepts
 
@@ -25,7 +25,9 @@ To authenticate and send requests to Ubicloud’s endpoints, you need your API k
 
   * JSON Output: Formats the response as a JSON object for structured data extraction.
 
-## Step 1: Install the OpenAI Python Package
+  * Tool Calling: Invokes tools when needed.
+
+## Install the OpenAI Python Package
 
 In your Jupyter Notebook or Colab, start by installing (or upgrading) the openai package. You can do this using a cell with the following command:
 
@@ -37,7 +39,7 @@ If you are using a terminal or a vanilla Python environment, you can run:
 
 ```pip install openai --upgrade```
 
-## Step 2: Import Libraries and Setup Your Environment
+## Import Libraries and Setup Your Environment
 
 Import the necessary libraries and set up your environment. Here we use Colab’s built-in methods for retrieving stored user data. If you’re on another notebook platform, adjust the API key retrieval accordingly.
 
@@ -50,7 +52,7 @@ import openai
 INFERENCE_API_KEY = userdata.get("UBICLOUD_API_KEY")  # or simply: INFERENCE_API_KEY = "your_api_key_here"
 
 # Define the model name and base URL from your Ubicloud Dashboard
-MODEL = "llama-3-1-8b-it"  # Example model; update as needed.
+MODEL = "llama-3-3-70b-turbo"  # Example model; update as needed.
 BASE_URL = f"https://{MODEL}.ai.ubicloud.com/v1"
 
 # Create the OpenAI client instance configured for Ubicloud endpoints.
@@ -63,7 +65,7 @@ client = openai.OpenAI(
 The `INFERENCE_API_KEY` is used to authenticate your requests.
 The `MODEL` and `BASE_URL` are specific to your chosen model and Ubicloud deployment.
 
-## Step 3: Non-Streaming Chat Completion Example
+## Example 1: Non-Streaming Chat Completion
 
 In this example, you will send a simple chat message to the model and print the full response at once.
 
@@ -86,7 +88,7 @@ print(completion.choices[0].message.content)
 The messages parameter is a list of dictionaries representing the conversation.
 The response is accessed through `completion.choices[0].message.content`.
 
-## Step 4: Streaming Chat Completion Example
+## Example 2: Streaming Chat Completion
 
 This example demonstrates how to receive the model’s output in a streaming manner (chunk by chunk). This is especially useful when dealing with long responses or when you want to start processing output before the entire response is ready.
 
@@ -118,7 +120,7 @@ print()
 Setting `stream=True` tells the API to return partial results as they become available.
 The loop iterates over each chunk and prints the delta (the latest addition) of the message.
 
-## Step 5: Chat Completion with JSON Output
+## Example 3: Chat Completion with JSON Output
 
 In some cases, you might want the model to produce a structured output, such as a JSON object. This example shows how to request JSON output directly from the model.
 
@@ -147,6 +149,64 @@ The prompt instructs the model to output a JSON object.
 The response_format parameter specifies that the expected output is a JSON object.
 The `json.loads()` function converts the JSON-formatted string into a Python dictionary for further manipulation.
 
+## Example 4: Chat Completion with Tool Calling
+
+You can define tools (functions) that the model can invoke to perform specific tasks. Here’s how you can set up a calculator function and integrate it using the model’s function calling capabilities:
+
+```python
+# Define the calculator function
+def calculator(expression: str):
+    try:
+        result = eval(expression)  # Warning: using eval is unsafe!
+        return {"result": result}
+    except Exception as e:
+        return {"error": str(e)}
+
+# Define the task
+TASK = "Calculate 123*456+789"
+
+# Define the tools
+TOOLS = [{
+    "type": "function",
+    "function": {
+        "name": "calculator",
+        "description": "Evaluate a basic arithmetic expression",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "expression": {
+                    "type": "string",
+                    "description": "The arithmetic expression to evaluate, e.g., '2+2'"
+                }
+            },
+            "required": ["expression"]
+        }
+    }
+}]
+
+# Create a chat completion with tool calling
+tool_completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": TASK}],
+    tools=TOOLS,
+    tool_choice="auto"
+)
+
+# Process the tool call
+message = tool_completion.choices[0].message
+if message.tool_calls:
+    tool_call = message.tool_calls[0].function
+    arguments = json.loads(tool_call.arguments)
+    tool_result = calculator(**arguments)
+    print(f"Function called: {tool_call.name}")
+    print(f"Arguments: {arguments}")
+    print(f"Result: {tool_result}")
+else:
+    print("No tool call detected in the response.")
+```
+
+When making a chat completion request, we include the tool and set tool_choice="auto" so the model can decide whether to call it. If a tool call occurs, we extract the function name and arguments, execute the calculator, and print the result. If further interaction with the model is needed, we can construct a new message based on the result from the calculator.
+
 ## Summary
 
 By following these steps, you have learned how to:
@@ -158,6 +218,8 @@ By following these steps, you have learned how to:
 * Perform chat completions: Both in non-streaming and streaming modes.
 
 * Handle structured outputs: Request and process JSON output from the model.
+
+* Invoke tools: Enable the model to call tools when needed.
 
 This tutorial provides a foundation for using Ubicloud’s managed AI inference endpoints in your Python projects, leveraging the familiar OpenAI API interface.
 Feel free to customize the prompts, model names, and other parameters based on your specific use case and the models available in your Ubicloud Dashboard. Enjoy building with Ubicloud’s AI inference endpoints!
