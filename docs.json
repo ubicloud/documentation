@@ -1,0 +1,183 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Ubicloud Documentation",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://www.ubicloud.com/"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#FF5C12",
+    "light": "#FF5C12",
+    "dark": "#FF5C12"
+  },
+  "fonts": {
+    "family": "Be Vietnam Pro"
+  },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "https://www.ubicloud.com/docs/about/support"
+      },
+      {
+        "label": "Sign In",
+        "href": "https://console.ubicloud.com"
+      }
+    ],
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/ubicloud/ubicloud"
+    }
+  },
+  "navigation": {
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": " ",
+            "pages": [
+              "overview"
+            ]
+          },
+          {
+            "group": "Quickstart",
+            "pages": [
+              "quick-start/managed-services",
+              "quick-start/build-your-own-cloud",
+              "quick-start/using-kamal-with-ubicloud"
+            ]
+          },
+          {
+            "group": "AI Inference",
+            "pages": [
+              "inference/endpoint",
+              "inference/api-key",
+              "inference/playground",
+              "inference/chat-completion-python"
+            ]
+          },
+          {
+            "group": "Github Actions Integration",
+            "pages": [
+              "github-actions-integration/quickstart",
+              "github-actions-integration/runner-types",
+              "github-actions-integration/migrate-to-arm-runners",
+              "github-actions-integration/use-gpu-runners",
+              "github-actions-integration/ubicloud-cache",
+              "github-actions-integration/price-performance"
+            ]
+          },
+          {
+            "group": "Managed PostgreSQL",
+            "pages": [
+              "managed-postgresql/overview",
+              "managed-postgresql/backup-and-restore",
+              "managed-postgresql/high-availability",
+              "managed-postgresql/extensions",
+              "managed-postgresql/metric-destinations",
+              "managed-postgresql/price-performance",
+              "managed-postgresql/paradedb-on-ubicloud",
+              "managed-postgresql/lantern-on-ubicloud"
+            ]
+          },
+          {
+            "group": "Networking",
+            "pages": [
+              "networking/private-subnet",
+              "networking/firewall",
+              "networking/load-balancer"
+            ]
+          },
+          {
+            "group": "Security",
+            "pages": [
+              "security/overview",
+              "security/authorization",
+              "security/github-actions",
+              "security/soc2"
+            ]
+          },
+          {
+            "group": "About",
+            "pages": [
+              "about/pricing",
+              "about/regions",
+              "about/support",
+              "about/privacy-policy",
+              "about/terms-of-service"
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "API Reference",
+        "openapi": {
+          "source": "/api-reference/openapi.yml",
+          "directory": "api-reference"
+        },
+        "icon": "terminal",
+        "groups": [
+          {
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/overview"
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "Architecture",
+        "icon": "lightbulb",
+        "groups": [
+          {
+            "group": "Architecture",
+            "pages": [
+              "architecture/control-and-data-plane",
+              "architecture/attribute-based-access-control-abac"
+            ]
+          }
+        ]
+      },
+      {
+        "anchor": "Changelog",
+        "icon": "list-ol",
+        "groups": [
+          {
+            "group": "Changelog",
+            "pages": [
+              "changelog/2025-02",
+              "changelog/2025-01",
+              "changelog/2024-12"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/ubicloud/ubicloud",
+      "x": "https://x.com/UbicloudHQ",
+      "linkedin": "https://linkedin.com/company/ubicloud"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/docs/pricing/overview",
+      "destination": "/docs/about/pricing"
+    },
+    {
+      "source": "/docs/about/security",
+      "destination": "/docs/security/overview"
+    }
+  ]
+}
