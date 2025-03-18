@@ -9,8 +9,9 @@ The pricing information below is for our managed service. Billing is based on th
 At a high level, our prices are 3-10x lower than comparable offerings. For example, 2 vCPU instance prices for different services are:
 
 - [GitHub Actions](#github-actions): \$0.0008/min on Ubicloud vs. \$0.008/min on GitHub
-- [Compute (VMs)](#compute): \$25/month on Ubicloud vs. \$90/month on AWS Germany
+- [Compute (VMs)](#compute): \$26/month on Ubicloud vs. \$90/month on AWS Germany
 - [Managed PostgreSQL](#managed-postgresql): \$65/month on Ubicloud vs. \$200/month on AWS Germany
+- [Burstable VMs](#burstable-vms) start at \$6.65/month and [Burstable Managed PostgreSQL](#burstable-postgresql) starts at \$12.40/month
 
 
 ## GitHub Actions
@@ -56,18 +57,31 @@ If your project requires additional concurrency beyond the default limits, you c
 
 ## Compute
 
-Ubicloud virtual machines (VMs) come with dedicated CPU, memory, and local block storage. We use the name **standard** for our general purpose instance types.
-- Pricing for standard instances in Hetzner's Finland region is as follows.
-- Ubicloud prices for Hetzner's Germany region is 5% higher than those in Finland.
+Ubicloud virtual machines (VMs) come in standard and burstable flavors. The following tables display our VM pricing in Hetzner's Germany region.
+- You can choose extra storage in the portal at additional cost.
+- Ubicloud prices in our LeaseWeb US region is 25% higher than in Germany.
+
+### Standard VMs
+
+Standard VMs come with dedicated CPU, memory, and local block storage. You can think of the standard family as our general purpose instances.
 
 | Virtual Machine | vCPU | Memory | Storage |               Pricing             |
 |:---------------:|:----:|:------:|:-------:|:---------------------------------:|
-|    standard-2   |   2  |   8GB  |   40GB  | \$0.00063/min <br/> (\$25.40/mo)  |
-|    standard-4   |   4  |  16GB  |   80GB  | \$0.00126/min <br/> (\$50.80/mo)  |
-|    standard-8   |   8  |  32GB  |  160GB  | \$0.00252/min <br/> (\$101.60/mo) |
-|   standard-16   |  16  |  64GB  |  320GB  | \$0.00504/min <br/> (\$203.20/mo) |
-|   standard-30   |  30  |  120GB |  600GB  | \$0.00945/min <br/> (\$381.00/mo) |
-|   standard-60   |  60  |  240GB |  1200GB | \$0.01890/min <br/> (\$762.00/mo) |
+|    standard-2   |   2  |   8GB  |   40GB  | \$0.00067/min <br/> (\$26.60/mo)  |
+|    standard-4   |   4  |  16GB  |   80GB  | \$0.00133/min <br/> (\$53.20/mo)  |
+|    standard-8   |   8  |  32GB  |  160GB  | \$0.00266/min <br/> (\$106.40/mo) |
+|   standard-16   |  16  |  64GB  |  320GB  | \$0.00533/min <br/> (\$212.80/mo) |
+|   standard-30   |  30  |  120GB |  600GB  | \$0.01000/min <br/> (\$399.00/mo) |
+|   standard-60   |  60  |  240GB |  1200GB | \$0.02000/min <br/> (\$798.00/mo) |
+
+### Burstable VMs
+
+Burstable VMs come with shared CPUs. They provide provide a fraction of one vCPU and offer burst capacity at micro-intervals. Memory and block storage is currently dedicated to each VM. Burstable VMs are best suited for low-traffic websites, development and testing workloads, and AI agents.
+
+| Virtual Machine | vCPU | Memory | Storage |               Pricing             |
+|:---------------:|:----:|:------:|:-------:|:---------------------------------:|
+|   burstable-1   | 0.5  |   2GB  |   10GB  | \$0.00017/min <br/> (\$6.65/mo)   |
+|   burstable-2   |   1  |   4GB  |   20GB  | \$0.00033/min <br/> (\$13.40/mo)  |
 
 ### Networking
 
@@ -77,8 +91,16 @@ Each VM has a monthly egress quota of 0.625TB per 2 vCPUs. If you exceed this li
 
 
 ## Managed PostgreSQL
- 
-Ubicloud Managed PostgreSQL offers six different SKUs for your needs. If you need a different configuration, please contact us.
+
+Ubicloud Managed PostgreSQL comes in standard and burstable flavors. The following tables display our pricing in Germany.
+- We calculate usage at per minute granularity and bill you at the end of the month for usage.
+- We retain backups for 7 days for disaster recovery purposes. You can restore from backups at per-minute granularity.
+- You can choose extra storage in the portal at additional cost.
+- Ubicloud prices in our US region are 20% higher than in Germany.
+
+### Standard PostgreSQL
+
+Standard Managed PostgreSQL comes with dedicated CPU, memory, and local block storage.
 
 |  PostgreSQL | vCPU | Memory | Storage | Monthly Price |
 |:-----------:|:----:|:------:|:-------:|:-------------:|
@@ -88,6 +110,16 @@ Ubicloud Managed PostgreSQL offers six different SKUs for your needs. If you nee
 | standard-16 |  16  |  64GB  |  512GB  |      $396     |
 | standard-30 |  30  |  120GB | 1,024GB |      $749     |
 | standard-60 |  60  |  240GB | 2,048GB |     $1498     | 
+
+### Burstable PostgreSQL
+
+Burstable Managed PostgreSQL comes with shared CPUs. They provide a fraction of one vCPU and offer burst capacity at micro-intervals. Memory and local block storage are currently dedicated to the database.
+
+|  PostgreSQL  | vCPU | Memory | Storage | Monthly Price |
+|:------------:|:----:|:------:|:-------:|:-------------:|
+|  burstable-1 | 0.5  |   2GB  |   16GB  |      $12.41   |
+|  burstable-2 |   1  |   4GB  |   32GB  |      $32.49   |
+
 
 ### Managed ParadeDB
  
@@ -101,5 +133,3 @@ ParadeDB is an Elasticsearch alternative built on Postgres. ParadeDB instances m
 | standard-16 |  16  |  64GB  |  512GB  |      $749     |
 | standard-30 |  30  |  120GB | 1,024GB |     $1498     |
 | standard-60 |  60  |  240GB | 2,048GB |     $2997     | 
-
-
