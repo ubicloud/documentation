@@ -1,0 +1,46 @@
+name: Sync OpenAPI Specification
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+env:
+  SOURCE_FILE: temp-ubicloud/openapi/openapi.yml
+  TARGET_FILE: api-reference/openapi.yml
+
+jobs:
+  sync-openapi:
+    runs-on: ubicloud
+    steps:
+      - name: Checkout documentation repository
+        uses: actions/checkout@v4
+
+      - name: Get latest OpenAPI specification from ubicloud/ubicloud
+        uses: actions/checkout@v4
+        with:
+          repository: ubicloud/ubicloud
+          path: temp-ubicloud
+          sparse-checkout: |
+            openapi/openapi.yml
+          sparse-checkout-cone-mode: false
+
+      - name: Check for changes in OpenAPI specification
+        id: check-changes
+        run: |
+          diff_output=$(diff "$SOURCE_FILE" "$TARGET_FILE" || true)
+          if [ -n "$diff_output" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update OpenAPI specification if changed
+        if: steps.check-changes.outputs.changes == 'true'
+        run: |
+          cp "$SOURCE_FILE" "$TARGET_FILE"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$TARGET_FILE"
+          git commit -m "Update OpenAPI specification from ubicloud/ubicloud"
+          git push
