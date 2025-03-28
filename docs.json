@@ -73,6 +73,7 @@
               "github-actions-integration/migrate-to-arm-runners",
               "github-actions-integration/use-gpu-runners",
               "github-actions-integration/ubicloud-cache",
+              "github-actions-integration/debug-workflow-with-ssh",
               "github-actions-integration/price-performance"
             ]
           },
