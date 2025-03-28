@@ -88,7 +88,7 @@ Users would send a GET request to the resource's parent URI to retrieve a list o
 
 ‍**start_after:** A polymorphic value after which the page will include resources. Its' type depends on the value of order_column. If order_column is id, the value of start_after must be a valid ID. If it is name, the value of start_after can be any text. For example, to get a paginated list of VMs named alphabetically after "my-ubi", set the order_column to "name" and start_after to "my_ubi".
 
-‍**page_size:** Indicates how many items will be returned in a page. The default value is 10, and it must be between 0 and 100.
+‍**page_size:** Indicates how many items will be returned in a page. The default value is 1000, and it must be between 1 and 1000.
 
 This polymorphic **start_after** value helps us continue returning pages even if the record with the given **start_after** value is deleted in parallel. We do not try to retrieve a resource with the **start_after** value but compare existing items' related column with the passed value directly, overcoming a main limitation of cursor-based pagination.
 
