@@ -91,6 +91,13 @@
             ]
           },
           {
+            "group": "Managed Kubernetes",
+            "pages": [
+              "managed-kubernetes/overview",
+              "managed-kubernetes/quickstart"
+            ]
+          },
+          {
             "group": "Networking",
             "pages": [
               "networking/private-subnet",
