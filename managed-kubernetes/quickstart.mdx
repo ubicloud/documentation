@@ -1,0 +1,76 @@
+---
+title: 'Quickstart'
+---
+
+In this guide, you’re going to, create a Kubernetes cluster, connect to your cluster using `kubectl`, deploy a sample app and expose it to public. For this dedicated cluster, you’ll pay about 3x lower than you would with AWS or Azure.
+
+### Navigate to Kubernetes Service
+From the left menu on the console and select the **Kubernetes** option and click on the **Create Kubernetes Cluster** button. This will take you to a new page where you can select the cluster details.
+
+### Configure the Cluster
+- Enter your desired cluster name.
+- Select the preferred location.
+- Choose the specifications for the control plane and worker node pools.
+
+### Launch the Cluster
+After completing the configuration, click the **Create** button. Your Kubernetes cluster will be up and running in a few minutes based on the specified size.
+
+![Create](/managed-kubernetes/create-screenshot.png)
+
+### Download the kubeconfig
+Once the `Download` button appears, click it to download the kubeconfig file. Then, run the following command to start using it:
+```bash
+export KUBECONFIG=/path/to/kubeconfig
+```
+
+Kubernetes clients like [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) will automatically use this file to connect to your cluster. Check the connection with the following command:
+```bash
+kubectl get nodes
+```
+
+### Create an Nginx deployment
+Use the following command to deploy the Nginx application
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+EOF
+```
+
+### Expose the Application
+Use the following command to expose your Nginx deployment via a LoadBalancer service
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+EOF
+```
+
+### Access Your Application
+Run the following command to retrieve the external domain assigned to your LoadBalancer service
+```bash
+kubectl get service nginx
+```
+Look for the `EXTERNAL-IP` or the Service URL in the cluster's panel. This URL sits behind a load balancer and it takes about a minute for it to become available. Once it does, you can access your application by opening up this URL in your browser
