@@ -1,0 +1,133 @@
+---
+title: 'Expose an Application Securely Using TLS'
+---
+
+In this guide, we'll walk through the standard process of deploying a simple HTTP server secured with TLS and exposed via Ingress.
+
+To securely deploy your applications on Ubicloud Kubernetes clusters using TLS, simply set up an Ingress controller along with Cert-Manager. This setup handles all your TLS needs.
+
+Follow this step-by-step guide to deploy and expose an HTTPS application on your Kubernetes cluster. Before you begin, ensure that Helm is installed on your system.
+
+### Prerequisites
+To complete this tutorial, Helm must be installed. You can follow the official installation guide available on the [Helm website](https://helm.sh/docs/intro/install/)
+
+You’ll also need an active domain and access to the control panel for managing DNS records in order to complete this guide.
+
+### Installing the required addons
+You'll need an email to register yourself with letsencrypt.
+```bash
+export KUBECONFIG=/path/to/your/kubeconfig
+export CLUSTER_ISSUER_EMAIL=email@yourcompany.com
+```
+
+Next, we'll add the ingress-nginx and jetstack Helm repositories to install the Ingress NGINX Controller and Cert Manager.
+
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set crds.enabled=true
+```
+
+We'll also create a ClusterIssuer in order to get certificates from letsencrypt for our service
+```bash
+kubectl apply -f <(cat <<EOF
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+ name: letsencrypt
+spec:
+ acme:
+   server: https://acme-v02.api.letsencrypt.org/directory
+   email: $CLUSTER_ISSUER_EMAIL
+   privateKeySecretRef:
+     name: letsencrypt
+   solvers:
+   - http01:
+       ingress:
+         class: nginx
+EOF
+)
+```
+Once all the commands have been executed, you’ll notice a Service named `ingress-nginx-controller` created in the `ingress-nginx` namespace. This Service is of type LoadBalancer, and the `EXTERNAL-IP` column will display a domain that resolves to the IPs of your worker nodes.
+
+You can see this service using the command below
+```bash
+kubectl -n ingress-nginx get service ingress-nginx-controller
+```
+
+Here's a sample output of the command:
+```
+NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP                            PORT(S)                      AGE
+ingress-nginx-controller   LoadBalancer   10.105.61.236   xgmdaw248d-services.k8s.ubicloud.com   80:32271/TCP,443:30363/TCP   8m15s
+```
+
+### Add DNS record to route the traffic to the cluster
+Next, create a CNAME record with your DNS provider pointing *.ingress.yourdomain.com to the domain listed in the EXTERNAL-IP. Feel free to use any subdomain that best suits your setup.
+
+### Deploy your application
+```bash
+export DOMAIN_SUFFIX=ingress.yourdomain.com
+
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: hello-world-deployment
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: hello-world
+ template:
+   metadata:
+     labels:
+       app: hello-world
+   spec:
+     containers:
+     - name: hello-world
+       image: nginx
+       ports:
+       - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: hello-world-service
+spec:
+ selector:
+   app: hello-world
+ ports:
+ - port: 80
+EOF
+
+kubectl apply -f - <<EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: hello-world
+ annotations:
+   cert-manager.io/cluster-issuer: letsencrypt
+spec:
+ ingressClassName: nginx
+ tls:
+ - hosts:
+   - hello-world.$DOMAIN_SUFFIX
+   secretName: hello-world-ingress-tls
+ rules:
+ - host: hello-world.$DOMAIN_SUFFIX
+   http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+           name: hello-world-service
+           port:
+             number: 80
+EOF
+```
+
+Now you can visit https://hello-world.ingress.yourdomain.com!
