@@ -109,6 +109,15 @@ location       name                   id                          net4          
 eu-central-h1  default-eu-central-h1  psaw09mq9ea21pc5d30b5x1t16  172.31.34.64/26  fd9e:2db6:b05:bf0c::/64
 ```
 
+The other type of subcommand used in `ubi` is when the subcommand follows the object reference (either location/object-name or object-id).  Here's an example of that style of subcommand to create a PostgreSQL database:
+
+```
+$ ubi pg eu-central-h1/my-pg-database-name create
+PostgreSQL database created with id: pg1s9nhxjjej5na985hzp9wws4
+```
+
+As no options were given, this will create a PostgreSQL database with the default settings.
+
 You can get help for the `help` subcommand by asking for it:
 
 ```
