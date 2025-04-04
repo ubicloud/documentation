@@ -76,12 +76,12 @@ Standard VMs come with dedicated CPU, memory, and local block storage. You can t
 
 ### Burstable VMs
 
-Burstable VMs come with shared CPUs. They provide provide a fraction of one vCPU and offer burst capacity at micro-intervals. Memory and block storage is currently dedicated to each VM. Burstable VMs are best suited for low-traffic websites, development and testing workloads, and AI agents.
+Burstable VMs come with shared CPUs.  Each VM can utilize host cpu capacity up to 50% of the allocated vCPU and additionally burst up to 100% of the allocated vCPU at micro-intervals. Memory and block storage is currently dedicated to each VM. Burstable VMs are best suited for low-traffic websites, development and testing workloads, and AI agents.
 
 | Virtual Machine | vCPU | Memory | Storage |               Pricing             |
 |:---------------:|:----:|:------:|:-------:|:---------------------------------:|
-|   burstable-1   | 0.5  |   2GB  |   10GB  | \$0.00017/min <br/> (\$6.65/mo)   |
-|   burstable-2   |   1  |   4GB  |   20GB  | \$0.00033/min <br/> (\$13.40/mo)  |
+|   burstable-1   |   1  |   2GB  |   10GB  | \$0.00017/min <br/> (\$6.65/mo)   |
+|   burstable-2   |   2  |   4GB  |   20GB  | \$0.00033/min <br/> (\$13.40/mo)  |
 
 ### Networking
 
@@ -113,12 +113,12 @@ Standard Managed PostgreSQL comes with dedicated CPU, memory, and local block st
 
 ### Burstable PostgreSQL
 
-Burstable Managed PostgreSQL comes with shared CPUs. They provide a fraction of one vCPU and offer burst capacity at micro-intervals. Memory and local block storage are currently dedicated to the database.
+Burstable Managed PostgreSQL comes with shared CPUs. Each VM can utilize host cpu capacity up to 50% of the allocated vCPU and additionally burst up to 100% of the allocated vCPU at micro-intervals. Memory and local block storage are currently dedicated to the database.
 
 |  PostgreSQL  | vCPU | Memory | Storage | Monthly Price |
 |:------------:|:----:|:------:|:-------:|:-------------:|
-|  burstable-1 | 0.5  |   2GB  |   16GB  |      $12.41   |
-|  burstable-2 |   1  |   4GB  |   32GB  |      $24.81   |
+|  burstable-1 |   1  |   2GB  |   16GB  |      $12.41   |
+|  burstable-2 |   2  |   4GB  |   32GB  |      $24.81   |
 
 
 ### Managed ParadeDB
