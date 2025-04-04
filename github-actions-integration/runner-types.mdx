@@ -2,29 +2,49 @@
 title: 'Runner Types'
 ---
 
-Ubicloud offers 10x cost-effective managed GitHub Actions runners with superior performance. You can choose from different runner types and sizes based on your needs. When you request a runner, a fresh, ephemeral runner is prepared in seconds, and you only pay for the minutes you use. They are fully compatible with default runners and require just a simple one-line change.
+Ubicloud offers a wide variety of runner types and sizes, allowing you to choose based on your specific needs.
 
-All Ubicloud runners come with newer processors, NVMe SSDs, and high-speed networks. This newer hardware allows us to offer better price-performance service.
+By default, using `runs-on: ubicloud` provisions a 2 vCPU x64 Ubuntu 22.04 runner. You can specify the runner size, for example, `runs-on: ubicloud-standard-8` provisions an 8 vCPU runner. You can even specify the operating system, such as `runs-on: ubicloud-standard-4-ubuntu-2404`, which provisions a 4 vCPU runner with Ubuntu 24.04.
 
-Our x64 runners are powered by AMD EPYC 9454P processors, while our arm64 runners use Altra Q80-30 processors. Each two x64 vCPUs correspond to one physical core, and each arm64 vCPU corresponds to one physical core.
 
-You can use the following label pattern for Ubicloud runners:
+## Available Labels
+
+| Workflow label             | OS           | vCPU | Memory | Disk  |
+|----------------------------|--------------|------|--------|-------|
+| `ubicloud-standard-2`      | Ubuntu 22.04 | 2    | 8GB    | 86GB  |
+| `ubicloud-standard-4`      | Ubuntu 22.04 | 4    | 16GB   | 150GB |
+| `ubicloud-standard-8`      | Ubuntu 22.04 | 8    | 32GB   | 200GB |
+| `ubicloud-standard-16`     | Ubuntu 22.04 | 16   | 64GB   | 300GB |
+| `ubicloud-standard-30`     | Ubuntu 22.04 | 30   | 120GB  | 400GB |
+| `ubicloud-standard-2-arm`  | Ubuntu 22.04 | 2    | 6GB    | 86GB  |
+| `ubicloud-standard-4-arm`  | Ubuntu 22.04 | 4    | 12GB   | 150GB |
+| `ubicloud-standard-8-arm`  | Ubuntu 22.04 | 8    | 24GB   | 200GB |
+| `ubicloud-standard-16-arm` | Ubuntu 22.04 | 16   | 48GB   | 300GB |
+| `ubicloud-standard-30-arm` | Ubuntu 22.04 | 30   | 90GB   | 400GB |
+| `ubicloud-gpu`             | Ubuntu 22.04 | 6    | 32GB   | 180GB |
+
+You can append `-ubuntu-2204` or `-ubuntu-2404` to explicitly set the operating system.
+
+Ubicloud runners support the following label patterns:
 
 ```yaml
 # x64 runners
-runs-on: ubicloud-{family}-{vcpu}-{os}
+runs-on: ubicloud-standard-{vcpu}-{os}
+# ubicloud                        -> 2 vCPU x64 Ubuntu 22.04 runner
+# ubicloud-standard-8             -> 8 vCPU x64 Ubuntu 22.04 runner
+# ubicloud-standard-4-ubuntu-2404 -> 4 vCPU x64 Ubuntu 24.04 runner
 
 # arm64 runners
-runs-on: ubicloud-{family}-{vcpu}-arm-{os}
+runs-on: ubicloud-standard-{vcpu}-arm-{os}
+# ubicloud-arm                        -> 2 vCPU arm64 Ubuntu 22.04 runner
+# ubicloud-standard-8-arm             -> 8 vCPU arm64 Ubuntu 22.04 runner
+# ubicloud-standard-4-arm-ubuntu-2404 -> 4 vCPU arm64 Ubuntu 24.04 runner
 
 # GPU runners
 runs-on: ubicloud-gpu
 ```
 
-<CardGroup cols={3}>
-  <Card title="{family}" icon="bolt">
-    The only supported VM family is `standard`, which comes with dedicated CPUs.
-  </Card>
+<CardGroup cols={2}>
   <Card title="{vcpu}" icon="microchip">
     The supported number of vCPUs are 2 (default), 4, 8, 16, and 30.
   </Card>
@@ -33,39 +53,17 @@ runs-on: ubicloud-gpu
   </Card>
 </CardGroup>
 
-<Info>
-  If you don't specify the OS, like `ubicloud-standard-4` or `ubicloud-standard-4-arm`, it will default to `ubuntu-2204`.
-</Info>
-
-<Info>
-  If you don't specify a vCPU like `ubicloud` or `ubicloud-arm`, it will default to 2 vCPUs.
-</Info>
-
-## Available Labels
-
-| Workflow label                       | vCPU | Memory | Disk  |
-|--------------------------------------|------|--------|-------|
-| `ubicloud-standard-2-ubuntu-2204`      | 2    | 8GB    | 86GB  |
-| `ubicloud-standard-4-ubuntu-2204`      | 4    | 16GB   | 150GB |
-| `ubicloud-standard-8-ubuntu-2204`      | 8    | 32GB   | 200GB |
-| `ubicloud-standard-16-ubuntu-2204`     | 16   | 64GB   | 300GB |
-| `ubicloud-standard-30-ubuntu-2204`     | 30   | 120GB  | 400GB |
-| `ubicloud-standard-2-arm-ubuntu-2204`  | 2    | 6GB    | 86GB  |
-| `ubicloud-standard-4-arm-ubuntu-2204`  | 4    | 12GB   | 150GB |
-| `ubicloud-standard-8-arm-ubuntu-2204`  | 8    | 24GB   | 200GB |
-| `ubicloud-standard-16-arm-ubuntu-2204` | 16   | 48GB   | 300GB |
-| `ubicloud-standard-30-arm-ubuntu-2204` | 30   | 90GB   | 400GB |
-| `ubicloud-gpu`                         | 6    | 32GB   | 180GB |
-
-<Note>
-  You can replace `ubuntu-2204` with `ubuntu-2404` to use a runner with Ubuntu 24.04. You can find all the available labels [here](https://github.com/ubicloud/ubicloud/blob/main/config/github_runner_labels.yml).
-</Note>
+You can find all the available labels [here](https://github.com/ubicloud/ubicloud/blob/main/config/github_runner_labels.yml).
 
 <Warning>
   **Deprecation of Ubuntu 20.04**: GitHub has decided to [discontinue Ubuntu 20.04 runners](https://github.com/actions/runner-images/issues/11101) on February 1, 2025. While we don't have a specific date for deprecating our Ubuntu 20.04 runners yet, we discourage using them, as we will eventually need to align with GitHub and discontinue the Ubuntu 20.04 runners.
 </Warning>
 
-## Linux x64 Image
+## x64 Runners
+
+Ubicloud x64 runners are powered by AMD EPYC 9454P processors. Each two x64 vCPUs correspond to one physical core. All Ubicloud runners come with newer processors, NVMe SSDs, and high-speed networks. This newer hardware allows us to offer better price-performance service.
+
+Ubicloud x64 runners are powered by AMD EPYC 9454P processors, with every two x64 vCPUs corresponding to one physical core. All Ubicloud runners are equipped with modern hardware, including new generation processors, NVMe SSDs, and high-speed networking. This enables us to deliver better price-performance across our services.
 
 Our x64 runner images are fully compatible with default runners. We generate them using the official HashiCorp packer templates published by GitHub in the [actions/runner-images](https://github.com/actions/runner-images) repository.
 
@@ -77,7 +75,9 @@ If you notice any mismatches between Ubicloud x64 runners and the official GitHu
 
 If your workflow has a package dependency that doesn’t exist on Ubicloud’s image, we recommend installing the dependency manually for the time being or creating an issue at [actions/runner-images](https://github.com/actions/runner-images) repository.
 
-## Linux arm64 Image
+## arm64 Runners
+
+Ubicloud arm64 runners are powered by Ampere Altra Q80-30 processors, with each arm64 vCPU backed by a dedicated physical core. This ensures consistent, high-performance computing for your workloads.
 
 GitHub launched official arm64 runners at the beginning of 2025. However, GitHub doesn't create arm64 images; their partner does. Unfortunately, they don't publish a packer template like the one for x64 images. As a result, Ubicloud builds its own Ubuntu arm64 image, and our arm64 runners don’t have all the pre-installed packages that are available on x64.
 
@@ -87,7 +87,7 @@ If your workflow has a package dependency that doesn’t exist on Ubicloud’s a
 
 If you need commonly used packages on arm64 that are already installed on x64, please contact us at support@ubicloud.com.
 
-## Linux GPU Runners Image
+## GPU Runners
 
 GitHub launched official GPU runners at the middle of 2024. However, like the arm64 runners, GitHub doesn't create GPU images; their partner does.
 
