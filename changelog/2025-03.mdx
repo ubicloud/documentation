@@ -1,0 +1,67 @@
+---
+title: "March 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Burstable VM Family (new)
+
+We are excited to introduce a new family of VMs: **Burstables**. These small instances provide a fraction of shared vCPU and offer the ability to utilize more CPU for occasionally expanding workloads. Burstable VMs are available for Ubicloud Compute and Postgres, with starting prices as low as \$6.65/month for VMs and \$13/month for Postgres.
+
+![Ubicloud Burstable VMs](/changelog/2025-03-burstable-vms.png)
+
+<PrList ids={[2420, 2589, 2666, 2726, 2872]} />
+
+## Managed PostgreSQL
+
+### Toggle High Availability mode on the fly
+You can enable/disable high availability through a single click in the console.
+
+![Configure PostgreSQL](/changelog/2025-03-configure-pg.png)
+
+### Re-size Postgres instance memory, cpu and disk via console/API
+Scaling the compute and storage of a Postgres instance on the fly is possible. Updating your instance specifications triggers the creation of a new standby with the updated specs, followed by a failover to ensure seamless and secure scaling.
+
+### Burstable option, starting from \$0.02 per hour / \$13 per month  
+The burstable VM family is available for Postgres instances, offering compute options of 1 vCPU with 2 GB RAM or 2 vCPUs with 4 GB RAM, bursting under load. With storage starting at 16 GB, pricing begins at just** \$13 per month.**
+
+![Ubicloud Burstable Postgres](/changelog/2025-03-burstable-pg.png)
+
+<PrList ids={[2993, 3000]} /> 
+
+## AI Inference Endpoints
+
+### AI Playground displays reasoning tokens separately
+Inference endpoints playground output has improved clarity now, showcasing reasoning processes distinctively in the AI Playground interface.
+
+![AI Playground Reasoning](/changelog/2025-03-reasoning.png)
+
+
+### Speculative decoding for DeepSeek R1 32B for performance boost
+New enhancements to our AI inference endpoints stack like speculative decoding improved the performance of Deepseek R1 32B model.
+
+<PrList ids={[2885, 2919, 3045]} />  
+
+## Github Runners
+
+### Force terminate jobs
+We introduced new functionality to immediately stop ongoing tasks, ensuring better control over job management.
+
+![Github runners force terminate button](/changelog/2025-03-github-terminate.png)
+
+### Cache storage beyond 20 GB now available
+We are happy to share that transparent cache capacity can be extended beyond 20GB for smoother operations and quicker data retrieval.
+
+<PrList ids={[3011, 3062]} /> 
+
+## Billing
+
+### VAT for customers in European Union
+We started including the value-added tax rates in the invoice for customers in European Union countries.
+
+### Simplified “Current Invoice” view
+Our **Current Invoice** view is improved, providing a streamlined interface for accessing your ongoing invoice.
+
+![Current Invoice view](/changelog/2025-03-invoice.png)
+
+<PrList ids={[2935, 2937, 2977, 2981]} />
