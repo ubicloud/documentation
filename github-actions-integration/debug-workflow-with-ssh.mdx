@@ -1,0 +1,62 @@
+---
+title: 'Debug Workflow with SSH'
+---
+
+Debugging GitHub Actions workflows can be a frustrating experience. We've all been there - you push a change to fix your workflow, wait for minutes, only to see it fail again, with limited logs that don't fully explain the issue. This trial-and-error approach is not only time consuming but also inefficient. But what if there was a better way to debug your workflows in real-time?
+
+Ubicloud introduces a game-changing solution: the ability to SSH into managed ephemeral Ubicloud runners during workflow execution. With the [ubicloud/ssh-runner](https://github.com/ubicloud/ssh-runner) action, you can set up SSH access and connect to the runner while your workflow is executing. No more guesswork or endless commit cycles. Simply attach, debug issues in real-time, and move on—all within the same workflow run.
+
+## Usage
+
+To use this feature, add the following step to your workflow as the first step:
+
+```yaml
+- name: Setup SSH access
+  uses: ubicloud/ssh-runner@v1
+  with:
+    public-ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
+    wait-minutes: 30  # Optional, default is 10 minutes
+```
+
+That's it! This action will enable SSH access using the provided public key.
+
+When you run this workflow, you'll see the following output in the logs:
+
+```
+Waiting for 30 minutes to allow SSH access...
+
+SSH Connection Information:
+User:    runner
+IPv4:    188.40.199.63
+Command:
+ssh runner@188.40.199.63
+```
+
+Simply copy the SSH command from the logs, open your favorite terminal, and connect. You’ll be in the same environment as your CI job, letting you inspect files, run commands, and debug issues in real time.
+
+Remember that each Ubicloud runner is ephemeral. Once the `wait-minutes` duration is reached after the job is completed, the VM is destroyed, along with its disk data.
+
+<Note>
+  The [ubicloud/ssh-runner](https://github.com/ubicloud/ssh-runner) action is open source. Feel free to review, contribute, or open issues if you run into any snags.
+</Note>
+
+You can also set up SSH access only for failed jobs:
+
+```yaml
+- name: Setup SSH access
+  if: ${{ failure() }}
+  uses: ubicloud/ssh-runner@v1
+  with:
+    public-ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
+    wait-minutes: 30
+```
+
+<Warning>
+  Store your private SSH key securely. A short debugging session can save massive time, but best practices and security guidelines always apply.
+</Warning>
+
+## Conclusion
+
+By allowing SSH access to your Ubicloud runners, you can debug your GitHub Actions workflows in real-time. This not only saves time but also provides a more comprehensive understanding of the issues at hand. Say goodbye to the days of blind debugging and repeated pushes. Embrace the future of efficient workflow debugging with Ubicloud.
+
+For more information, visit the [ubicloud/ssh-runner](https://github.com/ubicloud/ssh-runner) repository.
