@@ -95,7 +95,8 @@
             "pages": [
               "managed-kubernetes/overview",
               "managed-kubernetes/quickstart",
-              "managed-kubernetes/expose-application-using-tls"
+              "managed-kubernetes/expose-application-using-tls",
+              "managed-kubernetes/windmill-tutorial"
             ]
           },
           {
