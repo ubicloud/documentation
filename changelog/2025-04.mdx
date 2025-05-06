@@ -1,0 +1,53 @@
+---
+title: "April 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Ubicloud Managed Kubernetes (new)
+
+We are excited to announce our managed Kubernetes service, in preview, cutting your Kubernetes costs by 60-70%, and simplifying your setup. Ubicloud Kubernetes handles the creation, management, and maintenance of your Kubernetes clusters on Ubicloud infrastructure so you can focus on building and shipping your software.
+
+![Ubicloud Kubernetes](/changelog/2025-04-kubernetes.png)
+
+<PrList ids={[2598, 2621, 2617, 2650, 2967, 2674, 2925, 2941]} />
+
+## Ubicloud CLI (new)
+We are happy to announce ubi, Ubicloud’s thin command line interface tool. The Thin CLIent approach allows you to use new features without updating your CLI installation, in a much smaller package in a secure way.
+
+![Ubicloud Thin CLIent](/changelog/2025-04-cli.jpg)
+
+<PrList ids={[2671, 2746, 2752, 2788, 2796, 2813, 2842, 2849, 2857, 2951, 2983]} />
+
+## Managed PostgreSQL
+### Read Replicas are available
+Create as many read replicas for your PostgreSQL databases to balance read workloads and promote them to standalone writable instances any time.
+
+### You can manage the maintenance window
+Select the 2-hour window for performing the operations in the least disruptive time for your database.
+
+### High availability is datacenter-aware now
+Standbys for high availability mode are now placed in different data centers in the  eu-central-h1 region for improved durability.
+
+### Multiple PGBouncer instances are deployed, for faster transactions
+Postgres instances are deployed with multiple pgbouncer instances, depending on the instance size, for improved parallelism in transactional workloads.
+
+### PostgreSQL 17 is the default
+Now Ubicloud Postgres defaults to PostgreSQL 17, with the option to select PostgreSQL 16.
+
+<PrList ids={[3137, 3148, 3132, 3122, 3057, 3016]} />
+
+## Github Runners
+### Using GCR as image mirror
+Our Github runners utilize Google Container Registry as an image mirror for avoiding Docker Hub quota limits.
+
+<PrList ids={[3078]}/>
+
+## Compute
+### Burstable compute option is available in Virginia, U.S. region
+Start using Ubicloud VMs with the burstable option in the Virginia, U.S. region, starting from $8.35/mo.
+
+### Public key format is validated when creating virtual machines
+We now validate the public key format when creating a virtual machine, ensuring user errors are caught before they cause issues.
+
+<PrList ids={[3092, 3187]}/>
