@@ -89,7 +89,6 @@
               "managed-postgresql/metric-destinations",
               "managed-postgresql/price-performance",
               "managed-postgresql/paradedb-on-ubicloud",
-              "managed-postgresql/lantern-on-ubicloud"
             ]
           },
           {
