@@ -88,7 +88,7 @@
               "managed-postgresql/extensions",
               "managed-postgresql/metric-destinations",
               "managed-postgresql/price-performance",
-              "managed-postgresql/paradedb-on-ubicloud",
+              "managed-postgresql/paradedb-on-ubicloud"
             ]
           },
           {
