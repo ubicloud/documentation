@@ -2,29 +2,63 @@
 title: 'Price/Performance'
 ---
 
-## Price
-Ubicloud Managed PostgreSQL offers different SKUs for your needs. You can read more about our prices in the [general pricing page](/about/pricing#managed-postgresql).
+Ubicloud Managed PostgreSQL provides **10x** better price/performance compared to similar managed PostgreSQL services thanks to its unique architecture based on NVMe SSD storage. The following benchmarks compare Ubicloud PostgreSQL with AWS Aurora and AWS RDS PostgreSQL.
 
-For convenience, we also provide pricing tables that compare Ubicloud PostgreSQL to other cloud providers' managed database services. For standard-2 (2 dedicated vCores):
+## TPC-C Benchmark
+Ubicloud PostgreSQL runs **1.37x** more transactions compared to AWS Aurora and **4.64x** more transactions than AWS RDS PostgreSQL, while costing **5.77x** less than AWS Aurora and **2.79x** less than AWS RDS PostgreSQL. Ubicloud PostgreSQL also has **1.91x** lower latency compared to AWS Aurora and **7.65x** lower latency than AWS RDS PostgreSQL.
 
-| Cloud    | Instance type     | Region         | vCPU | RAM | Disk             | Monthly Price |
-|----------|-------------------|----------------|------|-----|------------------|---------------|
-| Ubicloud | Standard-2        | Germany        | 2    | 8GB | 64GB (Included)  | $49.62        |
-| AWS      | db.m5d.large      | Germany        | 2    | 8GB | 64GB (EBS)       | $192.00       |
-| Azure    | Standard_ D2ds_v5 | Nothern Europe | 2    | 8GB | 64GB (P20 Disk)  | $209.27       |
+Benchmark Configuration:
+- **Ubicloud**: standard-8 (8 vCPUs, 32 GB RAM) instance with 1 TB SSD storage
+- **AWS Aurora**: db.r8g.2xlarge (8 vCPUs, 64 GB RAM) instance with 1 TB SSD storage
+- **AWS RDS**: db.m7g.2xlarge (8 vCPUs, 32 GB RAM) instance with I/O optimized storage
+- **Tables**: 32
+- **Number of Warehouses**: 256
+- **Number of Clients**: 64
 
-Pricing compared to other vendors, using standard-8 (8 dedicated vCores):
+|                         | Ubicloud |  Aurora  |   RDS   |
+|:-----------------------:|:--------:|:--------:|:-------:|
+|         **TPS**         |   873.25 |   636.31 |  188.31 |
+|       **Latency**       |   314.45 |   601.29 | 2405.65 |
+|        **Price**        |   259.92 |  1501.00 |  725.02 |
+|    **TPS Difference**   |     -    |    1.37x |   4.64x |
+|      **Price/TPS**      |     -    |    7.93x |  12.94x |
+|  **Latency Difference** |     -    |    1.91x |   7.65x |
+|    **Price/Latency**    |     -    |   11.04x |  21.34x |
 
-| Cloud    | Instance type     | Region         | vCPU | RAM  | Disk             | Monthly Price |
-|----------|-------------------|----------------|------|------|------------------|---------------|
-| Ubicloud | Standard-8        | Germany        | 8    | 32GB | 256GB (Included) | $198.48       |
-| AWS      | db.m5d.2xlarge    | Germany        | 8    | 32GB | 256GB (EBS gp3)  | $767.26       |
-| Azure    | Standard_ D8ds_v5 | Nothern Europe | 8    | 32GB | 256GB (P30 Disk) | $707.04       |
+## TPC-H Benchmark
+Ubicloud PostgreSQL runs 22 TPC-H queries **3.77x** faster than AWS Aurora and **3.75x** faster than AWS RDS PostgreSQL, while costing **6.40x** less than AWS Aurora and **3.00x** less than AWS RDS PostgreSQL.  
 
-## Performance
+Benchmark Configuration:
+- **Ubicloud**: standard-8 (8 vCPUs, 32 GB RAM) instance with 512 GB SSD storage
+- **AWS Aurora**: db.r8g.2xlarge (8 vCPUs, 64 GB RAM) instance with 512 GB SSD storage
+- **AWS RDS**: db.m7g.2xlarge (8 vCPUs, 32 GB RAM) instance with I/O optimized storage
+- **Scale Factor**: 100
 
-Performance compared to other vendors using standard-8, with pgbench:
-
-![Performance 1](/managed-postgresql/price-performance-1.png)
-
-![Performance 2](/managed-postgresql/price-performance-2.png)
+|                                  | Ubicloud | Aurora      |     RDS     |
+|:--------------------------------:|----------|-------------|:-----------:|
+|              **Q01**             |    75.40 |      170.40 |      174.80 |
+|              **Q02**             |   108.65 |      238.86 |      129.69 |
+|              **Q03**             |    60.95 |      101.40 |      223.59 |
+|              **Q04**             |   119.65 |      552.57 |      355.73 |
+|              **Q05**             |    63.19 |       83.69 |      223.53 |
+|              **Q06**             |    45.91 |       61.42 |      179.26 |
+|              **Q07**             |    60.96 |       76.28 |      223.72 |
+|              **Q08**             |    69.92 |       92.86 |      254.33 |
+|              **Q09**             |    84.94 |     1596.24 |      275.71 |
+|              **Q10**             |    91.38 |      123.96 |      314.85 |
+|              **Q11**             |    35.29 |       76.76 |      102.38 |
+|              **Q12**             |    65.72 |      119.75 |      240.15 |
+|              **Q13**             |    48.66 |       80.44 |       83.23 |
+|              **Q14**             |    46.74 |       74.11 |      181.50 |
+|              **Q15**             |    97.94 |      161.96 |      365.75 |
+|              **Q16**             |   100.05 |      107.41 |      107.35 |
+|              **Q17**             |   235.25 |      542.08 |      559.31 |
+|              **Q18**             |   987.38 |      605.84 |     2142.52 |
+|              **Q19**             |    23.17 |      161.77 |      111.90 |
+|              **Q20**             |  1825.97 |    10666.92 |     9866.06 |
+|              **Q21**             |   103.87 |      729.29 |      213.65 |
+|              **Q22**             |     9.88 |       30.37 |       10.49 |
+|             **Total**            |  4360.87 |    16454.36 |    16339.50 |
+|           **Price ($)**          |   218.96 |     1401.57 |      654.87 |
+|    **Performance Difference**    |     -    |       3.77x |       3.75x |
+|      **Price/Performance**       |     -    |      24.15x |      11.20x |
