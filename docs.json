@@ -84,6 +84,7 @@
               "managed-postgresql/overview",
               "managed-postgresql/backup-and-restore",
               "managed-postgresql/high-availability",
+              "managed-postgresql/read-replicas",
               "managed-postgresql/extensions",
               "managed-postgresql/metric-destinations",
               "managed-postgresql/price-performance",
