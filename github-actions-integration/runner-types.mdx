@@ -34,7 +34,7 @@ runs-on: ubicloud-gpu
 </CardGroup>
 
 <Info>
-  If you don't specify the OS, like `ubicloud-standard-4` or `ubicloud-standard-4-arm`, it will default to `ubuntu-2204`.
+  If you don't specify the OS, like `ubicloud-standard-4` or `ubicloud-standard-4-arm`, it will default to `ubuntu-2204`. It will default to `ubuntu-2404` after May 1, 2025.
 </Info>
 
 <Info>
@@ -99,8 +99,10 @@ If you need commonly used packages on GPU runner that are already installed on x
 
 ## Ubuntu 24.04 Migration
 
-GitHub changed the default version of the `ubuntu-latest` label to Ubuntu 24.04 from Ubuntu 22.04 in January 2025. They actually tried to switch `ubuntu-latest` from 22.04 to 24.04 twice. The first attempt was rolled back due to community frustration. GitHub succeeded on the second attempt, but people are still reporting issues with the 24 image. [GitHub Issue #10636](https://github.com/actions/runner-images/issues/10636).
+GitHub changed the default version of the `ubuntu-latest` label to Ubuntu 24.04 from Ubuntu 22.04 in January 2025. They actually tried to switch `ubuntu-latest` from 22.04 to 24.04 twice. The first attempt was rolled back due to community frustration. GitHub succeeded on the second attempt. [GitHub Issue #10636](https://github.com/actions/runner-images/issues/10636).
 
-We're sticking with Ubuntu 22.04 as the default operating system for backward compatibility. We need to make the change eventually, but we're waiting for the Ubuntu 24 image to mature. We're holding off until things settle down before we make the switch.
+We waited until things settled down before making the switch since people were still reporting issues with the 24 image after the migration.
 
-If your workflow depends on a specific Ubuntu version, we recommend explicitly specifying the operating system in the runner label.
+GitHub's Ubuntu 24 images are now more stable, so we decided to change our default image to Ubuntu 24.04 on May 1, 2025. If you don't specify the OS, like `ubicloud` or `ubicloud-standard-4`, it will default to `ubuntu-2404` after May 1, 2025.
+
+Of course, you can continue to use Ubuntu 22.04 by specifying explicitly. If your workflow depends on a specific Ubuntu version, we recommend explicitly specifying the operating system in the runner label.
