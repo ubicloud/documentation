@@ -6,7 +6,7 @@ import { PrList } from "/snippets/pr-list.mdx";
 
 ## Ubicloud Managed Kubernetes (new)
 
-We are excited to announce our managed Kubernetes service, in preview, cutting your Kubernetes costs by 60-70%, and simplifying your setup. Ubicloud Kubernetes handles the creation, management, and maintenance of your Kubernetes clusters on Ubicloud infrastructure so you can focus on building and shipping your software.
+We are excited to announce our managed Kubernetes service, in preview, cutting your Kubernetes costs by 60-70%, and simplifying your setup. Ubicloud Kubernetes handles the creation, management, and maintenance of your Kubernetes clusters so you can focus on building and shipping your software.
 
 ![Ubicloud Kubernetes](/changelog/2025-04-kubernetes.png)
 
@@ -17,19 +17,24 @@ We are happy to announce ubi, Ubicloud’s thin command line interface tool. The
 
 ![Ubicloud Thin CLIent](/changelog/2025-04-cli.jpg)
 
+Available for Linux, Mac, Windows. MacOS users can install with:
+```
+brew install ubicloud/cli/ubi
+```
+
 <PrList ids={[2671, 2746, 2752, 2788, 2796, 2813, 2842, 2849, 2857, 2951, 2983]} />
 
 ## Managed PostgreSQL
-### Read Replicas are available
-Create as many read replicas for your PostgreSQL databases to balance read workloads and promote them to standalone writable instances any time.
+### Read Replicas
+Create as many read replicas for your PostgreSQL databases to balance read workloads. Promote them to standalone writable instances at any time.
 
-### You can manage the maintenance window
-Select the 2-hour window for performing the operations in the least disruptive time for your database.
+### Manage your maintenance window
+Select the 2-hour time window that is the least disruptive for your database where maintenance operations can be performed.
 
-### High availability is datacenter-aware now
-Standbys for high availability mode are now placed in different data centers in the  eu-central-h1 region for improved durability.
+### High availability is now datacenter-aware
+Standbys for high availability mode are now placed in different data centers in the eu-central-h1 region for improved durability.
 
-### Multiple PGBouncer instances are deployed, for faster transactions
+### Multiple PGBouncer instances for faster transactions
 Postgres instances are deployed with multiple pgbouncer instances, depending on the instance size, for improved parallelism in transactional workloads.
 
 ### PostgreSQL 17 is the default
