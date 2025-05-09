@@ -48,12 +48,11 @@ The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's pr
 
 ### Concurreny Limits
 
-By default, all Ubicloud for GitHub Actions accounts can run a total of **128 concurrent vCPUs**. This concurrency limit represents the maximum number of vCPUs that can be active in parallel across all runners and enables faster completion of queued workflow runs.
+Ubicloud's GitHub Actions integration provides a baseline level of concurrency to ensure efficient workflow execution while maintaining fairness across all users. This allows most workflows to run smoothly without delays.
 
-For example, with the default concurrency limit of 128 vCPUs, you can run 64 x `ubicloud-standard-2` instances in parallel. Or, you can concurrently run 16 x `ubicloud-standard-4` and 8 x `ubicloud-standard-8` instances.
+We dynamically allocate additional runners when spare capacity is available, so you may exceed this baseline during periods of low overall demand.
 
-If your project requires additional concurrency beyond the default limits, you can add Concurrency Extensions to your account. Each extension increases your capacity by 64 vCPUs for an additional fee. To learn more or buy additional Concurrency Extensions, please contact us at [support@ubicloud.com](mailto:support@ubicloud.com).
-
+However, if you notice runners consistently waiting due to concurrency limits and it impacts your workflows, you’re welcome to contact us. We're happy to review your usage and, if needed, offer options to increase your baseline concurrency for an additional fee. Reach out to us at [support@ubicloud.com](mailto:support@ubicloud.com) discuss your needs.
 
 ## Compute
 
