@@ -1,0 +1,113 @@
+---
+title: 'Metrics'
+---
+
+Ubicloud Managed PostgreSQL provides metrics for monitoring the performance and
+health of your PostgreSQL instances. These metrics can be accessed through the
+details view of your PostgreSQL instance.
+
+![Metrics dashboard](/managed-postgresql/metrics-1-screenshot.png)
+
+The time-range dropdown allows you to choose a time-frame for the graphs,
+ranging from 30 minutes to 30 days. Each graph displays about 480 datapoints.
+The graphs auto-update every 5 minutes. You can also manually update the graphs
+with the refresh button.
+
+If you recently provisioned the PostgreSQL database, it might take a few minutes
+for the metrics to become available. For databases with HA enabled, the metrics
+from the primary node are displayed.
+
+Here are some of the key metrics provided and details on how to interpret them.
+
+## Resource Usage Metrics
+
+### CPU Usage
+
+This shows the CPU usage, broken down into percentage of CPU time
+broken down into `user`, `system`, `iowait` and `steal`. The `user` time
+reflects processing in the Postgres instance, while the `system` time reflects
+operating system (i.e.  kernel) operations.
+
+### Load average
+
+Load Average shows average CPU usage over the last 1, 5 and 15 minutes.
+Typically, a load average equal to the number of CPU cores indicates full
+utilization of all CPUs. A load average higher than the number of CPU cores
+indicates that the system is overloaded, and processes are waiting for CPU time.
+
+If you are consistently seeing high load averages, you might want to consider
+upgrading to a larger database size.
+
+### Memory Usage
+
+This shows the memory usage, broken down into Used, Cached & Buffered memory. A
+high amount of memory usage for Cache & Buffers is normal and indicates that the
+database is using the available memory efficiently. A consistently high (> 90%)
+value for Used memory indicates that the database might be running low on
+available memory, which can lead to performance issues.
+
+### Disk Usage
+
+Disk Usage is the disk space utilization for the database, specifically the
+Postgres `data_directory`. This includes the database contents, log files and
+WAL files, among other things. If your instance is approaching 100% disk usage,
+you might want to consider upgrading to a larger database size.
+
+### Disk I/O
+
+This metric shows the disk read and write operations per second for the database
+instance. High values for this metric can indicate that the database is
+experiencing high I/O load, which can lead to performance issues.
+
+### Network Traffic
+
+This metric shows the incoming and outgoing network traffic for the database
+instance. Generally, this should match the behavior of other metrics for the
+instance. Unusual activity in this metric might indicate a problem with the
+network or the database instance itself.
+
+## Database Performance Metrics
+
+![Database Performance Metrics](/managed-postgresql/metrics-2-screenshot.png)
+
+### Connection Count
+
+This shows the Active and Total number of connected Postgres clients. Total
+connection count refers to all currently connected clients, while Active
+connection count refers to clients that are currently executing a query. By
+default, the maximum number of connections is set to 500. If your database is
+consistently at or near this limit, you might want to consider increasing this
+limit or using connection pooling via PgBouncer.
+
+### Cache Hit Ratio
+
+This metric indicates how many content requests were served from the cache. For
+normal workloads, this should typically be above 99%. If this value is low, it
+might indicate that the database performance might improve with a larger
+instance with more memory.
+
+### Operation Throughput
+
+This graph shows the rate of row fetches, inserts, updates and deletes per
+second. This can be useful for identifying unexpected changes in usage patterns
+and their effects on database performance.
+
+### Deadlocks
+
+This metric shows the rate of deadlocks detected per second in the database.
+Deadlocks occur when two or more transactions are waiting on resources held by
+others, resulting in a situation where none of them can proceed. A non-zero or
+high value indicates bad transaction design, which can lead to degraded
+performance.
+
+### Database Size
+
+This graph shows the size of the 5 largest databases in the instance. This can
+be useful in identifying databases that are growing unexpectedly or are due for
+cleanup or archiving.
+
+### Transactions
+
+This graph shows the rate of transactions committed and rolled back per second.
+This can be useful for identifying unexpected changes in usage patterns and
+their effects on database performance.
