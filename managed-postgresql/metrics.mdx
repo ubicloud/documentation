@@ -24,13 +24,13 @@ Here are some of the key metrics provided and details on how to interpret them.
 ### CPU Usage
 
 This shows the CPU usage, broken down into percentage of CPU time
-broken down into `user`, `system`, `iowait` and `steal`. The `user` time
+spent in `user`, `system`, `iowait` and `steal` modes. The `user` time
 reflects processing in the Postgres instance, while the `system` time reflects
-operating system (i.e.  kernel) operations.
+operating system (i.e., kernel) operations.
 
 ### Load average
 
-Load Average shows average CPU usage over the last 1, 5 and 15 minutes.
+Load Average shows average CPU usage over the last 1, 5, and 15 minutes.
 Typically, a load average equal to the number of CPU cores indicates full
 utilization of all CPUs. A load average higher than the number of CPU cores
 indicates that the system is overloaded, and processes are waiting for CPU time.
@@ -49,7 +49,7 @@ available memory, which can lead to performance issues.
 ### Disk Usage
 
 Disk Usage is the disk space utilization for the database, specifically the
-Postgres `data_directory`. This includes the database contents, log files and
+Postgres `data_directory`. This includes the database contents, log files, and
 WAL files, among other things. If your instance is approaching 100% disk usage,
 you might want to consider upgrading to a larger database size.
 
@@ -88,7 +88,7 @@ instance with more memory.
 
 ### Operation Throughput
 
-This graph shows the rate of row fetches, inserts, updates and deletes per
+This graph shows the rate of row fetches, inserts, updates, and deletes per
 second. This can be useful for identifying unexpected changes in usage patterns
 and their effects on database performance.
 
