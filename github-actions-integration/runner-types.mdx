@@ -49,14 +49,14 @@ runs-on: ubicloud-gpu
     The supported number of vCPUs are 2 (default), 4, 8, 16, and 30.
   </Card>
   <Card title="{os}" icon="ubuntu">
-    The operation system can be `ubuntu-2404`, `ubuntu-2204` (default), `ubuntu-2004`.
+    The operation system can be `ubuntu-2404`, `ubuntu-2204` (default).
   </Card>
 </CardGroup>
 
 You can find all the available labels [here](https://github.com/ubicloud/ubicloud/blob/main/config/github_runner_labels.yml).
 
 <Warning>
-  **Deprecation of Ubuntu 20.04**: GitHub has decided to [discontinue Ubuntu 20.04 runners](https://github.com/actions/runner-images/issues/11101) on February 1, 2025. While we don't have a specific date for deprecating our Ubuntu 20.04 runners yet, we discourage using them, as we will eventually need to align with GitHub and discontinue the Ubuntu 20.04 runners.
+  **Deprecation of Ubuntu 20.04**: GitHub has decided to [discontinue Ubuntu 20.04 runners](https://github.com/actions/runner-images/issues/11101) on February 1, 2025. Due to the deprecation of key dependencies of the Ubuntu 20.04 images, Ubicloud will discontinue support for Ubuntu 20.04 runner images at June 1, 2025. We discourage using them, and please migrate to Ubuntu 22.04 or 24.04.
 </Warning>
 
 ## x64 Runners
