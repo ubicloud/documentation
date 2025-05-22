@@ -1,0 +1,51 @@
+---
+title: 'Use Premium Runners'
+---
+
+Ubicloud Premium Runners are powered by AMD Ryzen 9 7950X3D CPUs, high-performance gaming processors optimized for single-thread speed and fast CI execution.
+
+They're ideal for large monorepos, test-heavy workflows, or any job that benefits from high CPU clock speeds.
+
+## Why use Premium Runners?
+
+- Up to 2x faster build times thanks to AMD Ryzen 9 7950X3D CPUs
+- 1/5th the price of GitHub-hosted runners ([Pricing](/about/pricing#github-actions))
+- 10x better price-performance
+- 10 Gbit/s networking and ultra-fast NVMe storage  
+
+Ubicloud Premium Runners are ephemeral, isolated, and fully compatible with all GitHub Actions workflows. You can continue to use matrix builds, Docker-based actions, caching, and everything else you use today, just faster.
+
+![Why use Premium Runners?](/github-actions-integration/use-premium-runners-2.jpg)
+
+## How to enable Premium Runners
+
+Premium Runners are enabled at the account level. Once enabled, we'll start routing your jobs to our premium fleet automatically. No changes needed in your workflow files.
+
+1. Go to the [Ubicloud Console](https://console.ubicloud.com/)
+2. Navigate to **GitHub Runners** → **Settings**
+3. Toggle on **Enable Premium Runners**
+
+That's it. Your jobs will now run on high-performance CPUs.
+
+![Use Premium Runners](/github-actions-integration/use-premium-runners-1.png)
+
+## Why Faster Builds Matter
+
+Build and test jobs don't just consume compute, they block developer time.
+
+When a developer pushes code and waits 15–20 minutes for CI to complete, that's time spent:
+
+- Waiting to merge a pull request  
+- Context-switching to other work  
+- Losing momentum on the task at hand  
+
+Now multiply that across an engineering team. Even **saving 3–5 minutes per job** adds up to:
+
+- Dozens of hours per week in recovered dev time  
+- Fewer PRs left idle due to slow feedback  
+- Faster iteration on features and bug fixes  
+- Higher team velocity, fewer productivity stalls
+
+> **Example**: If your team runs 1,000 jobs/week and Premium Runners cut job time by 4 minutes on average, that's over **66 hours of developer time saved every month**.
+
+Ubicloud Premium Runners aren't just about faster CI, they're about giving your engineers back their time so they can build, ship, and move faster.

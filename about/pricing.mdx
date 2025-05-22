@@ -16,35 +16,37 @@ At a high level, our prices are 3-10x lower than comparable offerings. For examp
 
 ## GitHub Actions
 
-Ubicloud runners come with dedicated CPU, memory, local block storage, and a public IPv4 address. Our GitHub Managed Runner Application allocates virtual machines (VMs) across Germany and Finland regions to provide high availability. Every account gets a \$1/month credit that's equivalent to 1,250 minutes of Ubicloud runner time.
+Ubicloud runners come with dedicated CPU, memory, local block storage, and a public IPv4 address. Our GitHub Managed Runner Application allocates virtual machines (VMs) across data centers in Germany to provide high availability. Every account gets a \$1/month credit that's equivalent to 1,250 minutes of Ubicloud runner time.
 
-The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's price advantage, we recommend trying 4 vCPUs if your pipeline benefits from parallelism.
+The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's price advantage, we recommend trying 4 vCPUs or more if your pipeline benefits from parallelism.
 
-### Linux x64
+When you enable premium runners, we automatically route your jobs to premium machines. If capacity's full, you seamlessly fall back to standard runners with no extra wait time. You are billed by the minute based on the type of runner you're using. 
 
-| YAML runner tag      | vCPU | Memory | Price       |
-|----------------------|------|--------|-------------|
-| ubicloud-standard-2  | 2    | 8GB    | \$0.0008/min |
-| ubicloud-standard-4  | 4    | 16GB   | \$0.0016/min |
-| ubicloud-standard-8  | 8    | 32GB   | \$0.0032/min |
-| ubicloud-standard-16 | 16   | 64GB   | \$0.0064/min |
-| ubicloud-standard-30 | 30   | 120GB  | \$0.0120/min |
+### Linux x64 Runners
 
-### Linux arm64
+| vCPU | Memory | Standard Runners |  Premium Runners |
+|------|--------|------------------|------------------|
+| 2    | 8GB    | \$0.0008/min     | \$0.0016/min     |
+| 4    | 16GB   | \$0.0016/min     | \$0.0032/min     |
+| 8    | 32GB   | \$0.0032/min     | \$0.0064/min     |
+| 16   | 64GB   | \$0.0064/min     | \$0.0128/min     |
+| 30   | 120GB  | \$0.0120/min     | \$0.0240/min     |
 
-| YAML runner tag          | vCPU | Memory | Price       |
-|--------------------------|------|--------|-------------|
-| ubicloud-standard-2-arm  | 2    | 6GB    | \$0.0008/min |
-| ubicloud-standard-4-arm  | 4    | 12GB   | \$0.0016/min |
-| ubicloud-standard-8-arm  | 8    | 24GB   | \$0.0032/min |
-| ubicloud-standard-16-arm | 16   | 48GB   | \$0.0064/min |
-| ubicloud-standard-30-arm | 30   | 90GB   | \$0.0120/min |
+### Linux arm64 Runners
 
-### GPU runners (beta)
+| vCPU | Memory | Price        |
+|------|--------|--------------|
+| 2    | 6GB    | \$0.0008/min |
+| 4    | 12GB   | \$0.0016/min |
+| 8    | 24GB   | \$0.0032/min |
+| 16   | 48GB   | \$0.0064/min |
+| 30   | 90GB   | \$0.0120/min |
 
-| YAML runner tag | vCPU | RAM  | GPU                         | Pricing    |
-|-----------------|------|------|-----------------------------|------------|
-| ubicloud-gpu    | 6    | 32GB | 1x RTX 4000 Ada 20GB Memory | \$0.032/min |
+### GPU Runners (beta)
+
+| vCPU | RAM  | GPU                         | Pricing    |
+|------|------|-----------------------------|------------|
+| 6    | 32GB | 1x RTX 4000 Ada 20GB Memory | \$0.032/min |
 
 ### Concurreny Limits
 
