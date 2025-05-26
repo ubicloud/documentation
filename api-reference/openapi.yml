@@ -1309,6 +1309,9 @@ paths:
                 storage_size:
                   description: Requested storage size in GiB
                   type: integer
+                gpu:
+                  description: 'Requested GPU count and type, in the form of "count:type"'
+                  type: string
                 unix_user:
                   description: Unix user of the VM
                   type: string
@@ -2431,6 +2434,9 @@ components:
                     type: string
                   unix_user:
                     description: Unix user of the VM
+                    type: string
+                  gpu:
+                    description: GPU configuration
                     type: string
                 required:
                   - firewalls
