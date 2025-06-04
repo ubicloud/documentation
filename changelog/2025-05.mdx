@@ -1,0 +1,101 @@
+---
+title: "May 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### Built-in Metrics
+
+Ubicloud PostgreSQL now provides built-in metrics accessible via the UI and API. Monitor key performance indicators, including CPU utilization, storage I/O, network activity, connection count, and more. [Read more in the Ubicloud PostgreSQL documentation.](https://www.ubicloud.com/docs/managed-postgresql/metrics)
+
+![PostgreSQL Metrics](/changelog/2025-05-pg-metrics.png)
+
+### Firewall Rule Enhancements
+
+You can now add descriptions to your PostgreSQL firewall rules and edit both the range and description inline for better management.
+
+![PostgreSQL Firewall Rules](/changelog/2025-05-pg-firewall-edit.png)
+
+### Maintenance Window Status Indication
+
+When an instance is ready for a planned failover but awaiting its maintenance window, the status will now clearly indicate this condition.
+
+<PrList ids={[3170, 3202, 3248, 3274, 3312, 3366, 3379, 3275, 3382]} />
+
+## Github Runners
+
+### Ubicloud Premium runners
+
+We are excited to introduce **Ubicloud Premium Runners,** powered by AMD Ryzen 9 7950X3D CPUs, high-performance gaming processors optimized for single-thread execution and fast CI workloads. At just 1/5th the cost of GitHub-hosted runners, our premium runners deliver superior performance at a fraction of the price. [Read more about Ubicloud Premium Runners in our documentation.](https://www.ubicloud.com/docs/github-actions-integration/use-premium-runners)
+
+![Ubicloud GitHub Premium Runners](/changelog/2025-05-premium-runners.png)
+
+### Refreshed Runners Dashboard
+
+We've refreshed the runners dashboard to present key information more clearly, improving usability and visibility.
+
+### Preferred Runner Location (Preview) 
+
+Opt-in to have your runners assigned to US-based machines. Reach out if you're interested in US-based runner deployments.
+
+### Ubuntu 20.04 Deprecation
+
+Following GitHub's deprecation of Ubuntu 20.04 runners in February 2025, we have also deprecated our Ubuntu 20.04 based images.
+
+<PrList ids={[3255, 3256, 3268, 3300, 3313, 3353, 3185, 3210, 3303]} />
+
+
+## Ubicloud Kubernetes
+
+### Faster Cluster Provisioning
+
+We have optimized cluster provisioning for Ubicloud Kubernetes, reducing deployment times to under 5 minutes.
+
+### IPv6 Support
+
+Ubicloud Kubernetes API servers now support IPv6 connectivity.
+
+### Kubernetes v1.33 Now Available
+
+Ubicloud Kubernetes now supports Kubernetes v1.33, enabling the latest features and improvements. [Read the Kubernetes blog for a full breakdown of the release highlights.](https://kubernetes.io/blog/2025/04/23/kubernetes-v1-33-release/)
+
+### Larger worker Node Options
+
+You can now deploy larger worker nodes, starting at **$29.60 per node**, featuring **2 cores, 8GiB memory, 40GiB local NVMe storage, and public IPv4** address. Node sizes scale linearly up to 16 cores per node.
+
+### Free Subdomain Routing for Ingress
+
+Our Kubernetes offering now provides free subdomain routing `*.<your-prefix>-services.k8s.com`, allowing seamless service URL mapping and SSL challenge validation.
+
+### Automated Kubernetes Version Upgrades (Preview)
+
+Ubicloud Kubernetes now supports automated major version upgrades with gradual rollouts in preview. Reach out to learn more.
+
+<PrList ids={[3154, 3168, 3264, 3254, 3311, 3277, 2632]} />
+
+
+## AI & GPUs
+
+### API Key Management
+
+Inference API keys can now be managed via the API, CLI, and Ruby SDK for streamlined access control.
+
+### AI Playground Integration
+
+Quickly test different AI models using the new “Try in Playground” buttons on the Inference Endpoints dashboard in Ubicloud console.
+
+![Try AI Models in Playground](/changelog/2025-05-try-in-playground.png)
+
+### Ubicloud GPU VMs (preview)
+
+Ubicloud GPU VMs are now available in Germany as part of our preview program. Reach out if you're interested in trying Ubicloud A100 GPU VMs.
+
+<PrList ids={[3190, 3383, 3365, 2940]} />
+
+## Faster Invoice PDFs
+
+Invoices are now generated and stored as pdf upon first view, ensuring faster access while maintaining integrity.
+
+<PrList ids={[3129, 3175]} />
