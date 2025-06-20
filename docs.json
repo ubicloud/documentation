@@ -99,7 +99,8 @@
               "managed-kubernetes/overview",
               "managed-kubernetes/quickstart",
               "managed-kubernetes/expose-application-using-tls",
-              "managed-kubernetes/windmill-tutorial"
+              "managed-kubernetes/windmill-tutorial",
+              "managed-kubernetes/okteto-with-ubicloud"
             ]
           },
           {
