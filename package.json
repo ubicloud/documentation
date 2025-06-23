@@ -1,6 +1,6 @@
 {
   "name": "documentation",
   "devDependencies": {
-    "mintlify": "^4.0.443"
+    "mintlify": "^4.0.592"
   }
 }
