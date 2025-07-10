@@ -4,6 +4,26 @@ title: "June 2025"
 
 import { PrList } from "/snippets/pr-list.mdx";
 
+## AI & GPUs
+
+### DeepSeek V3 and R1 Available
+
+We’ve added DeepSeek V3 and R1 models to our AI inference endpoints catalog, available now with competitive pricing.
+
+![AI Model Catalog](/changelog/2025-06-ai-catalog.png)
+
+### Enhanced Inference Playground
+
+The inference playground has been significantly upgraded with multi-turn conversation support, system message configuration, and real-time response rendering. Users can now adjust temperature and top-P parameters while viewing token usage statistics.
+
+![AI Playground](/changelog/2025-06-ai-playground.png)
+
+### Revamped GPU VM Provisioning
+
+Our GPU VM creation workflow (available behind a feature flag) now provides dedicated interfaces for GPU and non-GPU virtual machine provisioning to simplify the selection process for GPU instances.
+
+<PrList ids={[3529, 3424, 3537, 3436, 3467, 3478]} />
+
 ## Managed PostgreSQL
 
 ### Redesigned Management User Interface
@@ -12,9 +32,9 @@ The PostgreSQL dashboard now features a fully refreshed UI, with dedicated pages
 
 ![PostgreSQL UI](/changelog/2025-06-postgres-ui.png)
 
-### Performance Improvements Up to 13% On Larger Instances
+### Performance Improvements up to 20% On Larger Instances
 
-Ubicloud PostgreSQL now ships with hugepages enabled by default, significantly boosting performance, especially on large instance types
+Ubicloud PostgreSQL now ships with improved memory management enabled by default. This reduces CPU usage and boosts performance, especially on large instance types.
 
 <PrList ids={[3402, 3446]} />
 
@@ -33,23 +53,3 @@ Premium GitHub runners now support better VM pool utilization and provide more f
 Support for Ubuntu 20.04 runner images has been deprecated as part of our ongoing commitment to current LTS releases.
 
 <PrList ids={[3473, 3328, 3403, 3414]} />
-
-## AI & GPUs
-
-### DeepSeek V3 and R1 available
-
-We’ve added DeepSeek V3 and R1 models to our AI inference endpoints catalog, available now with competitive pricing.
-
-![AI Model Catalog](/changelog/2025-06-ai-catalog.png)
-
-### Enhanced Inference Playground
-
-The inference playground has been significantly upgraded with multi-turn conversation support, system message configuration, and real-time response rendering. Users can now adjust temperature and top-P parameters while viewing token usage statistics.
-
-![AI Playground](/changelog/2025-06-ai-playground.png)
-
-### Revamped GPU VM Provisioning
-
-Our GPU VM creation workflow (available behind a feature flag) now provides dedicated interfaces for GPU and non-GPU virtual machine provisioning to simplify the selection process for GPU instances.
-
-<PrList ids={[3529, 3424, 3537, 3436, 3467, 3478]} />
