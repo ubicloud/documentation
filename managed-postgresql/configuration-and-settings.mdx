@@ -1,0 +1,43 @@
+---
+title: 'Configuration and Settings'
+---
+
+You can change the configuration parameters of your Ubicloud PostgreSQL instance
+by using the Configuration view. Here, you can configure both PostgreSQL and
+PgBouncer parameters.
+
+![Configuration view](/managed-postgresql/configuration-screenshot.png)
+
+## Changing Configuration Parameters
+
+To configure a new parameter, enter the paramter name and value in the input and
+confirm by clicking the "Add" button.
+
+To change a configuration parameter, click the "Edit" button next to it, change
+the value and confirm the change. You can also reset a parameter to its default
+value by clicking the "Delete" button next to it.
+
+We support configuring basically all PostgreSQL and PgBouncer parameters. For a
+list of supported parameters, see the [PostgreSQL documentation](https://www.postgresql.org/docs/current/runtime-config.html)
+and the [PgBouncer documentation](https://www.pgbouncer.org/config.html).
+
+All changes made to the configuration parameters are typically persisted to the
+instance within one minute. If modifying a parameter requires a restart of the
+database server, the change will be applied after the next restart. You
+can trigger a restart manually from the Settings view, described below.
+
+## Instance Settings
+
+The Settings view allows you to setup maintenance windows, update superuser
+password, restart or delete the Ubicloud PostgreSQL instance.
+
+![Settings view](/managed-postgresql/settings-screenshot.png)
+
+### Maintenance Windows
+
+Maintenance Windows are periods during which Ubicloud can perform maintenance
+tasks on your instance. This can be used to decrease the impact of maintenance
+tasks like resizing on your database.
+
+You can set up a maintenance window by selecting a 2-hour window from the
+provided dropdown. The time window uses the UTC timezone.
