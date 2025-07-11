@@ -1,0 +1,23 @@
+---
+title: 'Resizing'
+---
+
+Resizing your Ubicloud PostgreSQL instance allows you to adjust the resources
+allocated to your database to better meet your performance and cost
+requirements. You can resize your instance by changing to a different
+configuration of server family, server size and storage size.
+
+![Resizing view](/managed-postgresql/resizing-screenshot.png)
+
+After selecting the desired configuration, click the "Update" button to start
+the resizing process. The resizing process may take some time to complete,
+depending on the size of your database and the resources allocated to your
+instance.
+
+Once the process is complete, your instance will failover to the desired
+configuration. This involves a brief interruption during which the database will
+be unavailable. If a [maintenance window](/managed-postgresql/configuration-and-settings#maintenance-windows) is configured, the failover will be
+scheduled for the next available maintenance window, otherwise it will be
+done immediately.
+
+There will be no changes to the connection information after resizing.
