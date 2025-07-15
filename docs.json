@@ -83,12 +83,15 @@
             "group": "Managed PostgreSQL",
             "pages": [
               "managed-postgresql/overview",
-              "managed-postgresql/backup-and-restore",
-              "managed-postgresql/high-availability",
+              "managed-postgresql/connection",
               "managed-postgresql/metrics",
+              "managed-postgresql/networking",
+              "managed-postgresql/resize",
+              "managed-postgresql/high-availability",
               "managed-postgresql/read-replicas",
+              "managed-postgresql/backup-and-restore",
+              "managed-postgresql/configuration-and-settings",
               "managed-postgresql/extensions",
-              "managed-postgresql/metric-destinations",
               "managed-postgresql/price-performance",
               "managed-postgresql/paradedb-on-ubicloud"
             ]
