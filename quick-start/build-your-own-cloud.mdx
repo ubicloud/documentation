@@ -28,12 +28,18 @@ Once you've initialized the control plane, create a new user and sign into the c
 
 You'll now need to lease instance(s) for the data plane. The easiest way to do this is to lease an instance from a bare metal provider. Hetzner has server auctions available, where you pay monthly for bare metal: [https://www.hetzner.com/sb](https://www.hetzner.com/sb)
 
+Once you lease instance(s), update the `.env` file with the following environment
+variables:
+- `HETZNER_USER`
+- `HETZNER_PASSWORD`
+- `HETZNER_SSH_PUBLIC_KEY`
+- `HETZNER_SSH_PRIVATE_KEY`
+
 ## Cloudify your instance(s)
 
-Run the following script for each instance you'd like to cloudify. By default, the script cloudifies bare metal instances leased from Hetzner. After you cloudify your instance(s), you can provision and manage resources.
+Run the following script for each instance you'd like to cloudify. Currently, the script cloudifies bare metal instances leased from Hetzner only. After you cloudify your instance(s), you can provision and manage resources on these machines.
 
 ```bash
-# Enter hostname/IP and provider, and install SSH key as instructed by script
 docker exec -it ubicloud-app ./demo/cloudify_server
 ```
 
