@@ -1,0 +1,323 @@
+---
+title: 'Tutorial: Running Okteto on Ubicloud Kubernetes for Seamless Development'
+---
+
+[Okteto](https://www.okteto.com/) enables developers to code locally while deploying applications on a remote Kubernetes cluster. When combined with **Ubicloud Kubernetes**, this setup streamlines cloud-native development by providing real-time syncing, efficient deployments, and accelerated testing workflows.
+
+This guide walks you through the installation and configuration of Okteto on Ubicloud Kubernetes, ensuring a smooth development experience.
+
+## Requirements
+
+Before proceeding, ensure you have the following prerequisites:
+
+<Accordion title="Kubernetes Tools">
+
+Confirm that your system has the necessary CLI tools installed:
+
+```bash
+kubectl version
+helm version
+```
+
+You can follow the official guides for installing [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [helm](https://helm.sh/).
+
+</Accordion>
+
+<Accordion title="Okteto License">
+A valid license is required to use Okteto:
+
+- Paid subscribers receive a license key upon registration.  
+- If you haven't received your key, contact [Okteto Support](https://okteto.com/support).  
+- You can also sign up for a [30-day free trial](https://www.okteto.com/free-trial/) (no credit card required).
+</Accordion>
+
+<Accordion title="Ubicloud Kubernetes Cluster">
+Ensure you have a Ubicloud Kubernetes cluster set up. If you haven't created one yet, follow these steps:
+
+1. **Create a Ubicloud Account**: Sign up and configure billing: [Ubicloud Quick Start](https://www.ubicloud.com/docs/quick-start/managed-services).
+2. **Deploy a Managed Kubernetes Cluster**: We recommend you to set up a cluster with Kubernetes v1.32, single control plane node and three large worker nodes: [Ubicloud Kubernetes Quickstart](https://www.ubicloud.com/docs/managed-kubernetes/quickstart).
+
+Retrieve and configure the `kubeconfig` file for your Ubicloud Kubernetes cluster:
+
+1. **Download the kubeconfig**: [Ubicloud Docs](https://www.ubicloud.com/docs/managed-kubernetes/quickstart#download-the-kubeconfig).  
+2. Copy the file to `$HOME/.kube/config` or set the `KUBECONFIG` environment variable.  
+3. Verify connectivity:
+
+```bash
+kubectl cluster-info
+```
+</Accordion>
+
+<Accordion title="Persistent Storage">
+Ubicloud Kubernetes comes with local NVMe storage. We install `local-path-storage` and make it the default storage class to leverage the local storage for persistent volumes in Okteto.
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+</Accordion>
+
+<Note>
+Ubicloud Kubernetes provide a default service URL which can be used for using Okteto and this tutorial will leverage that to access Okteto and obtain certificates. If you want to use a custom domain with wildcard certificates, see the APPENDIX at the end of this guide.
+</Note>
+
+## Installing Okteto on Ubicloud Kubernetes
+
+### Obtain Your Kubernetes Service URL
+
+Retrieve the service URL (`XXXXXX-services.k8s.ubicloud.com`) of your Kubernetes cluster from the [Ubicloud console](https://console.ubicloud.com).
+
+### Create a Configuration File
+
+Create a file named `config.yaml` to define some Okteto settings:
+
+```yaml
+license: "YOUR OKTETO LICENSE KEY"
+subdomain: "XXXXXX-services.k8s.ubicloud.com" # Replace with your service URL
+telemetry:
+  enabled: false
+migration:
+  enabled: false
+wildcardCertificate:
+  create: false
+  name: okteto-letsencrypt
+ingress-nginx:
+  controller:
+    service:
+      externalTrafficPolicy: Cluster
+    extraArgs:
+      default-ssl-certificate: $(POD_NAMESPACE)/okteto-letsencrypt
+```
+
+You can refer to the [Okteto Helm Configuration Docs](https://www.okteto.com/docs/self-hosted/helm-configuration/) for additional settings.
+
+### Install Okteto Using Helm
+
+1. Add the Okteto Helm repository:
+
+```bash
+helm repo add okteto https://charts.okteto.com
+helm repo update
+```
+
+2. Install Okteto:
+
+```bash
+helm upgrade --install okteto okteto/okteto -f config.yaml --namespace=okteto --create-namespace
+```
+
+You should be able to access the Okteto UI a few minutes after installation.Add commentMore actions
+
+<Note>Since TLS certificate management has not been configured yet, your browser may display an untrusted application warning. You can temporarily mark the site as trusted or proceed with the next configuration step to set up secure access.</Note>
+
+<Tip>
+During installation, you will also receive a command similar to
+
+```bash
+okteto context use https://okteto.xxxxxxxx-services.k8s.ubicloud.com --token xxxxxxxx
+```
+
+Make note of this, as it will be needed in later steps.
+</Tip>
+
+
+
+## Configuring TLS for Secure Access
+
+We will employ `cert-manager` and Let's Encrypt for accessing Okteto securely with https.
+
+### Install Cert-Manager
+
+```bash
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set crds.enabled=true
+```
+
+### Create a Let's Encrypt Certificate Issuer
+
+Replace `YOUR EMAIL ADDRESS` with your email:
+
+```bash
+kubectl apply -n okteto -f <(cat <<EOF
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: okteto-letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "YOUR EMAIL ADDRESS"
+    privateKeySecretRef:
+      name: okteto-letsencrypt-acme
+    solvers:
+    - http01:
+        ingress:
+          class: okteto-controlplane-nginx
+EOF
+)
+```
+
+### Request the TLS Certificate for Okteto
+
+Edit `dnsNames` to reflect your domain:
+
+```bash
+kubectl apply -n okteto -f <(cat <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: okteto-letsencrypt
+spec:
+  secretName: okteto-letsencrypt
+  duration: 8760h0m0s
+  renewBefore: 600h0m0s # 25 days
+  issuerRef:
+    name: okteto-letsencrypt
+    kind: Issuer
+  dnsNames:
+    - "okteto.XXXXXX-services.k8s.ubicloud.com"
+    - "kubernetes.XXXXXX-services.k8s.ubicloud.com"
+    - "buildkit.XXXXXX-services.k8s.ubicloud.com"
+    - "registry.XXXXXX-services.k8s.ubicloud.com"
+EOF
+)
+```
+
+Monitor certificate status:
+
+```bash
+kubectl -n okteto describe cert okteto
+```
+
+Once the certificate is issued, your Okteto UI will be accessible over HTTPS.
+
+## Deploying an Application with Okteto
+
+### Install Okteto CLI
+
+Follow the [official guide](https://www.okteto.com/docs/get-started/install-okteto-cli/) or run:
+
+For Mac/Linux:
+
+```bash
+curl https://get.okteto.com -sSfL | sh
+```
+
+For Windows:
+
+[Download Okteto CLI](https://downloads.okteto.com/cli/stable/okteto.exe)
+
+Verify installation:
+
+```bash
+okteto version
+```
+
+### Configure Okteto Context
+
+Use the command provided after the installation step:
+
+```bash
+okteto context use https://okteto.XXXXXX-services.k8s.ubicloud.com --token XXXXXX
+```
+
+<Tip>
+If you lost the token, you can obtain it by following this guide: [Retrieve a User's Token](https://www.okteto.com/docs/self-hosted/install/auth/token#retrieve-a-users-token).
+</Tip>
+
+### Deploy an Application
+
+Obtain the sample Okteto application:
+
+```bash
+git clone https://github.com/okteto/movies.git
+cd movies
+```
+
+Deploy the application using Okteto CLI:
+
+```bash
+okteto deploy
+```
+
+Access the application deployed application at:
+
+```
+movies-okteto-admin.XXXXXXXX-services.k8s.ubicloud.com
+```
+
+### Request Certificate for the Application
+Since we haven't created a cert specific to this domain, your browser may display an untrusted application warning. We can add the domain for this application to the certificate we created earlier:
+
+```bash
+kubectl apply -n okteto -f <(cat <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: okteto-letsencrypt
+spec:
+  secretName: okteto-letsencrypt
+  duration: 8760h0m0s
+  renewBefore: 600h0m0s # 25 days
+  issuerRef:
+    name: okteto-letsencrypt
+    kind: Issuer
+  dnsNames:
+    - "okteto.XXXXXX-services.k8s.ubicloud.com"
+    - "kubernetes.XXXXXX-services.k8s.ubicloud.com"
+    - "buildkit.XXXXXX-services.k8s.ubicloud.com"
+    - "registry.XXXXXX-services.k8s.ubicloud.com"
+    - "movies-okteto-admin.XXXXXX-services.k8s.ubicloud.com"
+EOF
+)
+```
+
+<Note>Alternatively, you can configure a wildcard certificate using a custom domain by following the [Okteto Wildcard certificate](https://www.okteto.com/docs/self-hosted/install/certificates/) guide.</Note>
+
+### Live Code Sync
+
+Switch the frontend container to development mode:
+
+```bash
+okteto up frontend
+```
+
+This will replace the frontend container in Okteto with a development container and get you into a shell.
+
+Run the frontend application in development mode:
+
+```bash
+yarn install
+yarn start
+```
+
+Open the movies app and observe the "In Development Mode" banner at the top, indicating that live code syncing is active.
+
+Now, let's make a quick change and see it reflected instantly. Navigate to **Line 117** in `frontend/src/App.jsx` and modify the app logo text to something like **"Movies by Okteto on Ubicloud"**.
+
+Save the file, and you'll notice the updated title appearing on the web page immediately—no refresh needed\!
+
+![Okteto on Ubicloud](/managed-kubernetes/okteto-ubicloud.png)
+
+## Conclusion
+
+By following this guide, you have successfully set up Okteto on Ubicloud Kubernetes, configured secure access, and deployed an application with real-time code syncing.
+
+**Enjoy seamless development on Ubicloud Kubernetes with Okteto\!**
+
+
+
+
+## APPENDIX: Using Custom DNS for Okteto
+
+In this guide, we leveraged the free subdomain Ubicloud provided for Kubernetes clusters. However, it's recommended to use a custom domain with wildcard certificates.
+
+In order to use your custom domain, prefer it in the config.yaml file you supply to helm and add the folliwing DNS records with your DNS provider:
+
+- **Type:** CNAME
+- **Name:** *.YOURSUBDOMAIN
+- **Value:** Your service URL as shown in the Ubicloud console or EXTERNAL IP
+
+For using wildcard certificate that will cover all your applications, you can follow the [Okteto Wildcard certificate](https://www.okteto.com/docs/self-hosted/install/certificates/) guide.
