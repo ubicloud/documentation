@@ -57,8 +57,10 @@ Examples:
     ubi help vm    # Get help for vm subcommand
 
 Commands:
+    ai         Manage AI features
     fw         Manage firewalls
     help       Get command help
+    kc         Manage Kubernetes clusters
     lb         Manage load balancers
     pg         Manage PostgreSQL databases
     ps         Manage private subnets
@@ -134,10 +136,17 @@ This describes the `-r`/`--recursive` and `-u`/`--usage` options.  It's useful t
 ```
 $ ubi help -ru
 ubi command [command-options] ...
+ubi ai [command] ...
+ubi ai api-key [command] ...
+ubi ai api-key api-key-id [post-command] ...
+ubi ai api-key create
+ubi ai api-key list [options]
+ubi ai api-key api-key-id destroy [options]
+ubi ai api-key api-key-id show
 ubi fw command [...]
 ubi fw (location/fw-name | fw-id) post-command [...]
 ubi fw list [options]
-ubi fw (location/fw-name | fw-id) add-rule cidr
+ubi fw (location/fw-name | fw-id) add-rule [options] cidr
 ubi fw (location/fw-name | fw-id) attach-subnet ps-id
 ubi fw location/fw-name create [options]
 ubi fw (location/fw-name | fw-id) delete-rule rule-id
@@ -145,6 +154,13 @@ ubi fw (location/fw-name | fw-id) destroy [options]
 ubi fw (location/fw-name | fw-id) detach-subnet ps-id
 ubi fw (location/fw-name | fw-id) show [options]
 ubi help [options] [command [subcommand]]
+ubi kc command [...]
+ubi kc (location/kc-name | kc-id) post-command [...]
+ubi kc list [options]
+ubi kc location/kc-name create [options]
+ubi kc (location/kc-name | kc-id) destroy [options]
+ubi kc (location/kc-name | kc-id) kubeconfig
+ubi kc (location/kc-name | kc-id) show [options]
 ubi lb command [...]
 ubi lb (location/lb-name | lb-id) post-command [...]
 ubi lb list [options]
