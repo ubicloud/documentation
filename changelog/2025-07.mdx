@@ -1,0 +1,57 @@
+---
+title: "July 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### PostgreSQL Settings via Console and API
+
+You can now manage your PostgreSQL and PgBouncer configurations directly through the Ubicloud console, API & CLI. This feature allows you to view and edit settings from your `postgresql.conf` and `pgbouncer.ini` files, making it easier to fine-tune your database performance and connection pooling without manual file edits. The new UI provides a simple key-value editor with validation to prevent misconfigurations.
+
+### Granular API 
+
+To provide deeper insights into your database scaling activities, the PostgreSQL API now returns both the `current` and `target` sizes for your VM and storage volumes during a resize operation.
+
+### More Metrics
+
+We've enhanced the metrics dashboard to display `softirq` CPU usage, offering a more complete picture of your server's performance and helping you identify potential I/O bottlenecks.
+
+<PrList ids={[3474, 3622, 3595, 3590]} />
+
+## Ubicloud Kubernetes
+
+### Expanded CLI Functionality
+
+Managing your Kubernetes clusters from the command line is now more powerful. We've extended our `ubi` CLI with new commands to `list`, `show`, `destroy`, and retrieve the `kubeconfig` for your clusters. These additions provide full CLI-based lifecycle management for your Kubernetes resources, streamlining automation and daily operations.
+
+### Built-in Persistent Volume Support with UbiCSI (preview)
+
+Ubicloud now features a full implementation of the Container Storage Interface (CSI) for workloads that require persistent volumes (PVC) on our native infrastructure. This enables robust, standards-compliant, and dynamic persistent storage for containerized applications within Kubernetes. The new CSI driver manages local-disk-backed volumes with idempotent operations for reliable volume management.
+
+### Metrics Server Installed by Default
+
+New Kubernetes clusters now come with the Kubernetes Metrics Server installed automatically. This provides resource usage metrics for pods and nodes out-of-the-box, enabling you to use tools like `kubectl top` and Horizontal Pod Autoscalers (HPA) without any additional setup.
+
+<PrList ids={[3429, 3680, 3519, 3610, 3599]} />
+
+## Free Trial for Premium GitHub Runners
+
+All new Ubicloud installations now receive a 7-day free trial of our premium GitHub Runners. This allows you to experience the performance benefits of our more powerful runner tiers at no cost. A badge in the UI will indicate your eligibility for the free upgrade.
+
+<PrList ids={[3570, 3646]} />
+
+## New AI Model Available
+
+The `Qwen2.5-VL-72B` model is now available for AI inference workloads. This powerful, 72-billion parameter vision-language model is ideal for a wide range of multimodal tasks. Billing is set at $0.80 per million tokens for both input and output.
+
+## SSO authentication with OpenID Connect (OIDC)
+
+You can now configure OpenID Connect (OIDC) to authenticate Ubicloud users with your preferred external identity provider. To support this, we have introduced a new multi-phase login flow, where users first enter their email and are then presented with the authentication methods available for their account (e.g., password, Google, or OIDC). For enhanced security, you can also lock specific email domains to an OIDC provider, enforcing corporate SSO policies.
+
+### OTP Account Unlocking
+
+We've added a self-service feature to unlock accounts that have been locked out due to failed Two-Factor Authentication (OTP) attempts. This feature requires three consecutive successful OTP entries to regain access. For security, you will receive email notifications for all OTP-related lockout and unlock events.
+
+<PrList ids={[3543, 3586, 3594, 3686, 3638, 3629, 3583, 3670, 3675]} />
