@@ -26,7 +26,13 @@ We've enhanced the metrics dashboard to display `softirq` CPU usage, offering a 
 
 ### Expanded CLI Functionality
 
-Managing your Kubernetes clusters from the command line is now more powerful. We've extended our `ubi` CLI with new commands to `list`, `show`, `destroy`, and retrieve the `kubeconfig` for your clusters. These additions provide full CLI-based lifecycle management for your Kubernetes resources, streamlining automation and daily operations.
+Managing your Kubernetes clusters from the command line is now more powerful. We've extended our `ubi` CLI with new commands to `list`, `show`, `create` `destroy`. These additions provide full CLI-based lifecycle management for your Kubernetes resources, streamlining automation and daily operations.
+
+Additionally, you can safely retrieve the `kubeconfig` file for your cluster at any time, allowing you to connect to your cluster with `kubectl` or other Kubernetes tools without navigating to kubernetes dashboard.
+
+```shell
+ubi kc eu-central-h1/my-cluster kubeconfig > ~/.kube/config
+```
 
 Check out the [API Reference](/api-reference/kubernetes-cluster) for more details.
 
