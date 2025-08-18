@@ -10,6 +10,8 @@ import { PrList } from "/snippets/pr-list.mdx";
 
 You can now manage your PostgreSQL and PgBouncer configurations directly through the Ubicloud console, API & CLI. This feature allows you to view and edit settings from your `postgresql.conf` and `pgbouncer.ini` files, making it easier to fine-tune your database performance and connection pooling without manual file edits. The new UI provides a simple key-value editor with validation to prevent misconfigurations.
 
+![PostgreSQL Configuration Management UI](/changelog/2025-07-pgconfig.png)
+
 ### Granular API 
 
 To provide deeper insights into your database scaling activities, the PostgreSQL API now returns both the `current` and `target` sizes for your VM and storage volumes during a resize operation.
@@ -25,6 +27,8 @@ We've enhanced the metrics dashboard to display `softirq` CPU usage, offering a 
 ### Expanded CLI Functionality
 
 Managing your Kubernetes clusters from the command line is now more powerful. We've extended our `ubi` CLI with new commands to `list`, `show`, `destroy`, and retrieve the `kubeconfig` for your clusters. These additions provide full CLI-based lifecycle management for your Kubernetes resources, streamlining automation and daily operations.
+
+Check out the [API Reference](/api-reference/kubernetes-cluster) for more details.
 
 ### Built-in Persistent Volume Support with UbiCSI (preview)
 
@@ -46,7 +50,9 @@ All new Ubicloud installations now receive a 7-day free trial of our premium Git
 
 The `Qwen2.5-VL-72B` model is now available for AI inference workloads. This powerful, 72-billion parameter vision-language model is ideal for a wide range of multimodal tasks. Billing is set at $0.80 per million tokens for both input and output.
 
-## SSO authentication with OpenID Connect (OIDC)
+![Qwen2.5-VL-72B in AI Inference Endpoints](/changelog/2025-07-qwen.png)
+
+## SSO authentication with OpenID Connect (OIDC) 
 
 You can now configure OpenID Connect (OIDC) to authenticate Ubicloud users with your preferred external identity provider. To support this, we have introduced a new multi-phase login flow, where users first enter their email and are then presented with the authentication methods available for their account (e.g., password, Google, or OIDC). For enhanced security, you can also lock specific email domains to an OIDC provider, enforcing corporate SSO policies.
 
