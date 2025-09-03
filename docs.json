@@ -102,6 +102,7 @@
               "managed-kubernetes/overview",
               "managed-kubernetes/quickstart",
               "managed-kubernetes/expose-application-using-tls",
+              "managed-kubernetes/autoscale",
               "managed-kubernetes/windmill-tutorial"
             ]
           },

@@ -1,0 +1,106 @@
+---
+title: 'Autoscaling'
+---
+
+Autoscaling in Kubernetes is essential for running resilient, cost-efficient, and performance-optimized cloud-native applications. Kubernetes autoscaling lets your infrastructure adapt to changing demand by automatically adjusting resources. By enabling methods like Horizontal Pod Autoscaling and Vertical Pod Autoscaling, Ubicloud Kubernetes ensures performance and efficiency for your applications..
+
+## Horizontal Pod Autoscaling (HPA)
+Horizontal pod autoscaling is a built-in feature in Kubernetes. It allows you to automatically scale the number of pods in a deployment based on usage.
+
+<Note>HPA requires `metrics-server` to be installed in K8s clusters, which is handled by Ubicloud Kubernetes by default for you.</Note>
+
+Here's a quick walkthrough about seeing HPA in action, taken from [Kubernetes documentation](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/), assuming you have a Ubicloud Kubernetes cluster booted up and set your terminal with the kubeconfig file:
+
+**Deploy a sample web application**
+```bash
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+```
+
+This will create a sample web application and a service to expose it within the cluster.
+
+**Create a horizontal pod autoscaler rule**
+```bash
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+```
+
+**Observe the horizontal pod autoscaling behavior**
+```bash
+kubectl get hpa --watch
+```
+
+**Generate load**
+
+On a different terminal window, run the following command to generate load on the web application and see the horizontal pod autoscaler increasing the number of replicas in a few minutes
+```bash
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+```
+
+As you generate the load, the CPU usage of the pods should increase as well as the number of replicas.
+
+When you cancel the load generator command, you can observe that the number of replicas will be automatically reduced by the HPA.`
+
+## Vertical Pod Autoscaling (VPA)
+Vertical Pod Autoscaler (VPA) in Kubernetes automatically adjusts CPU and memory requests for pods based on observed usage. It’s ideal for workloads with unpredictable resource needs or those that don’t scale well horizontally, helping ensure stability and efficient utilization without manual tuning. Unlike HPA, Vertical Pod Autoscaler isn’t bundled with Kubernetes out of the box and needs to be installed separately via the [official VPA repository](
+https://github.com/kubernetes/autoscaler/tree/9f87b78df0f1d6e142234bb32e8acbd71295585a/vertical-pod-autoscaler).
+
+```bash
+# Obtain VPA
+git clone https://github.com/kubernetes/autoscaler.git
+cd autoscaler/vertical-pod-autoscaler
+
+# Install VPA components in your cluster
+./hack/vpa-up.sh
+
+# Verify VPA installation
+kubectl get pods -n kube-system | grep vpa
+```
+
+At this point you should see three VPA components running in the `kube-system` namespace: `vpa-admission-controller`, `vpa-recommender`, and `vpa-updater`. 
+
+**Create sample application**
+
+```bash
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+kubectl scale deployment php-apache --replicas=2
+```
+
+**Create a VPA object for the sample application**
+
+```bash
+kubectl apply -f <(cat <<EOF
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: php-apache-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind:       Deployment
+    name:       php-apache
+  updatePolicy:
+    updateMode: "Recreate"
+EOF
+)
+```
+
+**Generate load**
+
+On a different terminal window, run the following command to generate load on the web application:
+```bash
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+```
+
+Watch the vertical pod autoscaler for recommendations on the deployment and events about recreated pods with higher resource limits
+
+```bash
+kubectl describe vpa php-apache-vpa
+```
+
+You can uninstall VPA if you want to clean up your cluster:
+
+```bash
+./hack/vpa-down.sh
+```
+
+## Cluster Autoscaling (Node Autoscaling)
+Cluster autoscaling dynamically adjusts the number of nodes in a Kubernetes cluster based on workload demand. While this feature isn't currently supported in Ubicloud Kubernetes, we are working on enabling cluster autoscaling. You can reach out with your feedback and feature requests at [support@ubicloud.com](mailto:support@ubicloud.com).
