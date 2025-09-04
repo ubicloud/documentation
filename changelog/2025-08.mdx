@@ -1,0 +1,43 @@
+---
+title: "August 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Platform
+
+### Web Shell
+
+You can now run `ubi` CLI commands directly from your browser with the new Web Shell. This feature provides a convenient way to manage your resources without needing to install the CLI on your local machine. All commands are available, except for those that execute local programs (like `psql` or `ssh`). The Web Shell uses your existing web session for authentication, so there's no need to create a personal access token.
+
+![Web Shell UI](/changelog/2025-08-webshell.png)
+
+### Retouched UI for All Resources
+
+The modern tabbed user interface, previously available only for PostgreSQL, has now been rolled out to all other resources: Firewalls, Kubernetes Clusters, Load Balancers, Private Subnets, and VMs. This creates a consistent and organized experience for managing settings, networking, and overview information across the platform.
+
+![Tabbed UI for a Kubernetes Cluster](/changelog/2025-08-new-ui.png)
+
+### Rename Resources via API and CLI
+
+You can now rename existing resources using the API and CLI. The new `rename` command is available for Firewalls, Kubernetes clusters, Load Balancers, PostgreSQL instances, Private Subnets, and VMs, making it easier to manage your infrastructure as code.
+
+### Major CLI Usability Improvements
+
+The `ubi` CLI is now more user-friendly and powerful for scripting. You can now use resource **names** instead of IDs for many commands (e.g., `lb attach-vm my-load-balancer --vm-name my-vm`), eliminating the need to parse output to get IDs. We have also fixed issues with interactive commands like `psql` and `ssh` and improved overall argument flexibility.
+
+<PrList ids={[3763, 3802, 3815, 3814, 3774, 3766]} />
+
+---
+
+## Ubicloud Kubernetes
+
+### Kubernetes 1.34 Support
+
+We now support Kubernetes v1.34 for new cluster deployments. When creating a new cluster, v1.34 will be available as an option. Support for v1.32 has been deprecated and removed.
+
+### Dual-Stack Load Balancers for Services
+
+The default load balancer created for Kubernetes services (`type: LoadBalancer`) now supports dual-stack (IPv4 and IPv6) networking, improving connectivity and future-proofing your applications.
+
+<PrList ids={[3807, 3812]} />
