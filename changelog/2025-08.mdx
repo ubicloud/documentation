@@ -30,6 +30,20 @@ The `ubi` CLI is now more user-friendly and powerful for scripting. You can now 
 
 ---
 
+## Managed PostgreSQL
+
+### Expanded CLI Functionality
+
+The `ubi pg` command set has been significantly enhanced with support for new features. You can now manage read replicas (`create-read-replica`, `promote-read-replica`), modify database and PGBouncer configurations (`show-config`, `add-config-entries`), set maintenance windows, and manage firewall rules directly from the command line. For improved security, the CLI now uses the `PGPASSWORD` environment variable for command execution.
+
+### Tagging
+
+You can now add resource tags to your PostgreSQL instances via the API to help with organization and cost management.
+
+<PrList ids={[3759, 3698, 3673, 3756]} />
+
+---
+
 ## Ubicloud Kubernetes
 
 ### Kubernetes 1.34 Support
