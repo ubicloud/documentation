@@ -1,0 +1,67 @@
+---
+title: "September 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Ubicloud Kubernetes
+
+### Nodepool Resizing
+
+You can now resize your Kubernetes cluster directly from the Ubicloud Console, API or CLI. This allows you to dynamically adjust the number of worker nodes in your cluster to match workload demands.
+
+![Resize Kubernetes Cluster](/changelog/2025-09-resize-k8s.png)
+
+<PrList ids={[3789, 3928, 3897]} />
+
+## Managed PostgreSQL
+
+### Default IPv6 Connectivity
+
+PostgreSQL databases now support IPv6 connections by default. A firewall rule for `::/0` is automatically included, allowing you to connect to your databases over IPv6 without extra configuration.
+
+### Advanced Firewall Configuration
+
+You can now create a PostgreSQL database without any default firewall rules using the `--restrict-by-default` flag in the CLI or API. This allows for a more secure, locked-down setup where you can add only the specific access rules you need.
+
+### ParadeDB Update
+
+The ParadeDB extension has been updated to version 0.17.10, bringing the latest features and improvements for real-time search and analytics on PostgreSQL.
+
+<PrList ids={[3827, 3828, 3829]} />
+
+## Console & UI
+
+### Rename Resources in the UI
+
+You can now rename your resources—including VMs, PostgreSQL databases, Kubernetes Clusters, Load Balancers, and Firewalls directly from their settings page in the UI. When renaming a database or load balancer, DNS records and SSL certificates are automatically refreshed to ensure seamless service when needed.
+
+![Rename Resources](/changelog/2025-09-rename.png)
+
+<PrList ids={[3822, 3880, 3890]} />
+
+## Compute & Networking
+
+### Create Private Subnets During VM Launch
+
+To streamline network setup, you can now create a new private subnet directly from the "Create Virtual Machine" form. Simply select "New Private Subnet" and provide a name to launch your VM into a new, isolated network.
+
+![Create Private Subnet During VM Launch](/changelog/2025-09-vm-subnet-creation.png)
+
+### Simplified Load Balancer Creation
+
+When creating a Load Balancer with the TCP health check protocol, the unnecessary "Health Check Endpoint" field is now automatically hidden from the UI, simplifying the configuration process.
+
+<PrList ids={[3870, 3888]} />
+
+## Billing & Account Management
+
+### Add Notes to Invoices
+
+You can now add custom notes to your invoices directly from the billing information page. This is useful for including purchase order (PO) numbers, special instructions, or other details for your accounting team.
+
+### Pre-Authorization Charge Notice
+
+To improve clarity, we've added a notice to the payment method success page explaining that a temporary pre-authorization charge may appear on your credit card and will be refunded.
+
+<PrList ids={[3839, 3866]} />
