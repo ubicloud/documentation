@@ -73,12 +73,12 @@ After the VM is attached, you can detach it back from the same page, at the “A
 
 ### SSL Certificates
 
-Ubicloud load balancers do not support SSL termination. However, we automatically generated public SSL certificates for the load balancer public hostname once you create it. Attached VMs can easily download the `cert` and `key` files from the following endpoint by using a `sudo curl` command:
+Ubicloud load balancers do not support SSL termination. However, we automatically generate public SSL certificates for the load balancer hostname. Attached VMs can easily download the `cert` and `key` files using the following commands:
 
 ```
 sudo curl -f -L3 [FD00:0B1C:100D:5afe:CE::]/load-balancer/cert.pem
 sudo curl -f -L3 [FD00:0B1C:100D:5afe:CE::]/load-balancer/key.pem
 ```
-Once you have these files stored inside the VM, you can start your web server using these certificate and key files to serve your HTTPS enabled web applications.
+Once you have these files stored in the VM, you can use them to serve your HTTPS enabled web applications.
 
-Ubicloud automatically renews certificates every 2 to 3 months and make the new certificates available in the same endpoint. Therefore, it is suggested to create a script that downloads the new certificates and stores it in the VM as a systemctl service.
+Ubicloud automatically renews certificates every 2 to 3 months and make the new ones available in the same endpoint. Therefore, it is suggested to create a script that downloads the new certificates and stores it in the VM as a systemctl service.
