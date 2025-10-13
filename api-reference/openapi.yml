@@ -653,6 +653,10 @@ paths:
                   type: array
                   items:
                     type: string
+                cert_enabled:
+                  description: Whether SSL certificates are enabled for the Load Balancer
+                  type: boolean
+                  nullable: true
               additionalProperties: false
               required:
                 - algorithm
@@ -698,6 +702,9 @@ paths:
                 src_port:
                   description: Source port for the Load Balancer
                   type: integer
+                cert_enabled:
+                  description: Whether SSL certificates are enabled for the Load Balancer
+                  type: boolean
               additionalProperties: false
               required:
                 - algorithm
@@ -789,6 +796,34 @@ paths:
               additionalProperties: false
               required:
                 - name
+      responses:
+        '200':
+          $ref: '#/components/responses/LoadBalancer'
+        default:
+          $ref: '#/components/responses/Error'
+      tags:
+        - Load Balancer
+  '/project/{project_id}/location/{location}/load-balancer/{load_balancer_reference}/toggle-ssl-certificate':
+    parameters:
+      - $ref: '#/components/parameters/project_id'
+      - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/load_balancer_reference'
+    post:
+      operationId: toggleSslCertificateLoadBalancer
+      summary: Toggle the SSL certificate for a load balancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cert_enabled:
+                  description: Whether SSL certificates are enabled for the Load Balancer
+                  type: boolean
+              additionalProperties: false
+              required:
+                - cert_enabled
       responses:
         '200':
           $ref: '#/components/responses/LoadBalancer'
@@ -1336,6 +1371,35 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PostgresDatabase'
+        default:
+          $ref: '#/components/responses/Error'
+      tags:
+        - Postgres Database
+  '/project/{project_id}/location/{location}/postgres/{postgres_database_reference}/upgrade':
+    parameters:
+      - $ref: '#/components/parameters/project_id'
+      - $ref: '#/components/parameters/location'
+      - $ref: '#/components/parameters/postgres_database_reference'
+    post:
+      operationId: upgradePostgresDatabase
+      summary: Upgrade a Postgres database to the next major version
+      responses:
+        '200':
+          $ref: '#/components/responses/PostgresDatabaseUpgradeStatus'
+        default:
+          $ref: '#/components/responses/Error'
+      tags:
+        - Postgres Database
+    get:
+      operationId: getPostgresDatabaseUpgradeStatus
+      summary: Get details of a specific Postgres database upgrade
+      parameters:
+        - $ref: '#/components/parameters/project_id'
+        - $ref: '#/components/parameters/location'
+        - $ref: '#/components/parameters/postgres_database_reference'
+      responses:
+        '200':
+          $ref: '#/components/responses/PostgresDatabaseUpgradeStatus'
         default:
           $ref: '#/components/responses/Error'
       tags:
@@ -2294,6 +2358,9 @@ components:
         src_port:
           description: Source port for the Load Balancer
           type: integer
+        cert_enabled:
+          description: Whether SSL certificate is enabled
+          type: boolean
       additionalProperties: false
       required:
         - algorithm
@@ -2362,7 +2429,10 @@ components:
           description: Desired storage size in GiB
           type: integer
         version:
-          description: Postgres version
+          description: Current Postgres version
+          type: string
+        target_version:
+          description: Target Postgres version
           type: string
         vm_size:
           description: Size of the underlying VM
@@ -2400,6 +2470,7 @@ components:
         - state
         - storage_size_gib
         - version
+        - target_version
         - vm_size
         - maintenance_window_start_at
         - read_replica
@@ -2935,6 +3006,24 @@ components:
             required:
               - count
               - items
+    PostgresDatabaseUpgradeStatus:
+      description: A Postgres Database Upgrade Status
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              current_version:
+                type: string
+              target_version:
+                type: string
+              upgrade_status:
+                type: string
+            additionalProperties: false
+            required:
+              - current_version
+              - target_version
+              - upgrade_status
     PostgresFirewallRule:
       description: A Postgres Firewall Rule
       content:
