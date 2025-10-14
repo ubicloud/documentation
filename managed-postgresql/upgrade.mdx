@@ -1,0 +1,28 @@
+---
+title: 'Version Upgrades'
+---
+
+You can upgrade your Ubicloud PostgreSQL instance to the next major
+version by using the Upgrade view.
+
+![Upgrade view](/managed-postgresql/upgrade-screenshot.png)
+
+## Preparing for a Major Version Upgrade
+
+Before starting an upgrade, it is recommended to test the upgrade on a
+staging database along with your application to ensure compatibility. 
+Use the "Create a test fork" button to create a new copy of your
+database at the current version. This will allow you to test the upgrade
+without any risk to the current database.
+
+## Upgrade Process
+
+For performing the upgrade, click on the "Upgrade" button. During the upgrade,
+your database will be unavailable for a short period. If a maintenance window
+is configured, the upgrade will take place during the first available
+maintenance window after the new server is ready. Otherwise, the upgrade will
+be performed as soon as the new server becomes ready. While the upgrade is
+ongoing, you can monitor the progress and the database availability status from
+the Upgrade view.
+
+![Upgrade progress](/managed-postgresql/upgrade-progress-screenshot.png)

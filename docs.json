@@ -90,6 +90,7 @@
               "managed-postgresql/high-availability",
               "managed-postgresql/read-replicas",
               "managed-postgresql/backup-and-restore",
+              "managed-postgresql/upgrade",
               "managed-postgresql/configuration-and-settings",
               "managed-postgresql/extensions",
               "managed-postgresql/price-performance",
