@@ -86,32 +86,6 @@ paths:
           $ref: '#/components/responses/Error'
       tags:
         - Firewall
-    post:
-      operationId: createFirewall
-      summary: Create a new firewall
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                description:
-                  description: Description of the firewall
-                  type: string
-                name:
-                  description: Name of the firewall
-                  type: string
-              additionalProperties: false
-              required:
-                - name
-      responses:
-        '200':
-          $ref: '#/components/responses/Firewall'
-        default:
-          $ref: '#/components/responses/Error'
-      tags:
-        - Firewall
   '/project/{project_id}/inference-api-key':
     parameters:
       - $ref: '#/components/parameters/project_id'
@@ -1069,7 +1043,7 @@ paths:
       - $ref: '#/components/parameters/project_id'
       - $ref: '#/components/parameters/location'
       - $ref: '#/components/parameters/postgres_database_reference'
-      - $ref: '#/components/parameters/postgres_firewall_rule_id'
+      - $ref: '#/components/parameters/firewall_rule_id'
     patch:
       operationId: patchLocationPostgresFirewallRule
       summary: Update a specific Postgres firewall rule
@@ -2014,15 +1988,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/Reference'
-    postgres_firewall_rule_id:
-      description: ID of the postgres firewall rule
-      in: path
-      name: firewall_rule_id
-      required: true
-      schema:
-        type: string
-        example: pfmjgkgbktw62k53005jpx8tt7
-        pattern: '^pf[0-9a-hj-km-np-tv-z]{24}$'
     private_location_name:
       description: Name of the private location
       in: path
@@ -2575,16 +2540,19 @@ components:
       type: object
       properties:
         cidr:
-          description: CIDR of the Postgres firewall rule
+          description: CIDR of the firewall rule
           type: string
         description:
-          description: Description of the Postgres firewall rule
+          description: Port information for the firewall rule
           type: string
         id:
-          description: ID of the Postgres firewall rule
+          description: ID of the firewall rule
           type: string
-          example: pfmjgkgbktw62k53005jpx8tt7
-          pattern: '^pf[0-9a-hj-km-np-tv-z]{24}$'
+          example: frmjgkgbktw62k53005jpx8tt7
+          pattern: '^fr[0-9a-hj-km-np-tv-z]{24}$'
+        port:
+          description: Port for the Postgres firewall rule
+          type: integer
       additionalProperties: false
       required:
         - cidr
