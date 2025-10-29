@@ -4,7 +4,7 @@ title: 'Backup and Restore'
 
 ## Backups
 
-Ubicloud ensures the safety and availability of your data through robust backup and restore processes.
+Ubicloud ensures the safety and availability of your data through robust backup and restore processes. Backups are replicated across four servers using erasure coding. This means backups remain accessible even if two of those servers become unavailable.
 
 **Daily Backups:** We take daily full backups. We also store Write-Ahead Log (WAL) files every 60 seconds or 16 MB of WAL updates, whichever comes first. Ubicloud stores these backup files in an internal blob storage service.
 
