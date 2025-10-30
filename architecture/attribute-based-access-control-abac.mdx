@@ -28,9 +28,8 @@ All three hyperscalers seem to be moving towards the ABAC model. You can read mo
 ## An ABAC example
 In the following, we start with an ABAC example and build on top of it. The following diagram describes a simple scenario, where the users on the left have associated “tags” (classic roles) and the resources on the right also have “tags”.
 
-![ABAC 1](/architecture/attribute-based-access-control-abac-1.png)
+![Simple ABAC example, where users and resources have associated tags](/architecture/attribute-based-access-control-abac-1.png)
 
-Simple ABAC example, where users and resources have associated "tags"
 In ABAC terminology, the subject is the user requesting access to a resource to perform an action. The resource is the object (such as VM, simple storage bucket, or source file) that the subject wants to access. The action is what the user is trying to do with the resource. Example actions include VM view, VM create, VM delete, etc.
 
 In addition to the triplet `<subject, action, object>`, we introduce the notion of tags. We can associate each subject or object with one or more tags. These four concepts give us an enormous amount of flexibility with our authorization model. In the example above, a user or organization can create fine-grained access policies simply by assigning the right tags to users and resources.
@@ -43,9 +42,8 @@ Of course, most users who are new to Ubicloud shouldn't need to learn about ABAC
 
 To enable this, we introduce the notion of “hyper tags.” Each user and resource in the below diagram has a hidden tag, whereby the hidden tag has the same name as its associated user or resource. This way, after a user comes in, they can create new resources and act on the resources they have created without knowing about ABAC.
 
-![ABAC 2](/architecture/attribute-based-access-control-abac-2.png)
+![Hyper tags provide hidden names for attributes](/architecture/attribute-based-access-control-abac-2.png)
 
-Hyper tags provide hidden names for attributes
 The notion of “hyper tags” has the side benefit of enabling more granular access policies. For example, if user “Enes Cakir” has 10 virtual machines and he'd like to grant permissions for just one of those VMs to “Daniel Farina”, he can do so. Of course, Enes could have done this by creating tags for himself, Daniel, and the VM. Hyper tags make this common use case just more convenient.
 
 # Avoiding naming collisions in ABAC
@@ -54,18 +52,16 @@ One remaining problem with our ABAC example is naming collisions. It's likely fo
 
 To avoid naming collisions, we qualify every tag's name with a namespace. We then use these fully qualified names for authorization. For example, in the example below, Daniel is tagged as belonging to the engineering and devops organizations. So, he can access and deploy code both to dev and prod environments. On the other hand, Enes is only tagged with belonging to the engineering team and can therefore only deploy to the dev environment.
 
-![ABAC 3](/architecture/attribute-based-access-control-abac-3.png)
+![Namespaces qualify tag names and avoid naming collisions](/architecture/attribute-based-access-control-abac-3.png)
 
-Namespaces qualify tag names and avoid naming collisions
 Of course, we don't want to bother a new Ubicloud user with the concept of a namespace. So, when a new user signs up, we create a default namespace for them and create their resources in that namespace. They can then update their “projects” by inviting other users and giving access to their namespace or resources.
 
 # ABAC design
 
 Our ABAC design follows this simple yet powerful example. All we need to do is map the concepts we've introduced above into a data model. In our case, it turns out we need five PostgreSQL tables to implement an ABAC authorization model for the cloud.
 
-![ABAC 4](/architecture/attribute-based-access-control-abac-4.png)
+![ABAC design's data model, where the model has five PostgreSQL tables](/architecture/attribute-based-access-control-abac-4.png)
 
-ABAC design's data model, where the model has five PostgreSQL tables
 These five Postgres tables are:
 1. An access policy table that represents the relationship between `<subject, action, object>`. Remember the subject here is the user and the object is the resource
 2. A namespace table to avoid naming collisions
