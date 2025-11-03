@@ -105,6 +105,7 @@
               "managed-kubernetes/expose-application-using-tls",
               "managed-kubernetes/resize-cluster",
               "managed-kubernetes/autoscale",
+              "managed-kubernetes/persistent-volumes",
               "managed-kubernetes/windmill-tutorial"
             ]
           },
