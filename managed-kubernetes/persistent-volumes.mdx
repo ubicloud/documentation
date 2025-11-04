@@ -2,36 +2,20 @@
 title: 'Persistent Volumes'
 ---
 
-This document describes how PersistentVolumeClaims (PVCs) work in our managed Kubernetes product.
+## Overview
+
+This document describes how PersistentVolumeClaims (PVCs) work in Ubicloud Managed Kubernetes, including usage, limitations and behavior during failures.
 
 
 All Ubicloud Kubernetes nodes include bundled local NVMe storage. Persistent volumes are supported in preview via the UbiCSI implementation using the local NVMe storage. Generic ephemeral volumes are also available for temporary storage tied to pod lifecycles.
 
-Before using PVCs, note the following considerations:
-
-- UbiCSI is in **preview**, so features and behavior may evolve over time.
-
-- PVCs are limited to 10 GB to ensure reliable data migration and avoid network strain. Larger volumes can be requested via support@ubicloud.com.
-
-- Data is stored locally and not replicated. If a node is permanently lost due to critical hardware failure, any data on that node is also lost.
-
-Every Ubicloud Kubernetes Cluster comes with the UbiCSI add-on pre-installed. Its source code is available [here](https://github.com/ubicloud/ubicloud/tree/main/kubernetes/csi), and a StorageClass is defined for creating PVCs:
-
-```bash
-$ kubectl get storageclass
-NAME                          PROVISIONER        RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-ubicloud-standard (default)   csi.ubicloud.com   Delete          WaitForFirstConsumer   false                  2h
-```
-
-All UbiCSI components are deployed in the `ubicsi` namespace to separate them from other workloads.
-
 ## Quickstart
 
-For a quickstart example, we will install prometheus-stack using its helm chart.
+For a quickstart example, we will install [prometheus-stack](https://prometheus-community.github.io/helm-charts/) using its helm chart.
 
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-help repo update
+helm repo update
 kubectl create namespace monitoring
 helm install prometheus prometheus-community/prometheus --namespace monitoring
 ```
@@ -44,17 +28,35 @@ prometheus-server                   Bound    pvc-6c92f4d4-7db2-4229-be1a-8826739
 storage-prometheus-alertmanager-0   Bound    pvc-4d6d879d-0961-4b29-a0d7-d4954a8c9476   2Gi        RWO            ubicloud-standard   <unset>                 69s
 ```
 
+## Limitations and Considerations
+
+- UbiCSI is in **preview**, so features and behavior may evolve over time.
+
+- PVCs are limited to 10 GB by default to ensure reliable data migration and avoid network strain. Larger volumes can be requested via support@ubicloud.com.
+
+- Data is stored locally and not replicated. If a node is permanently lost due to critical hardware failure, any data on that node is also lost.
+
+- Volume Expansion is not supported yet.
+
+Every Ubicloud Kubernetes Cluster comes with the UbiCSI add-on pre-installed and a StorageClass is defined for creating PVCs:
+
+```bash
+$ kubectl get storageclass
+NAME                          PROVISIONER        RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+ubicloud-standard (default)   csi.ubicloud.com   Delete          WaitForFirstConsumer   false                  2h
+```
+
+All UbiCSI components are deployed in the `ubicsi` namespace to separate them from other workloads. The source code for UbiCSI is available in [Ubicloud repository](https://github.com/ubicloud/ubicloud/tree/main/kubernetes/csi).
+
 
 ## How it works
 
 UbiCSI driver provisions PersistentVolumeClaims on local volumes for speed and automatically migrating data when a node becomes unschedulable. This combines the performance of local storage with the reliability of managed persistence.
 
-Using node affinities on the PersistentVolume, the PVC stays bound to that node, ensuring the pod always runs on the same host during normal restarts and as long as the node remains schedulable.
+By using node affinities on the PersistentVolume, the PVC stays bound to that node, ensuring the pod always runs on the same node during normal restarts and as long as the node remains schedulable.
 
-## Data Durability
+## Data Durability and Migration
 
-For data durability, UbiCSI continuously monitors node health. When a pod restarts and its original node becomes unschedulable, UbiCSI automatically reschedules the pod on a healthy node and transfers the associated data to the new location. This ensures workloads remain available and data persists even when nodes fail or are taken out of service.
+For data durability, UbiCSI continuously monitors node health. When a pod’s node becomes unschedulable, UbiCSI automatically reschedules the pod onto a healthy node and transfers its data. This process ensures workloads stay available and data persists even when nodes fail or are taken out of service.
 
-## Data Migration
-
-When a pod is restarted on a node that becomes unschedulable, UbiCSI automatically begins migrating its data to a new host. The migration runs in the background, and during this process, the pod may temporarily return errors such as "Old PV data is not copied yet" These messages are expected and indicate that the data copy is still in progress. Users should avoid force deleting or restarting the pod, as doing so can disrupt the migration. Once the transfer completes, the pod resumes normal operation with its data fully available on the new node.
+When migration begins, data is copied in the background to the new node. During this time, the pod may temporarily return errors such as "Old PV data is not copied yet" - these indicate that migration is still in progress. Users should not force delete or restart the pod, as this can interrupt the copy. Once migration completes, the pod resumes normal operation with its data fully restored on the new node.
