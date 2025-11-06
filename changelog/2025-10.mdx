@@ -1,0 +1,92 @@
+---
+title: "October 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### Support for PostgreSQL 18
+You can now provision databases running on the latest major version, PostgreSQL 18. Take advantage of the newest features, performance enhancements, and security updates available in the PostgreSQL community.
+
+![PostgreSQL 18 on Ubicloud](/changelog/2025-10-pg-features.png)
+
+### Major Version Upgrades
+Seamlessly upgrade your PostgreSQL databases to newer major versions directly from the Ubicloud dashboard, API, and CLI. This update supports in-place upgrades with minimal downtime, allowing you to access the latest PostgreSQL features and performance improvements without complex manual migrations.
+
+![PostgreSQL Upgrades](/changelog/2025-10-pg-upgrade.png)
+![PostgreSQL Upgrade Process](/changelog/2025-10-pg-upgrade-2.png)
+
+
+### Ubicloud Postgres on AWS
+Ubicloud managed Postgres is now available on AWS regions, including on your own account. This expansion allows you to deploy databases closer to your applications, reducing latency, improving performance with much lower cost. Read more at [ubicloud.com](https://www.ubicloud.com/postgresql-on-aws-high-iops).
+
+![Ubicloud PostgreSQL on AWS](/changelog/2025-10-pg-on-aws.png)
+
+### Improved Stability for Burstable Instances
+Smaller, burstable PostgreSQL instances now automatically configure swap space and memory overcommit settings. This enhancement significantly reduces the risk of out-of-memory errors, improving the stability and reliability of your development and staging databases.
+
+### Detailed Connection Information via API
+The API can now return expanded connection details for your databases, including the username, password, and hostname as separate fields. This simplifies integration with applications and tools that require individual connection parameters instead of a single connection string.
+
+<PrList ids={[4071, 3854, 3923, 4061, 4035, 4050, 4025, 4108]} />
+
+## Compute & Networking
+
+### Advanced Networking and Firewall Controls
+We have changed our networking model to give you more control and flexibility. **PostgreSQL and Kubernetes managed services** now operate within your project's private subnets with dedicated, user-configurable firewalls. This allows you to connect managed services to your other private networks and manage firewall rules through the UI and API.
+
+![Improved Networking Management](/changelog/2025-10-subnet-management.png)
+
+### Centralized SSH Key Management
+You can now register and manage SSH public keys at the project level. When creating new VMs, simply select a registered key instead of pasting the public key each time.
+
+### Customizable VM Initialization Scripts
+Automate the configuration of your new virtual machines using init scripts. You can now provide a shell script during VM creation via the UI, API, SDK, or CLI to install software, configure services, or perform other setup tasks automatically.
+
+### Enhanced Load Balancer Management
+Managing load balancer SSL certificates is now more flexible. You can enable or disable SSL termination independently of the health check protocol. The UI has also been improved to clearly display certificate status and health check information.
+
+<PrList ids={[3881, 3996, 4079, 4091, 3902, 4028, 4042, 4045, 4053, 4069, 4070, 4077, 4081, 4101, 4105, 3889, 3965, 3979]} />
+
+## AI & GPUs
+
+### Support for NVIDIA B200 GPUs and Private Locations
+Ubicloud now supports provisioning GPU VMs with powerful NVIDIA B200 chips in our new Türkiye (Istanbul) location. We also offer private managed locations for enterprises requiring dedicated GPU resources with enhanced security and compliance. Contact us at [support@ubicloud.com](mailto:support@ubicloud.com) for more information.
+
+### New Inference Endpoint for Qwen3 VL Model
+We've added support for Qwen3 VL in our inference endpoints, ready to support multi-modal applications. This model can process both text and images, enabling advanced AI capabilities such as image captioning, visual question answering, OCR tasks and more.
+
+<PrList ids={[4009, 4017, 4073, 4018, 4074, 4084]} />
+
+## GitHub Runners
+
+### Custom Runner Labels for Granular Control
+
+You can now create custom labels for your GitHub runners. This allows you to set workflow-level concurrency limits and route specific jobs to dedicated runner pools, giving you finer control over your CI/CD pipelines.
+
+### Enhanced Management via API and CLI
+
+Manage your GitHub integration programmatically with new API, SDK, and CLI commands. You can now list installations, repositories, and manage runner cache entries directly from your terminal or scripts, enabling better automation and oversight.
+
+<PrList ids={[3895, 3999, 3973, 4092]} />
+
+## Ubicloud Kubernetes
+
+### Persistent Volumes Support with UbiCSI
+
+The Ubicloud CSI driver is now enabled by default for all new Kubernetes clusters. This provides seamless, out-of-the-box support for persistent storage, allowing your stateful applications to easily provision and manage persistent volumes.
+
+### Kubernetes vCPU Quota Visibility
+
+Your project's vCPU quota specifically for Kubernetes clusters is now visible in the account settings page of the UI. This provides clearer insight into your resource allocation and usage for containerized workloads.
+
+<PrList ids={[3997, 4013]} />
+
+## Billing
+
+### Pay Unpaid Invoices Manually
+
+If an automated payment fails, you can now pay outstanding invoices directly from the billing page. A new "Pay Now" button securely redirects you to complete the payment, and you'll receive a confirmation email once it's successful.
+
+<PrList ids={[3853, 3978]} />
