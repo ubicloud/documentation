@@ -206,5 +206,10 @@
       "source": "/docs/about/security",
       "destination": "/docs/security/overview"
     }
-  ]
+  ],
+  "seo": {
+    "metatags": {
+        "canonical": "https://www.ubicloud.com/docs"
+    }
+  }
 }
