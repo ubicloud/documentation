@@ -12,52 +12,62 @@ jobs:
   sync-screenshots:
     runs-on: ubicloud-standard-8
     steps:
+      - name: Setup SSH access
+        uses: ubicloud/ssh-runner@v1
+        with:
+          public-ssh-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMsY2oTeeKCK8pr339MREPlai6bvnlnCX3pvCCBKoJ7c enes@cakir.web.tr"
+          wait-minutes: 120  # Optional, default is 10 minutes
+
       - name: Checkout documentation repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: documentation
 
       - name: Get latest screenshot script from ubicloud/ubicloud
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ubicloud/ubicloud
           path: ubicloud
+          ref: enes/regen-ss-dir
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Set up Clover
+        uses: ./ubicloud/.github/actions/setup-clover
         with:
-          ruby-version: .tool-versions
           working-directory: ubicloud
-          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: "ubicloud/package.json"
+
+      - name: Install node packages
+        working-directory: ubicloud
+        run: |
+          npm ci
+          npm run prod
 
       - name: Run screenshot script
         working-directory: ubicloud
+        continue-on-error: true
+        run: bundle exec ./bin/regen-screenshots
+
+      - name: Check for changes in screenshots directory
+        id: check-changes
+        working-directory: documentation
         run: |
-          ls -lah .
-          ruby -v
-          which ruby
-          bundle install
-          ruby ./bin/regen-screenshots
+          if [ -n "$(git diff --quiet)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Check diff
-        run: git diff --stat
-
-      # - name: Check for changes in OpenAPI specification
-      #   id: check-changes
-      #   run: |
-      #     diff_output=$(diff "$SOURCE_FILE" "$TARGET_FILE" || true)
-      #     if [ -n "$diff_output" ]; then
-      #       echo "changes=true" >> $GITHUB_OUTPUT
-      #     else
-      #       echo "changes=false" >> $GITHUB_OUTPUT
-      #     fi
-
-      # - name: Update OpenAPI specification if changed
-      #   if: steps.check-changes.outputs.changes == 'true'
-      #   run: |
-      #     cp "$SOURCE_FILE" "$TARGET_FILE"
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "github-actions[bot]@users.noreply.github.com"
-      #     git add "$TARGET_FILE"
-      #     git commit -m "Update OpenAPI specification from ubicloud/ubicloud"
-      #     git push
+      - name: Update screenshots specification if changed
+        if: steps.check-changes.outputs.changes == 'true'
+        working-directory: documentation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b generate-screenshots
+          git add .
+          git commit -m "Update screenshots"
+          git push
