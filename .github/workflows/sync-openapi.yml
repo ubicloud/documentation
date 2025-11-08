@@ -14,10 +14,10 @@ jobs:
     runs-on: ubicloud
     steps:
       - name: Checkout documentation repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get latest OpenAPI specification from ubicloud/ubicloud
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ubicloud/ubicloud
           path: temp-ubicloud
