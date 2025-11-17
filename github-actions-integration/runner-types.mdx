@@ -21,7 +21,6 @@ By default, using `runs-on: ubicloud` provisions a 2 vCPU x64 Ubuntu 22.04 runne
 | `ubicloud-standard-8-arm`  | Ubuntu 22.04 | 8    | 24GB   | 200GB |
 | `ubicloud-standard-16-arm` | Ubuntu 22.04 | 16   | 48GB   | 300GB |
 | `ubicloud-standard-30-arm` | Ubuntu 22.04 | 30   | 90GB   | 400GB |
-| `ubicloud-gpu`             | Ubuntu 22.04 | 6    | 32GB   | 180GB |
 
 You can append `-ubuntu-2204` or `-ubuntu-2404` to explicitly set the operating system.
 
@@ -39,9 +38,6 @@ runs-on: ubicloud-standard-{vcpu}-arm-{os}
 # ubicloud-arm                        -> 2 vCPU arm64 Ubuntu 22.04 runner
 # ubicloud-standard-8-arm             -> 8 vCPU arm64 Ubuntu 22.04 runner
 # ubicloud-standard-4-arm-ubuntu-2404 -> 4 vCPU arm64 Ubuntu 24.04 runner
-
-# GPU runners
-runs-on: ubicloud-gpu
 ```
 
 <CardGroup cols={2}>
@@ -56,7 +52,7 @@ runs-on: ubicloud-gpu
 You can find all the available labels [here](https://github.com/ubicloud/ubicloud/blob/main/config/github_runner_labels.yml).
 
 <Warning>
-  **Deprecation of Ubuntu 20.04**: GitHub has decided to [discontinue Ubuntu 20.04 runners](https://github.com/actions/runner-images/issues/11101) on February 1, 2025. Due to the deprecation of key dependencies of the Ubuntu 20.04 images, Ubicloud will discontinue support for Ubuntu 20.04 runner images at June 1, 2025. We discourage using them, and please migrate to Ubuntu 22.04 or 24.04.
+  **Deprecation of GPU runners**: We will be deprecating our GPU runners, effective December 31, 2025. After this date, GPU runners will no longer be available, and any jobs on these runners will need to be migrated to other runner types
 </Warning>
 
 ## x64 Runners
@@ -86,16 +82,6 @@ Arm shares a list of installed packages in the [actions/partner-runner-images](h
 If your workflow has a package dependency that doesn’t exist on Ubicloud’s arm64 image, we recommend installing the dependency manually for the time being.
 
 If you need commonly used packages on arm64 that are already installed on x64, please contact us at support@ubicloud.com.
-
-## GPU Runners
-
-GitHub launched official GPU runners at the middle of 2024. However, like the arm64 runners, GitHub doesn't create GPU images; their partner does.
-
-NVIDIA shares a list of installed packages in https://docs.nvidia.com/ngc/ngc-deploy-public-cloud/ngc-azure/index.html#azure-vmi, and we try to keep it similar. However, our images might not be identical to GitHub's GPU images since they don't share the exact template and versions.
-
-If your workflow has a package dependency that doesn’t exist on Ubicloud’s GPU image, we recommend installing the dependency manually for the time being.
-
-If you need commonly used packages on GPU runner that are already installed on x64, please contact us at support@ubicloud.com.
 
 ## Ubuntu 24.04 Migration
 
