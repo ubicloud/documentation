@@ -6,6 +6,9 @@ Ubicloud offers a wide variety of runner types and sizes, allowing you to choose
 
 By default, using `runs-on: ubicloud` provisions a 2 vCPU x64 Ubuntu 22.04 runner. You can specify the runner size, for example, `runs-on: ubicloud-standard-8` provisions an 8 vCPU runner. You can even specify the operating system, such as `runs-on: ubicloud-standard-4-ubuntu-2404`, which provisions a 4 vCPU runner with Ubuntu 24.04.
 
+## Ubuntu 24.04 Migration
+Operating system used by all default Ubicloud runner types will be updated from Ubuntu 22.04 to Ubuntu 24.04 on November 23. All jobs using the label `ubicloud`, `ubicloud-standard-2`, `ubicloud-standard-4`, `ubicloud-standard-8`, `ubicloud-standard-16`, `ubicloud-standard-30`, `ubicloud-standard-60`, `ubicloud-arm`, `ubicloud-standard-2-arm`, `ubicloud-standard-4-arm`, `ubicloud-standard-8-arm`, `ubicloud-standard-16-arm`, `ubicloud-standard-30-arm` or `ubicloud-standard-60-arm` will start using Ubuntu 24.04. You can use Ubuntu 22.04 by explicitly specifying the operating system version in the runner label, for instance using `ubicloud-standard-2-ubuntu-2204` instead of `ubicloud-standard-2`.
+
 
 ## Available Labels
 
@@ -82,11 +85,3 @@ Arm shares a list of installed packages in the [actions/partner-runner-images](h
 If your workflow has a package dependency that doesn’t exist on Ubicloud’s arm64 image, we recommend installing the dependency manually for the time being.
 
 If you need commonly used packages on arm64 that are already installed on x64, please contact us at support@ubicloud.com.
-
-## Ubuntu 24.04 Migration
-
-GitHub changed the default version of the `ubuntu-latest` label to Ubuntu 24.04 from Ubuntu 22.04 in January 2025. They actually tried to switch `ubuntu-latest` from 22.04 to 24.04 twice. The first attempt was rolled back due to community frustration. GitHub succeeded on the second attempt, but people are still reporting issues with the 24 image. [GitHub Issue #10636](https://github.com/actions/runner-images/issues/10636).
-
-We're sticking with Ubuntu 22.04 as the default operating system for backward compatibility. We need to make the change eventually, but we're waiting for the Ubuntu 24 image to mature. We're holding off until things settle down before we make the switch.
-
-If your workflow depends on a specific Ubuntu version, we recommend explicitly specifying the operating system in the runner label.
