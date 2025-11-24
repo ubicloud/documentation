@@ -81,3 +81,17 @@ Arm shares a list of installed packages in the [actions/partner-runner-images](h
 If your workflow has a package dependency that doesn’t exist on Ubicloud’s arm64 image, we recommend installing the dependency manually for the time being.
 
 If you need commonly used packages on arm64 that are already installed on x64, please contact us at support@ubicloud.com.
+
+## Ubuntu 24.04 Migration
+
+On November 23, 2025, we updated the default operating system for Ubicloud runners from Ubuntu 22.04 to Ubuntu 24.04.
+
+GitHub changed the default version of the `ubuntu-latest` label from Ubuntu 22.04 to Ubuntu 24.04 in [early 2025](https://github.com/actions/runner-images/issues/10636). We waited for the Ubuntu 24 image to mature before making the switch.
+
+All jobs using the labels `ubicloud`, `ubicloud-standard-2`, `ubicloud-standard-4`, `ubicloud-standard-8`, `ubicloud-standard-16`, `ubicloud-standard-30`, `ubicloud-standard-60`, `ubicloud-arm`, `ubicloud-standard-2-arm`, `ubicloud-standard-4-arm`, `ubicloud-standard-8-arm`, `ubicloud-standard-16-arm`, `ubicloud-standard-30-arm` or `ubicloud-standard-60-arm` now run on Ubuntu 24.04.
+
+If your workflow depends on a specific Ubuntu version, we recommend explicitly specifying the operating system in the runner label.
+
+To continue using Ubuntu 22.04, specify the version in the label. For example, use `ubicloud-standard-2-ubuntu-2204` instead of `ubicloud-standard-2`.
+
+Ubuntu 22.04 and Ubuntu 24.04 include similar pre-installed software, but version differences may exist. You can find the lists of pre-installed software for [Ubuntu 22.04](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md) and [Ubuntu 24.04](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md) in GitHub’s repository.
