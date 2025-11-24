@@ -4,26 +4,22 @@ title: 'Runner Types'
 
 Ubicloud offers a wide variety of runner types and sizes, allowing you to choose based on your specific needs.
 
-By default, using `runs-on: ubicloud` provisions a 2 vCPU x64 Ubuntu 22.04 runner. You can specify the runner size, for example, `runs-on: ubicloud-standard-8` provisions an 8 vCPU runner. You can even specify the operating system, such as `runs-on: ubicloud-standard-4-ubuntu-2404`, which provisions a 4 vCPU runner with Ubuntu 24.04.
-
-## Ubuntu 24.04 Migration
-Operating system used by all default Ubicloud runner types will be updated from Ubuntu 22.04 to Ubuntu 24.04 on November 23. All jobs using the label `ubicloud`, `ubicloud-standard-2`, `ubicloud-standard-4`, `ubicloud-standard-8`, `ubicloud-standard-16`, `ubicloud-standard-30`, `ubicloud-standard-60`, `ubicloud-arm`, `ubicloud-standard-2-arm`, `ubicloud-standard-4-arm`, `ubicloud-standard-8-arm`, `ubicloud-standard-16-arm`, `ubicloud-standard-30-arm` or `ubicloud-standard-60-arm` will start using Ubuntu 24.04. You can use Ubuntu 22.04 by explicitly specifying the operating system version in the runner label, for instance using `ubicloud-standard-2-ubuntu-2204` instead of `ubicloud-standard-2`.
-
+By default, using `runs-on: ubicloud` provisions a 2 vCPU x64 Ubuntu 24.04 runner. You can specify the runner size, for example, `runs-on: ubicloud-standard-8` provisions an 8 vCPU runner. You can even specify the operating system, such as `runs-on: ubicloud-standard-4-ubuntu-2204`, which provisions a 4 vCPU runner with Ubuntu 22.04.
 
 ## Available Labels
 
 | Workflow label             | OS           | vCPU | Memory | Disk  |
 |----------------------------|--------------|------|--------|-------|
-| `ubicloud-standard-2`      | Ubuntu 22.04 | 2    | 8GB    | 86GB  |
-| `ubicloud-standard-4`      | Ubuntu 22.04 | 4    | 16GB   | 150GB |
-| `ubicloud-standard-8`      | Ubuntu 22.04 | 8    | 32GB   | 200GB |
-| `ubicloud-standard-16`     | Ubuntu 22.04 | 16   | 64GB   | 300GB |
-| `ubicloud-standard-30`     | Ubuntu 22.04 | 30   | 120GB  | 400GB |
-| `ubicloud-standard-2-arm`  | Ubuntu 22.04 | 2    | 6GB    | 86GB  |
-| `ubicloud-standard-4-arm`  | Ubuntu 22.04 | 4    | 12GB   | 150GB |
-| `ubicloud-standard-8-arm`  | Ubuntu 22.04 | 8    | 24GB   | 200GB |
-| `ubicloud-standard-16-arm` | Ubuntu 22.04 | 16   | 48GB   | 300GB |
-| `ubicloud-standard-30-arm` | Ubuntu 22.04 | 30   | 90GB   | 400GB |
+| `ubicloud-standard-2`      | Ubuntu 24.04 | 2    | 8GB    | 75GB  |
+| `ubicloud-standard-4`      | Ubuntu 24.04 | 4    | 16GB   | 150GB |
+| `ubicloud-standard-8`      | Ubuntu 24.04 | 8    | 32GB   | 200GB |
+| `ubicloud-standard-16`     | Ubuntu 24.04 | 16   | 64GB   | 300GB |
+| `ubicloud-standard-30`     | Ubuntu 24.04 | 30   | 120GB  | 400GB |
+| `ubicloud-standard-2-arm`  | Ubuntu 24.04 | 2    | 6GB    | 86GB  |
+| `ubicloud-standard-4-arm`  | Ubuntu 24.04 | 4    | 12GB   | 150GB |
+| `ubicloud-standard-8-arm`  | Ubuntu 24.04 | 8    | 24GB   | 200GB |
+| `ubicloud-standard-16-arm` | Ubuntu 24.04 | 16   | 48GB   | 300GB |
+| `ubicloud-standard-30-arm` | Ubuntu 24.04 | 30   | 90GB   | 400GB |
 
 You can append `-ubuntu-2204` or `-ubuntu-2404` to explicitly set the operating system.
 
@@ -32,15 +28,15 @@ Ubicloud runners support the following label patterns:
 ```yaml
 # x64 runners
 runs-on: ubicloud-standard-{vcpu}-{os}
-# ubicloud                        -> 2 vCPU x64 Ubuntu 22.04 runner
-# ubicloud-standard-8             -> 8 vCPU x64 Ubuntu 22.04 runner
-# ubicloud-standard-4-ubuntu-2404 -> 4 vCPU x64 Ubuntu 24.04 runner
+# ubicloud                        -> 2 vCPU x64 Ubuntu 24.04 runner
+# ubicloud-standard-8             -> 8 vCPU x64 Ubuntu 24.04 runner
+# ubicloud-standard-4-ubuntu-2204 -> 4 vCPU x64 Ubuntu 22.04 runner
 
 # arm64 runners
 runs-on: ubicloud-standard-{vcpu}-arm-{os}
-# ubicloud-arm                        -> 2 vCPU arm64 Ubuntu 22.04 runner
-# ubicloud-standard-8-arm             -> 8 vCPU arm64 Ubuntu 22.04 runner
-# ubicloud-standard-4-arm-ubuntu-2404 -> 4 vCPU arm64 Ubuntu 24.04 runner
+# ubicloud-arm                        -> 2 vCPU arm64 Ubuntu 24.04 runner
+# ubicloud-standard-8-arm             -> 8 vCPU arm64 Ubuntu 24.04 runner
+# ubicloud-standard-4-arm-ubuntu-2204 -> 4 vCPU arm64 Ubuntu 22.04 runner
 ```
 
 <CardGroup cols={2}>
@@ -48,7 +44,7 @@ runs-on: ubicloud-standard-{vcpu}-arm-{os}
     The supported number of vCPUs are 2 (default), 4, 8, 16, and 30.
   </Card>
   <Card title="{os}" icon="ubuntu">
-    The operation system can be `ubuntu-2404`, `ubuntu-2204` (default).
+    The operation system can be `ubuntu-2204`, `ubuntu-2404` (default).
   </Card>
 </CardGroup>
 
