@@ -31,7 +31,7 @@ jobs:
           ref: enes/regen-ss-dir
 
       - name: Set up Clover
-        uses: ./ubicloud/.github/actions/setup-clover
+        uses: ./ubicloud/.github/actions/setup-clover@main
         with:
           working-directory: ubicloud
 
