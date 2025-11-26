@@ -971,6 +971,18 @@ paths:
                 restrict_by_default:
                   description: 'Whether to restrict access by default (if so, firewall rules must be added to access)'
                   type: boolean
+                pg_config:
+                  type: object
+                  example:
+                    max_connections: '100'
+                  additionalProperties:
+                    type: string
+                pgbouncer_config:
+                  type: object
+                  example:
+                    max_client_conn: '100'
+                  additionalProperties:
+                    type: string
                 tags:
                   description: Tags for the Postgres Database
                   type: array
@@ -1757,6 +1769,7 @@ paths:
       summary: List visible Postgres Databases
       parameters:
         - $ref: '#/components/parameters/project_id'
+        - $ref: '#/components/parameters/tags'
         - $ref: '#/components/parameters/start_after'
         - $ref: '#/components/parameters/page_size'
         - $ref: '#/components/parameters/order_column'
@@ -2187,6 +2200,14 @@ components:
       required: false
       schema:
         type: string
+    tags:
+      description: 'Filter by tags in key:value format (comma-separated for multiple tags)'
+      in: query
+      name: tags
+      required: false
+      schema:
+        type: string
+        example: 'environment:production,team:backend'
     vm_reference:
       description: Virtual machine ID or name
       examples:
