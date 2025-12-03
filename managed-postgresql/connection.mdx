@@ -39,14 +39,12 @@ the "Use pgBouncer?" checkbox to obtain the connection string for PgBouncer.
 ## TLS
 
 Ubicloud PostgreSQL instances are secured with TLS. By default, **TLS v1.3** is
-the minimum supported version. We recommend using at least `sslmode=require`
-when connecting applications to your instance, to ensure that the connection is
-encrypted.
+the minimum supported version.
 
 For production workloads, it is recommened that you connect to your instance
 using a verified TLS connection. To do this, download the CA certificate bundle
 from the Connection view, and add them to your database client's trusted
-certificates. 
+certificates.
 
 For example, to connect to your PostgreSQL instance with "psql" using a verified
 TLS connection, you can add `sslmode=verify-full` and
