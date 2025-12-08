@@ -1,0 +1,83 @@
+---
+title: "November 2025"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## AI & GPUs
+
+We have expanded our GPU offerings to support virtual machines with 4 and 8 GPUs on B200 machines, allowing for more flexible and efficient resource usage for AI and machine learning workloads. Contact us at [support@ubicloud.com](mailto:support@ubicloud.com) for more information.
+
+<PrList ids={[4155]} />
+
+## Networking
+
+### Dual-Stack Load Balancer Health Checks
+
+Load balancers now perform separate health checks for IPv4 and IPv6 stacks. This ensures that traffic is routed intelligently based on the specific health of each IP stack on a node, significantly improving reliability for dual-stack network configurations.
+
+### Private Subnet Firewall Rules
+
+You can now create firewall rules that specifically target private subnets by name or ID via the web console, CLI, and API. This enhancement simplifies network security management within your Virtual Private Clouds (VPCs).
+
+![Subnet Firewall Rules](/changelog/2025-11-subnet-fw-target.png)
+
+### Public IP Ranges Endpoint
+
+We introduced a new API endpoint at `api.ubicloud.com/ips-v4` that lists the IPv4 ranges used by Ubicloud services. This is particularly useful for configuring external firewalls to allow traffic from Ubicloud runners and resources.
+
+### Enhanced Resource Visibility
+
+The details page for VMs in private subnets now displays other attached resources, such as PostgreSQL databases and Kubernetes clusters. This provides a clearer view of your infrastructure dependencies directly within the UI.
+
+![Subnet Firewall Rules](/changelog/2025-11-subnet-resources.png)
+
+<PrList ids={[4138, 4139, 4140, 4104, 4032, 4169, 4115]} />
+
+## Managed PostgreSQL
+
+### API Enhancements
+
+We have expanded the PostgreSQL API with new capabilities. You can now specify custom `pg_config` parameters when creating a new PostgreSQL cluster, filter PostgreSQL resources by tags and access a dedicated endpoint to list backups, enabling better programmatic management and integration with your internal tools.
+
+### Connection String Security Update
+
+Connection strings for port 5432 have been updated to use `channel_binding=require` instead of `sslmode=require`. This change provides stronger security verification for clients connecting to your databases.
+
+### Improved Point-in-Time Recovery
+
+The backup restore picker now defaults to the next full minute. This UX improvement encourages restore targets that apply a full day's worth of WAL changes more efficiently, resulting in faster restoration times.
+
+### Read Replica UI Improvements
+
+The "Upgrade" tab is now hidden when viewing Read Replicas in the console. This clarifies that major version upgrades must be performed on the primary instance, preventing confusion during maintenance windows.
+
+<PrList ids={[4191, 4255, 4256, 4252, 4168, 4163]} />
+
+## GitHub Runners
+
+### Ubuntu 24.04 Default Environment
+
+The default operating system for Ubicloud GitHub Runners has been updated from Ubuntu 22.04 to Ubuntu 24.04. This ensures your CI/CD pipelines run on a modern, secure, and up-to-date environment.
+
+### Concurrent Webhook Redelivery
+
+We have improved the reliability of webhook delivery from GitHub. Failed deliveries are now processed and redelivered concurrently, significantly reducing delays during high-traffic periods or incidents to ensure your jobs trigger reliably.
+
+### Clear Cache Capability
+
+Added a new capability to remove all GitHub Actions cache entries for a specific repository via the CLI and API. This helps manage storage usage and ensures build freshness when dependencies change significantly.
+
+<PrList ids={[4231, 4210, 4246, 4265, 4225, 4136]} />
+
+## Billing
+
+We have improved the billing workflow for enterprise customers paying via bank transfer. Invoices now include specific transfer details, and the system automatically handles invoice delivery and status tracking for these payment methods.
+
+<PrList ids={[4133]} />
+
+## Console & UI
+
+Direct links to documentation and the changelog have been added to the console top bar. This makes it easier to access help resources and stay updated on the latest platform changes while working in the dashboard.
+
+<PrList ids={[4143]} />
