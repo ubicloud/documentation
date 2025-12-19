@@ -1,0 +1,135 @@
+---
+title: 'Bring Your Own Cloud - AWS'
+---
+
+It is possible to run Ubicloud PostgreSQL on your own AWS infrastructure. This
+has following benefits:
+- You can use your AWS credits and reserved instance pricing.
+- You have full control over the underlying infrastructure.
+- It provides [10x better price-performance](price-performance.mdx) compared to
+RDS and Aurora.
+
+## Set up
+Currently BYOC is private beta. To get access, please contact us at
+[support@ubicloud.com](mailto:support@ubicloud.com).
+
+### AWS Configuration
+You will need to create an AWS user for Ubicloud so that it can create and
+manage resources on your behalf. For full isolation, we recommend using a
+dedicated AWS account for Ubicloud. Please follow the steps below:
+
+1. Create new AWS IAM Policy for Ubicloud user.
+    1. Go to IAM > Policies > Create Policy.
+    2. Select JSON editor and use the below policy.
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:AttachUserPolicy",
+				"iam:CreateAccessKey",
+				"iam:CreatePolicy",
+				"iam:CreateUser",
+				"iam:DeleteAccessKey",
+				"iam:DeletePolicy",
+				"iam:DeleteUser",
+				"iam:DetachUserPolicy",
+				"iam:ListAccessKeys",
+				"iam:ListAttachedUserPolicies",
+				"iam:CreateRole",
+				"iam:ListPolicies",
+				"iam:AttachRolePolicy",
+				"iam:CreateInstanceProfile",
+				"iam:AddRoleToInstanceProfile",
+				"iam:PassRole",
+				"iam:GetInstanceProfile",
+				"iam:RemoveRoleFromInstanceProfile",
+				"iam:DeleteInstanceProfile",
+				"iam:DetachRolePolicy",
+				"iam:DeleteRole"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:AllocateAddress",
+				"ec2:AssignIpv6Addresses",
+				"ec2:AssociateAddress",
+				"ec2:AttachInternetGateway",
+				"ec2:AuthorizeSecurityGroupIngress",
+				"ec2:CreateInternetGateway",
+				"ec2:CreateNetworkInterface",
+				"ec2:CreateRoute",
+				"ec2:CreateSecurityGroup",
+				"ec2:CreateSubnet",
+				"ec2:CreateTags",
+				"ec2:CreateVpc",
+				"ec2:DeleteInternetGateway",
+				"ec2:DeleteNetworkInterface",
+				"ec2:DeleteSubnet",
+				"ec2:DeleteSecurityGroup",
+				"ec2:DeleteVpc",
+				"ec2:DescribeAddresses",
+				"ec2:DescribeInstances",
+				"ec2:DescribeInternetGateways",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeRouteTables",
+				"ec2:DescribeSecurityGroups",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeVpcs",
+				"ec2:DetachInternetGateway",
+				"ec2:ModifySubnetAttribute",
+				"ec2:ReleaseAddress",
+				"ec2:RunInstances",
+				"ec2:TerminateInstances",
+				"ec2:ModifyVpcAttribute"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:ListBucket",
+				"s3:CreateBucket",
+				"s3:PutLifecycleConfiguration"
+			],
+			"Resource": "*"
+		}
+	]
+}
+```
+    3. Go to next page, give the policy a name (e.g., "ubicloud-byoc-policy")
+    and create the policy.
+2. Create new AWS IAM User for Ubicloud.
+    1. Go to IAM > Users > Create user.
+    2. Set a user name (e.g., "ubicloud-byoc-user") and go to next page.
+    3. Click "Attach policies directly" and select the policy you created in
+    previous step and go to next page.
+    4. Review and create the user.
+3. Create Access Key for the user.
+    1. After creating the user, go to user details page and open "Security
+    credentials" tab.
+    2. Click "Create access key" button.
+    3. Select "Application running outside AWS" and go to next page.
+    4. Add a description (e.g., "ubicloud-byoc-key") and create the access key.
+    5. Copy Access Key ID and Secret Access Key. You will need them when
+    setting up BYOC in Ubicloud.
+
+### Ubicloud Configuration
+1. Go to Ubicloud Console > AWS Regions > Create AWS Region.
+2. Fill in the form with the following details:
+    - **Ubicloud Region Name:** A name for your new region backed by AWS
+    (e.g., "my-us-east-1").
+    - **AWS Region Name:** Select the AWS region where you want to deploy
+    Ubicloud PostgreSQL instances.
+    - **AWS Access Key:** The Access Key ID you created in previous section.
+    - **AWS Secret Key:** The Secret Access Key you created in previous
+    section.
+3. Click "Create" to save the configuration.
+4. Now, the new region you created will be visible in PostgreSQL creation form.
+You can use newly created region to create Ubicloud PostgreSQL instances backed
+by your own AWS infrastructure.

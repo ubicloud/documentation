@@ -92,6 +92,7 @@
               "managed-postgresql/upgrade",
               "managed-postgresql/configuration-and-settings",
               "managed-postgresql/extensions",
+              "managed-postgresql/byoc",
               "managed-postgresql/price-performance",
               "managed-postgresql/paradedb-on-ubicloud"
             ]
