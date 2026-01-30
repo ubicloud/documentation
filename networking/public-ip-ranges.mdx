@@ -1,0 +1,42 @@
+---
+title: 'Public IP Ranges'
+---
+
+Ubicloud publishes its public IPv4 address ranges through a dedicated API endpoint: https://api.ubicloud.com/ips-v4. This is useful for configuring firewall allowlists, network ACLs, or security rules in environments that need to accept traffic from Ubicloud resources.
+
+## Endpoint
+
+```
+GET https://api.ubicloud.com/ips-v4
+```
+
+This endpoint is publicly accessible and does not require authentication. It returns a plain-text list of IPv4 CIDR ranges, each on a separate line.
+
+## Example
+
+```bash
+$ curl https://api.ubicloud.com/ips-v4
+
+5.9.0.0/16
+46.4.0.0/16
+64.131.0.0/16
+77.92.0.0/16
+108.62.0.0/16
+109.94.0.0/16
+135.181.0.0/16
+136.243.0.0/16
+144.76.0.0/16
+148.251.0.0/16
+178.63.0.0/16
+188.40.0.0/16
+207.58.0.0/16
+216.22.0.0/16
+```
+
+## Use Cases
+
+This list is useful when you need to allow access from Ubicloud resources, such as GitHub Action runners, to your other resources or services. For example, you can use these ranges to configure firewall allowlists or security group rules so that your services accept traffic from Ubicloud.
+
+<Tip>
+The list of IP ranges may change over time as Ubicloud adds new regions and infrastructure providers. We recommend fetching the list programmatically rather than hardcoding values.
+</Tip>

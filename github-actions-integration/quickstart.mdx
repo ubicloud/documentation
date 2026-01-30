@@ -38,6 +38,10 @@ This guide describes how to integrate your GitHub Action workflows with Ubicloud
   </Step>
 </Steps>
 
+<Tip>
+    **Allowlisting Ubicloud IPs:** If your workflows need to access services behind a firewall (e.g., private APIs, databases, or registries), you may need to allowlist Ubicloud's IP ranges listed at https://api.ubicloud.com/ips-v4. You can find the more information about retrieving IPv4 ranges at the [Public IP Ranges](/networking/public-ip-ranges) page.
+</Tip>
+
 <Info>
     **Summary:** In this guide, you created a Ubicloud account and integrated that account with your GitHub Account. You then changed a single line in your workflow file to use Ubicloud runners.
 
