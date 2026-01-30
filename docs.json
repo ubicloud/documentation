@@ -114,7 +114,8 @@
             "pages": [
               "networking/private-subnet",
               "networking/firewall",
-              "networking/load-balancer"
+              "networking/load-balancer",
+              "networking/public-ip-ranges"
             ]
           },
           {
