@@ -1,0 +1,61 @@
+---
+title: "January 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## ClickHouse PostgreSQL powered by Ubicloud
+![ClickHouse PostgreSQL](/changelog/2026-01-clickhouse-ubicloud.jpg)
+
+Ubicloud Postgres now powers ClickHouse: Managed Postgres, giving customers a unified data stack with Postgres for transactional workloads and ClickHouse for analytics. PostgreSQL can be provisioned directly inside ClickHouse Cloud, runs on high-performance NVMe-backed infrastructure, and includes native Change Data Capture for seamless data syncing to ClickHouse, eliminating custom pipelines. This launch also marks a deeper open-source collaboration, with ClickHouse contributing directly to the Ubicloud project, accelerating enterprise features, performance, and reliability across both platforms.
+
+## Managed PostgreSQL
+
+### Faster failovers and improved high availability
+
+We've made significant improvements to PostgreSQL failover reliability and speed. Failover deadlines have been reduced for faster recovery, and standby servers are now automatically reprovisioned when they become unavailable. We also improved failover target selection to prefer standbys with synchronized physical replication slots while still allowing fallback when needed.
+
+### Private DNS with SSL certificates (preview)
+
+PostgreSQL databases and load balancers now support private DNS names with SSL certificates, allowing users to connect over private subnets with the same TLS security as public connections. We've also updated the private DNS prefix from `private-` to `private.` to comply with DNS label length limits.
+
+### Configuration visibility and guardrails
+
+The PostgreSQL API now returns the full computed configuration (including defaults) alongside user overrides, making it easier to understand your database's effective settings. We've also added guardrails to prevent disabling critical security settings like TLS and password authentication through user configuration overrides. Read replica creation endpoints now accept `pg_config` and `pgbouncer_config` parameters for more control at provisioning time.
+
+### API enhancements
+
+The PostgreSQL list API now includes a `created_at` field for better observability and sorting. You can also specify a private subnet name when creating a database via the API or CLI, simplifying automation workflows. We've also added IPv6 (AAAA) DNS records for non-AWS PostgreSQL databases.
+
+### Better status indicators
+
+PostgreSQL databases now show a "restarting" state in the UI and API when a restart is in progress, instead of appearing stuck in a previous state.
+
+<PrList ids={[4518, 4601, 4439, 4683, 4526, 4475, 4650, 4553, 4575, 4527, 4482, 4496, 4502, 4571]} />
+
+## Platform
+
+![Refreshed Projects Page](/changelog/2026-01-projects.png)
+
+### Project invitation management
+
+Project invitations are now true invitations — users can accept or decline them instead of being automatically added. We've added a Project Invitations page where you can manage pending invitations.
+
+### Self-removal from projects
+
+You can now remove yourself from any project you belong to, even without admin access.
+
+### Default project selection
+
+You can now choose which project is your default, rather than always defaulting to the oldest project.
+
+
+<PrList ids={[4567, 4569, 4570]} />
+
+## Networking
+
+### Private subnet deletion status
+
+Private subnets now show a "deleting" state when destruction is in progress, giving clearer feedback instead of remaining as "available" until fully removed.
+
+<PrList ids={[4532]} />
