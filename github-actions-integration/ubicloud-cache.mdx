@@ -39,7 +39,12 @@ Transparent cache improves download performance by 4x and upload performance by 
 
 For a deep dive into its implementation and detailed performance metrics, check out the [GitHub Actions Transparent Cache Blog Post](https://www.ubicloud.com/blog/github-actions-transparent-cache).
 
-## Ubicloud Cache Actions
+## Ubicloud Cache Actions (Deprecated)
+
+<Info>
+Since Ubicloud Transparent Cache allows you to use our cache infrastructure without modifying your workflow files, it is the recommended way to use Ubicloud’s caching.
+Cache actions are an older approach and are not maintained at the same level as the transparent cache.
+</Info>
 
 Ubicloud Cache Actions are drop-in replacements for `actions/cache` as `ubicloud/cache` and `actions/setup-*` as `ubicloud/setup-*`. 
 
