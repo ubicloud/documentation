@@ -39,6 +39,16 @@ Transparent cache improves download performance by 4x and upload performance by 
 
 For a deep dive into its implementation and detailed performance metrics, check out the [GitHub Actions Transparent Cache Blog Post](https://www.ubicloud.com/blog/github-actions-transparent-cache).
 
+### Cache Branch Protection
+
+By default, workflow runs can only access caches created on the current branch/tag or the default branch. This is consistent with [GitHub's default cache isolation behavior](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache).
+
+You can disable cache branch protection in the Ubicloud console under your GitHub installation settings to share caches across all branches.
+
+<Warning>
+Disabling cache branch protection on public repositories should be done with caution. If not all contributors are trusted, sharing caches across branches may lead to cross-branch cache poisoning attacks.
+</Warning>
+
 ## Ubicloud Cache Actions (Deprecated)
 
 <Info>
