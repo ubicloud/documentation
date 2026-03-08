@@ -92,17 +92,23 @@ echo "http://$(kubectl -n windmill get service windmill-app --output jsonpath='{
 Congratulations—Windmill is now running on Ubicloud!
 
 ## Configuring TLS for Secure Access
-To expose Windmill securely via HTTPS, we'll employ `cert-manager`, `ingress-nginx`, and Let's Encrypt.
+To expose Windmill securely via HTTPS, we'll employ NGINX Gateway Fabric, `cert-manager`, and Let's Encrypt using the Kubernetes Gateway API.
 
-### Installing and Setting Up `ingress-nginx` & `cert-manager`
-Use the following commands to install `ingress-nginx` and `cert-manager`:
+### Installing NGINX Gateway Fabric & cert-manager
+Use the following commands to install the Gateway API CRDs, NGINX Gateway Fabric, and cert-manager:
 ```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.4.2" | kubectl apply -f -
+
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
+
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
-helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace --set controller.service.ipFamilyPolicy=RequireDualStack
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set crds.enabled=true
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace \
+  --set crds.enabled=true \
+  --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
+  --set config.kind="ControllerConfiguration" \
+  --set config.enableGatewayAPI=true
 ```
 
 Next, create an issuer in the `windmill` namespace to obtain certificates from Let's Encrypt:
@@ -120,45 +126,114 @@ spec:
      name: letsencrypt
    solvers:
    - http01:
-       ingress:
-         class: nginx
+       gatewayHTTPRoute:
+         parentRefs:
+         - name: windmill-gateway
+           namespace: windmill
+           kind: Gateway
 EOF
 )
 ```
 
 ### Setting Up DNS Records for Traffic Routing
-Retrieve the external IP address of the ingress-nginx controller service:
+Create the Gateway resource. NGINX Gateway Fabric will automatically provision a LoadBalancer Service and an NGINX data plane when a Gateway is created.
+
 ```bash
-kubectl -n ingress-nginx get service ingress-nginx-controller
+kubectl apply -n windmill -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: windmill-gateway
+  annotations:
+    cert-manager.io/issuer: letsencrypt-windmill
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: windmill-tls-cert
+EOF
+```
+
+Once the Gateway is created, retrieve the external address of the LoadBalancer Service:
+```bash
+kubectl -n windmill get service windmill-gateway-nginx
 ```
 
 You should get a result in the form `u8ic10u08e-services.k8s.ubicloud.com`. We will use this address in the following step to route traffic to the cluster securely.
 
-<Note>If you want to use your your domain such as `windmill.yourdomain.com`, create a CNAME record with your DNS provider to route `windmill.yourdomain.com` to the `EXTERNAL-IP` associated with the `ingress-nginx-controller` service and use that address in the following steps.</Note>
+<Note>If you want to use your domain such as `windmill.yourdomain.com`, create a CNAME record with your DNS provider to route `windmill.yourdomain.com` to the `EXTERNAL-IP` associated with the `windmill-gateway-nginx` service and use that address in the following steps.</Note>
 
-### Updating Windmill Chart Values for TLS
-Modify `values.yaml` file as follows:
+### Updating Windmill Chart Values and Creating Gateway Resources
+First, disable the built-in ingress in `values.yaml` since we'll use Gateway API resources directly:
 ```yaml
 windmill:
   baseDomain: xxxxxxxxxx-services.k8s.ubicloud.com # Replace with your service URL or domain
   baseProtocol: https
 
 ingress:
-  className: "nginx"
-  annotations: 
-    cert-manager.io/issuer: "letsencrypt-windmill"
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
-    nginx.ingress.kubernetes.io/session-cookie-name: "route"
-  tls: 
-    - hosts:
-        - "xxxxxxxxxx-services.k8s.ubicloud.com" # Replace with your service URL or domain
-      secretName: windmill-tls-cert
+  enabled: false
 ```
 
 Apply the updated values to the Windmill installation:
 ```bash
 helm -n windmill upgrade my-windmill windmill/windmill -f values.yaml
+```
+
+Next, update the Gateway to include the hostname for the HTTPS listener, and create the HTTPRoute to expose Windmill:
+```bash
+export WINDMILL_DOMAIN=xxxxxxxxxx-services.k8s.ubicloud.com # Replace with your service URL or domain
+
+kubectl apply -n windmill -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: windmill-gateway
+  annotations:
+    cert-manager.io/issuer: letsencrypt-windmill
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    hostname: "$WINDMILL_DOMAIN"
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: windmill-tls-cert
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: windmill
+spec:
+  parentRefs:
+  - name: windmill-gateway
+    sectionName: https
+  hostnames:
+  - "$WINDMILL_DOMAIN"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: windmill-app
+      port: 8000
+EOF
 ```
 
 ### Verifying the Certificate Status
