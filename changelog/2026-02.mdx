@@ -1,0 +1,65 @@
+---
+title: "February 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### Storage Auto-Scaling
+
+Ubicloud Managed PostgreSQL now automatically scales up storage when disk usage gets high. When your database reaches critical thresholds, the system resizes storage without manual intervention — keeping your database available even during unexpected data growth. Hobby-tier (formerly burstable) databases that hit their storage ceiling are automatically upgraded to the standard tier so they can continue scaling.
+
+### Transaction-Mode PgBouncer by Default
+
+New PostgreSQL instances now default to PgBouncer's `transaction` pool mode, which allows better connection reuse. Existing instances are unaffected — their pool mode has been preserved as `session`.
+
+### Restart Requirement Indicators for Config Parameters
+
+![PostgreSQL Restart Requirement Indicator](/changelog/2026-02-restart-indicator.png)
+
+The PostgreSQL configuration UI now shows which parameters require a database restart to take effect. This helps you plan configuration changes and understand when a restart is needed.
+
+### IPv6 (AAAA) Records for Older Databases
+
+A new option in the web console lets you add AAAA DNS records to PostgreSQL databases created before IPv6 support was available, making it easy to enable IPv6 connectivity on older instances.
+
+### Replication via the postgres User
+
+You can now set up logical or physical replication connections using the `postgres` user, simplifying replication configuration for advanced use cases.
+
+### Hobby Tier
+
+Burstable PostgreSQL instances have been renamed to "hobby" to better signal that these instances are intended for development, experimentation, and non-production workloads.
+
+### Failover Testing with `/recycle`
+
+You can now trigger a failover on your PostgreSQL instance via the new `/recycle` API endpoint. This lets you test your application's resilience to failovers in a controlled way. You can find more details in the [API documentation](https://www.ubicloud.com/docs/api-reference/postgres-database/request-primary-to-be-recycled).
+
+<PrList ids={[4730, 4754, 4755, 4783, 4798, 4738, 4703, 4772, 4696, 4750, 4749]} />
+
+
+## GitHub Runners
+
+### Usage Summary Dashboard
+
+![GitHub Runner Usage Summary](/changelog/2026-02-github-usage-summary.png)
+
+The GitHub runner dashboard now includes a usage summary showing your allocated vCPUs, requested vCPUs, today's cost, and your cost over the last 30 days — giving you clear visibility into runner utilization and spend at a glance.
+
+### Improved Onboarding Experience
+
+![GitHub Runners Onboarding](/changelog/2026-02-github-onboarding.png)
+
+The empty state for new GitHub runner users has been redesigned with a structured step-by-step setup guide, making it faster and clearer to get your first runner up and running.
+
+<PrList ids={[4731, 4733]} />
+
+
+## Networking
+
+### Redesigned Firewall Rule UI
+
+The firewall rule management interface has been overhauled. Rules are now displayed in a clean read-only table, with a dedicated page for adding or editing rules. The new editor includes dropdowns for common ports and IP ranges, while still allowing full customization.
+
+<PrList ids={[4745]} />
