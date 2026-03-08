@@ -2,36 +2,44 @@
 title: 'Expose an Application Securely Using TLS'
 ---
 
-In this guide, we'll walk through the standard process of deploying a simple HTTP server secured with TLS and exposed via Ingress.
+In this guide, we'll walk through the process of deploying a simple HTTP server secured with TLS and exposed via the Kubernetes Gateway API.
 
-To securely deploy your applications on Ubicloud Kubernetes clusters using TLS, simply set up an Ingress controller along with Cert-Manager. This setup handles all your TLS needs.
+To securely deploy your applications on Ubicloud Kubernetes clusters using TLS, set up NGINX Gateway Fabric along with cert-manager. This setup handles all your TLS needs using the Gateway API.
 
-Follow this step-by-step guide to deploy and expose an HTTPS application on your Kubernetes cluster. Before you begin, ensure that Helm is installed on your system.
+Follow this step-by-step guide to deploy and expose an HTTPS application on your Kubernetes cluster.
 
 ### Prerequisites
-To complete this tutorial, Helm must be installed. You can follow the official installation guide available on the [Helm website](https://helm.sh/docs/intro/install/)
+To complete this tutorial, `kubectl` and `helm` must be installed. You can follow the official installation guides available on the [Kubernetes website](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [Helm website](https://helm.sh/docs/intro/install/)
 
-You’ll also need an active domain and access to the control panel for managing DNS records in order to complete this guide.
+You'll also need an active domain and access to the control panel for managing DNS records in order to complete this guide.
+
+### Creating a Kubernetes Cluster
+If you don't have a Kubernetes cluster yet, you can create one using Ubicloud. Follow the instructions in the [Quickstart Guide](https://www.ubicloud.com/docs/managed-kubernetes/quickstart) to set up your cluster and configure `kubectl` to access it.
 
 ### Installing the required addons
 You'll need an email to register yourself with letsencrypt.
 ```bash
-export KUBECONFIG=/path/to/your/kubeconfig
 export CLUSTER_ISSUER_EMAIL=email@yourcompany.com
 ```
 
-Next, we'll add the ingress-nginx and jetstack Helm repositories to install the Ingress NGINX Controller and Cert Manager.
+Next, we'll install the Gateway API CRDs, NGINX Gateway Fabric, and cert-manager.
 
 ```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.4.2" | kubectl apply -f -
+
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
+
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
-helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace --set controller.service.ipFamilyPolicy=RequireDualStack
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set crds.enabled=true
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace \
+  --set crds.enabled=true \
+  --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
+  --set config.kind="ControllerConfiguration" \
+  --set config.enableGatewayAPI=true
 ```
 
-We'll also create a ClusterIssuer in order to get certificates from letsencrypt for our service
+We'll also create a ClusterIssuer in order to get certificates from letsencrypt for our service. Note the `gatewayHTTPRoute` solver, which tells cert-manager to use the Gateway API for HTTP-01 challenges.
 ```bash
 kubectl apply -f <(cat <<EOF
 apiVersion: cert-manager.io/v1
@@ -46,31 +54,129 @@ spec:
      name: letsencrypt
    solvers:
    - http01:
-       ingress:
-         class: nginx
+       gatewayHTTPRoute:
+         parentRefs:
+         - name: gateway
+           namespace: default
+           kind: Gateway
+           sectionName: http
 EOF
 )
 ```
-Once all the commands have been executed, you’ll notice a Service named `ingress-nginx-controller` created in the `ingress-nginx` namespace. This Service is of type LoadBalancer, and the `EXTERNAL-IP` column will display a domain that resolves to the IPs of your worker nodes.
+
+### Create a Gateway and get the external address
+Next, create a Gateway resource. NGINX Gateway Fabric will automatically provision a LoadBalancer Service and an NGINX data plane when a Gateway is created.
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: hello-world-tls
+EOF
+```
+
+Once the Gateway is created, a Service named `gateway-nginx` will appear in the default namespace. This Service is of type LoadBalancer, and the `EXTERNAL-IP` column will display a domain that resolves to the IPs of your worker nodes.
 
 You can see this service using the command below
 ```bash
-kubectl -n ingress-nginx get service ingress-nginx-controller
+kubectl get service gateway-nginx
 ```
 
 Here's a sample output of the command:
 ```
-NAME                       TYPE           CLUSTER-IP      EXTERNAL-IP                            PORT(S)                      AGE
-ingress-nginx-controller   LoadBalancer   10.105.61.236   xgmdaw248d-services.k8s.ubicloud.com   80:32271/TCP,443:30363/TCP   8m15s
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                            PORT(S)                      AGE
+gateway-nginx   LoadBalancer   10.105.61.236   devcluster-services.k8s.ubicloud.com   80:32271/TCP,443:30363/TCP   8m15s
 ```
 
 ### Add DNS record to route the traffic to the cluster
-Next, create a CNAME record with your DNS provider pointing *.ingress.yourdomain.com to the domain listed in the EXTERNAL-IP. Feel free to use any subdomain that best suits your setup.
+Next, create a `CNAME` record with your DNS provider pointing `*.somesubdomain.yourdomain.com` to the domain listed in the `EXTERNAL-IP`. Feel free to use any subdomain that best suits your setup.
 
 ### Deploy your application
-```bash
-export DOMAIN_SUFFIX=ingress.yourdomain.com
 
+First, set your domain suffix to match the DNS record you created in the previous step.
+```bash
+export DOMAIN_SUFFIX=somesubdomain.yourdomain.com
+```
+
+#### Update the Gateway with a hostname
+
+Update the Gateway to add a `hostname` to the HTTPS listener. This restricts the listener to only handle traffic for your specific domain, and tells NGINX Gateway Fabric which TLS certificate to serve for that host.
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+  - name: https
+    hostname: "hello-world.$DOMAIN_SUFFIX"
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - kind: Secret
+        name: hello-world-tls
+EOF
+```
+
+The `certificateRefs` field points to a Kubernetes Secret named `hello-world-tls` where the TLS certificate and private key will be stored. This Secret doesn't exist yet — cert-manager will create it in the next step.
+
+#### Request a TLS certificate
+
+Create a Certificate resource that tells cert-manager to obtain a TLS certificate from Let's Encrypt for your domain. cert-manager will use the ClusterIssuer we created earlier and solve the HTTP-01 challenge by temporarily creating an HTTPRoute through the Gateway's HTTP listener.
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: hello-world-tls
+spec:
+  secretName: hello-world-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  dnsNames:
+  - "hello-world.$DOMAIN_SUFFIX"
+EOF
+```
+
+Once the challenge is solved, cert-manager stores the issued certificate in the `hello-world-tls` Secret, which the Gateway's HTTPS listener will use to terminate TLS.
+
+You can monitor the certificate status with:
+```bash
+kubectl get certificate hello-world-tls
+```
+
+Wait until the `READY` column shows `True` before proceeding.
+
+#### Deploy the application, Service, and HTTPRoute
+
+Now deploy a simple NGINX web server, expose it as a Service, and create an HTTPRoute to route external HTTPS traffic to it.
+
+```bash
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
@@ -101,33 +207,31 @@ spec:
    app: hello-world
  ports:
  - port: 80
-EOF
-
-kubectl apply -f - <<EOF
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
- name: hello-world
- annotations:
-   cert-manager.io/cluster-issuer: letsencrypt
+  name: hello-world
 spec:
- ingressClassName: nginx
- tls:
- - hosts:
-   - hello-world.$DOMAIN_SUFFIX
-   secretName: hello-world-ingress-tls
- rules:
- - host: hello-world.$DOMAIN_SUFFIX
-   http:
-     paths:
-     - path: /
-       pathType: Prefix
-       backend:
-         service:
-           name: hello-world-service
-           port:
-             number: 80
+  parentRefs:
+  - name: gateway
+    sectionName: https
+  hostnames:
+  - "hello-world.$DOMAIN_SUFFIX"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: hello-world-service
+      port: 80
 EOF
 ```
 
-Now you can visit https://hello-world.ingress.yourdomain.com!
+This creates three resources:
+- **Deployment**: Runs an NGINX container that serves the default welcome page on port 80.
+- **Service**: Exposes the Deployment inside the cluster so that the HTTPRoute can forward traffic to it.
+- **HTTPRoute**: Attaches to the Gateway's `https` listener (via `sectionName: https`) and routes all requests for `hello-world.<your-domain>` to the `hello-world-service`. This is the resource that connects your external HTTPS traffic all the way to your application pods.
+
+Now you can visit https://hello-world.somesubdomain.yourdomain.com!
