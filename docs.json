@@ -161,8 +161,7 @@
           {
             "group": "Architecture",
             "pages": [
-              "architecture/control-and-data-plane",
-              "architecture/attribute-based-access-control-abac"
+              "architecture/control-and-data-plane"
             ]
           }
         ]
