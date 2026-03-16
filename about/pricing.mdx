@@ -11,7 +11,7 @@ At a high level, our prices are 3-10x lower than comparable offerings. For examp
 - [GitHub Actions](#github-actions): \$0.0008/min on Ubicloud vs. \$0.008/min on GitHub
 - [Compute (VMs)](#compute): \$26/month on Ubicloud vs. \$90/month on AWS Germany
 - [Managed PostgreSQL](#managed-postgresql): \$65/month on Ubicloud vs. \$200/month on AWS Germany
-- [Burstable VMs](#burstable-vms) start at \$6.65/month and [Burstable Managed PostgreSQL](#burstable-postgresql) starts at \$12.40/month
+- [Burstable VMs](#burstable-vms) start at \$6.65/month and [Hobby Managed PostgreSQL](#hobby-postgresql) starts at \$12.40/month
 
 
 ## GitHub Actions
@@ -79,7 +79,7 @@ Each VM has a monthly egress quota of 0.625TB per 2 vCPUs. If you exceed this li
 
 ## Managed PostgreSQL
 
-Ubicloud Managed PostgreSQL comes in standard and burstable flavors. The following tables display our pricing in Germany.
+Ubicloud Managed PostgreSQL comes in standard and hobby flavors. The following tables display our pricing in Germany.
 - We calculate usage at per minute granularity and bill you at the end of the month for usage.
 - We retain backups for 7 days for disaster recovery purposes. You can restore from backups at per-minute granularity.
 - You can choose extra storage in the portal at additional cost.
@@ -98,28 +98,14 @@ Standard Managed PostgreSQL comes with dedicated CPU, memory, and local block st
 | standard-30 |  30  |  120GB | 1,024GB |      $749     |
 | standard-60 |  60  |  240GB | 2,048GB |     $1498     | 
 
-### Burstable PostgreSQL
+### Hobby PostgreSQL
 
-Burstable Managed PostgreSQL comes with shared CPUs. Each VM can utilize host cpu capacity up to 50% of the allocated vCPU and additionally burst up to 100% of the allocated vCPU at micro-intervals. Memory and local block storage are currently dedicated to the database.
+Hobby Managed PostgreSQL comes with shared CPUs. Each VM can utilize host cpu capacity up to 50% of the allocated vCPU and additionally burst up to 100% of the allocated vCPU at micro-intervals. Memory and local block storage are currently dedicated to the database.
 
 |  PostgreSQL  | vCPU | Memory | Storage | Monthly Price |
 |:------------:|:----:|:------:|:-------:|:-------------:|
-|  burstable-1 |   1  |   2GB  |   16GB  |      $12.41   |
-|  burstable-2 |   2  |   4GB  |   32GB  |      $24.81   |
-
-
-### Managed ParadeDB
- 
-ParadeDB is an Elasticsearch alternative built on Postgres. ParadeDB instances managed by Ubicloud team and ParadeDB team jointly.
-
-|   ParadeDB  | vCPU | Memory | Storage | Monthly Price |
-|:-----------:|:----:|:------:|:-------:|:-------------:|
-|  standard-2 |   2  |   8GB  |   64GB  |      $99      |
-|  standard-4 |   4  |  16GB  |  128GB  |      $198     |
-|  standard-8 |   8  |  32GB  |  256GB  |      $396     |
-| standard-16 |  16  |  64GB  |  512GB  |      $749     |
-| standard-30 |  30  |  120GB | 1,024GB |     $1498     |
-| standard-60 |  60  |  240GB | 2,048GB |     $2997     | 
+|  hobby-1     |   1  |   2GB  |   16GB  |      $12.41   |
+|  hobby-2     |   2  |   4GB  |   32GB  |      $24.81   |
 
 
 ## Managed Kubernetes
