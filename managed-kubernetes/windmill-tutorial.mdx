@@ -162,7 +162,7 @@ Once the Gateway is created, retrieve the external address of the LoadBalancer S
 kubectl -n windmill get service windmill-gateway-nginx
 ```
 
-You should get a result in the form `u8ic10u08e-services.k8s.ubicloud.com`. We will use this address in the following step to route traffic to the cluster securely.
+You should get a result in the form `mycluster-services-0b1c1.k8s.ubicloud.com`. We will use this address in the following step to route traffic to the cluster securely.
 
 <Note>If you want to use your domain such as `windmill.yourdomain.com`, create a CNAME record with your DNS provider to route `windmill.yourdomain.com` to the `EXTERNAL-IP` associated with the `windmill-gateway-nginx` service and use that address in the following steps.</Note>
 
@@ -170,7 +170,7 @@ You should get a result in the form `u8ic10u08e-services.k8s.ubicloud.com`. We w
 First, update the domain values and disable the built-in ingress in `values.yaml` since we'll use Gateway API resources directly:
 ```yaml
 windmill:
-  baseDomain: xxxxxxxxxx-services.k8s.ubicloud.com # Replace with your service URL or domain
+  baseDomain: xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your service URL or domain
   baseProtocol: https
 
 ingress:
@@ -189,7 +189,7 @@ helm -n windmill upgrade my-windmill windmill/windmill -f values.yaml
 
 Next, update the Gateway to include the hostname for the HTTPS listener, and create the HTTPRoute to expose Windmill:
 ```bash
-export WINDMILL_DOMAIN=xxxxxxxxxx-services.k8s.ubicloud.com # Replace with your service URL or domain
+export WINDMILL_DOMAIN=xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your service URL or domain
 
 kubectl apply -n windmill -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
@@ -242,4 +242,4 @@ Check the readiness of the TLS certificate for the Windmill application:
 kubectl -n windmill describe cert windmill-tls-cert
 ```
 
-Once the certificate is ready, you can access your Windmill application securely at https://xxxxxxxxxx-services.k8s.ubicloud.com or https://windmill.yourdomain.com.
+Once the certificate is ready, you can access your Windmill application securely at https://xxxxx-services-xxxxx.k8s.ubicloud.com or https://windmill.yourdomain.com.

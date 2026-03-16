@@ -104,8 +104,8 @@ kubectl get service gateway-nginx
 
 Here's a sample output of the command:
 ```
-NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                            PORT(S)                      AGE
-gateway-nginx   LoadBalancer   10.105.61.236   devcluster-services.k8s.ubicloud.com   80:32271/TCP,443:30363/TCP   8m15s
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                                  PORT(S)                      AGE
+gateway-nginx   LoadBalancer   10.105.61.236   devcluster-services-0b1c1.k8s.ubicloud.com   80:32271/TCP,443:30363/TCP   8m15s
 ```
 
 The `certificateRefs` field points to a Kubernetes Secret named `hello-world-tls` where the TLS certificate and private key will be stored. This Secret doesn't exist yet — cert-manager will create it in the next step.
