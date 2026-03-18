@@ -74,7 +74,8 @@
               "github-actions-integration/migrate-to-arm-runners",
               "github-actions-integration/ubicloud-cache",
               "github-actions-integration/debug-workflow-with-ssh",
-              "github-actions-integration/price-performance"
+              "github-actions-integration/price-performance",
+              "github-actions-integration/security"
             ]
           },
           {
@@ -118,12 +119,9 @@
             ]
           },
           {
-            "group": "Security",
+            "group": "Authorization",
             "pages": [
-              "security/overview",
-              "security/authorization",
-              "security/github-actions",
-              "security/soc2"
+              "authorization/authorization"
             ]
           },
           {
