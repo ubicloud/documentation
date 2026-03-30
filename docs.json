@@ -119,9 +119,10 @@
             ]
           },
           {
-            "group": "Authorization",
+            "group": "Security",
             "pages": [
-              "authorization/authorization"
+              "security/authorization",
+              "security/trust-center"
             ]
           },
           {

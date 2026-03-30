@@ -11,13 +11,13 @@ Every project in Ubicloud uses Ubicloud's access control system.  Even if you ar
 
 When you create a project, you are the sole user and admin of the project.  From the users page, you can invite new and existing Ubicloud users to the project:
 
-![Users](/authorization/users-1-screenshot.png)
+![Users](/security/users-1-screenshot.png)
 
 By default, users you invite to the project are invited as members of the project.  Members have more limited access rights than admins.  By default, members can take all actions on virtual machines, PostgreSQL databases, private subnets, firewalls, and load balancers.  They can also setup GitHub Runners in the project, as well as view AI inference endpoints.
 
 You can change access for users from during the invitation process, or at any point after inviting the user.  On the user management page, you can choose from either Admin, Member, or No Access for users:
 
-![Users](/authorization/users-2-screenshot.png)
+![Users](/security/users-2-screenshot.png)
 
 The per-user Admin/Member/No Access setting is sufficient for many projects.  However, some projects need more control over access, and those can use the Access Control system for full control over access.
 
@@ -25,7 +25,7 @@ The per-user Admin/Member/No Access setting is sufficient for many projects.  Ho
 
 The Access Control tab on the User Management page gives you full control to manage access to the system:
 
-![Users](/authorization/access-control-1-screenshot.png)
+![Users](/security/access-control-1-screenshot.png)
 
 In order to use the access system properly, you need to understand how it works.  All access control in Ubicloud boils down to the question of whether the subject has access to perform a particular action, on a particular object.  Ubicloud stores such information in access control entries.  Each access control entry for the project has a subject, action, and object.
 
@@ -56,39 +56,39 @@ And you want to enforce the following access:
 
 We need to start by defining subject tags for these three groups.  You can think of subject tags as groups or roles.  On the Access Control page, click the "(Tags)" link next to Subject, to go to the Subject Tags page:
 
-![Users](/authorization/subject-tag-1-screenshot.png)
+![Users](/security/subject-tag-1-screenshot.png)
 
 On this page, you can create the subject tags for each group by setting the tag name, and then clicking the Create button. Note that tag names cannot contain spaces, so you are recommended to use dashes instead of spaces:
 
-![Users](/authorization/subject-tag-2-screenshot.png)
+![Users](/security/subject-tag-2-screenshot.png)
 
 After creating the three subject tags, you can click on the "Manage" button for the subject tag to go to the page to add or remove members of that tag:
 
-![Users](/authorization/subject-tag-3-screenshot.png)
+![Users](/security/subject-tag-3-screenshot.png)
 
 Subject tags created by users have no members by default.  After creating the subject tag, you should add the appropriate members to it.  As you can see on the page, in addition to adding accounts to subject tags, you can add other subject tags to a subject tag. For example, if you make the Web-Server-Admins tag a member of the System-Admins tag, then all members of the Web-Server-Admins tag are considered members of the System-Admins tag.  This works recursively, up to a configuable limit (32 levels by default).
 
 In the "Add Members" table, you can check the box for any of the accounts or tags, and then click the "Add Members" button to add members:
 
-![Users](/authorization/subject-tag-4-screenshot.png)
+![Users](/security/subject-tag-4-screenshot.png)
 
 That handles the subject tags.  Action tags are handled similarly, but to make things easier to users, Ubicloud includes some default action tags (called global action tags) that are available in every project.  There are global action tags for all actions you can take on a virtual machine (Vm:all), as well as for all actions you can take on a PostgreSQL database (Postgres:all).  There are also global action tags for all actions you can take on private subjects (PrivateSubnet:all), firewalls (Firewall:all), and load balancers (LoadBalancer:all), but the network admins need a single tag that includes those three global tags.
 
 Back on the Access Control page, lick on the "(Tags)" link next to Action, to go to the Action Tags page.  Then add a Networking action tag:
 
-![Users](/authorization/action-tag-1-screenshot.png)
+![Users](/security/action-tag-1-screenshot.png)
 
 Click on the Manage button.  Then check the boxes for the PrivateSubnet:all, Firewall:all, and LoadBalancer:all global action tags:
 
-![Users](/authorization/action-tag-2-screenshot.png)
+![Users](/security/action-tag-2-screenshot.png)
 
 Then click on the Add Members button on the button to add them to the tag:
 
-![Users](/authorization/action-tag-3-screenshot.png)
+![Users](/security/action-tag-3-screenshot.png)
 
 Now that the subject and action tags have been setup, we can create the necessary access control entries. Back on the Access Control page, you can click the New Access Control Entry button three times to create three new, unsaved entries.  On the access control form, changes are not made until you click the Save All button on the bottom right.
 
-![Users](/authorization/access-control-2-screenshot.png)
+![Users](/security/access-control-2-screenshot.png)
 
 You can then populate the access control entries:
 
@@ -96,7 +96,7 @@ You can then populate the access control entries:
 * Subject: Network-Admins, Action: Networking, Object: All Objects
 * Subject: Database-Admins, Action: Postgres:all, Object: All Objects
 
-![Users](/authorization/access-control-3-screenshot.png)
+![Users](/security/access-control-3-screenshot.png)
 
 Make sure to click the Save All button after populating the entries, to make sure they are saved.
 
