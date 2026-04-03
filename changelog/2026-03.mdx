@@ -1,0 +1,97 @@
+---
+title: "March 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+
+
+## Audit Log (New)
+
+Ubicloud now provides a full audit log accessible via the web console, API, and CLI. The audit log records all actions across your project: resource creation, updates, deletions, configuration changes, and authentication events. You can search by action type, account, or object, and export results in CSV format.
+
+![Resource Audit log](/changelog/2026-03-resource-audit-log.png)
+![Auth Audit log](/changelog/2026-03-auth-audit-log.png)
+
+<PrList ids={[4948, 4929, 4960, 4996, 5021, 4994]} />
+
+## Trust Center (New)
+
+Ubicloud launched a public [Trust Center](https://trust.ubicloud.com/) where you can review our security posture, compliance status, and request access to security documentation such as our SOC 2 Type 2 report and penetration test report. The Trust Center covers controls across infrastructure, operations, access controls, data and privacy, and more — with live status tracking for each.
+
+![Trust Center](/changelog/2026-03-trust-center.png)
+
+## GitHub Runners
+
+### Cache Branch Protection Toggle
+
+You can now manage cache branch isolation directly from your installation settings in the Ubicloud console. This previously required manual intervention from the Ubicloud team. When enabled (the default), workflow runs are restricted to accessing caches from the current branch or the default branch, aligning with GitHub's standard security model.
+
+![Branch Protection Toggle](/changelog/2026-03-branch-protection-toggle.png)
+
+### Premium Runners Enabled by Default
+
+Premium runners are now the default for all new GitHub installations. Premium runners offer faster performance and are automatically selected when available.
+
+### Cache API Timestamps
+
+The GitHub Actions cache API now exposes `created_at` and `last_accessed_at` fields for all cache entries. This allows you to programmatically manage your storage based on usage patterns—such as automatically purging stale or unused caches. The Ubicloud CLI also displays these timestamps in a human-readable format.
+
+<PrList ids={[4723, 4936, 5016, 4970, 4860, 5005]} />
+
+
+## Managed PostgreSQL
+
+### Servers API Endpoint
+
+A new `/servers` endpoint on PostgreSQL resources lets you inspect the status of all servers in a database cluster, including standbys. This is useful for monitoring replication health and tracking scale-up progress via the API.
+
+### Upgrade Status API Improvements
+
+The PostgreSQL upgrade API now returns a detailed `upgrade_stage` field alongside the existing `upgrade_status`, providing finer-grained visibility into upgrade progress.
+
+### Improved Reliability
+
+Several key reliability enhancements were implemented this month, including:
+- The new strict memory overcommit is now enabled for new PostgreSQL databases, eliminating spurious OOM errors caused by a kernel bug in committed memory calculations. 
+- Disk I/O is now automatically throttled during WAL archival backlog pressure to keep replication healthy.
+
+<PrList ids={[5032, 4850, 5041, 4870, 4982, 4942, 4882, 4888, 4892, 5001, 5052, 5073, 5103]} />
+
+
+## AI & GPUs
+
+### Inference Endpoint List API
+
+A new API and CLI endpoint enables you to discover all available inference endpoints provided by Ubicloud. The output includes per-million-token pricing, making it easier to build cost-aware AI integrations.
+
+### Qwen3 Embedding 8B
+
+The Qwen3-Embedding-8B model is now available for inference, priced at $0.05 per million input tokens.
+
+![Qwen3 Embedding 8B](/changelog/2026-03-qwen3-embedding.png)
+
+<PrList ids={[4935, 5027]} />
+
+
+## Compute
+
+### VM Stop and Start
+
+You can now stop and start VMs. When a VM is stopped, all configuration, storage, and compute resources remain fully reserved to ensure immediate availability upon restart. Billing continues as if the instance were still running.
+
+![VM Stop and Start](/changelog/2026-03-vm-stop.png)
+
+<PrList ids={[4791, 4901, 4905]} />
+
+## Console Improvements
+
+### Improved Responsiveness
+
+The Ubicloud console is now fully responsive on mobile devices. Resource detail pages stack their navigation and content vertically on small screens. 
+
+### Streamlined Authentication Flow
+
+The login flow has been streamlined: "Remember me" and "Forgot your password?" now appear only after you enter your email. Password reset now automatically verifies unverified accounts.
+
+<PrList ids={[4984, 5072, 5034, 5108, 5095]} />
