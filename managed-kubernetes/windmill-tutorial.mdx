@@ -57,7 +57,7 @@ Set the secret name for the database connection string:
 ```yaml
 windmill:
 ...
-  databaseUrlSecretName: "pg-db-credentials"
+  databaseUrlSecretName: pg-db-credentials
 ```
 
 Install the Windmill chart with the modified values.yaml file:
@@ -135,62 +135,31 @@ EOF
 )
 ```
 
-### Setting Up DNS Records for Traffic Routing
-Create the Gateway resource. NGINX Gateway Fabric will automatically provision a `LoadBalancer` service and an NGINX data plane when a Gateway is created.
+### Configuring HTTPS with Gateway API
 
-```bash
-kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-  name: windmill-gateway
-  namespace: nginx-gateway
-spec:
-  gatewayClassName: nginx
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
-    allowedRoutes:
-      namespaces:
-        from: All
-  - name: https
-    port: 443
-    protocol: HTTPS
-    allowedRoutes:
-      namespaces:
-        from: All
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - kind: Secret
-        name: windmill-tls-cert
-EOF
+To expose Windmill securely, you first need the external domain for your cluster. You can find this "Service URL" (e.g., `mycluster-services-0b1c1.k8s.ubicloud.com`) in the **Overview** page of your Kubernetes cluster in the Ubicloud console. Alternatively, you can use the address retrieved in the previous step:
+
+```bash wrap
+kubectl -n windmill get service windmill-app --output jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ```
 
-Once the Gateway is created, retrieve the external address of the LoadBalancer Service:
-```bash
-kubectl -n nginx-gateway get service windmill-gateway-nginx
-```
+<Note>If you prefer using a custom domain like `windmill.yourdomain.com`, create a `CNAME` record with your DNS provider pointing it to the Service URL mentioned above.</Note>
 
-You should get a result in the form `mycluster-services-0b1c1.k8s.ubicloud.com`. We will use this address in the following step to route traffic to the cluster securely.
+#### Updating Windmill Chart Values
+Update the domain values and disable the built-in ingress in `values.yaml`, as we will manage the Gateway API resources manually:
 
-<Note>If you want to use your domain such as `windmill.yourdomain.com`, create a CNAME record with your DNS provider to route `windmill.yourdomain.com` to the `EXTERNAL-IP` associated with the `windmill-gateway-nginx` service and use that address in the following steps.</Note>
-
-### Updating Windmill Chart Values and Creating Gateway Resources
-First, update the domain values and disable the built-in ingress in `values.yaml` since we'll use Gateway API resources directly:
 ```yaml
 windmill:
-  baseDomain: xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your service URL or domain
+  baseDomain: xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your Service URL or custom domain
   baseProtocol: https
 
 ingress:
   enabled: false
 ```
 
-Revert the service type back to `ClusterIP` since external access will now be handled by the Gateway:
+#### Reverting Service Type
+Since external traffic will now be handled by the Gateway, revert the `windmill-app` service back to `ClusterIP`:
+
 ```bash
 kubectl -n windmill patch svc windmill-app -p '{"spec": {"type": "ClusterIP"}}'
 ```
@@ -200,9 +169,11 @@ Apply the updated values to the Windmill installation:
 helm -n windmill upgrade my-windmill windmill/windmill -f values.yaml
 ```
 
-Next, update the Gateway to include the hostname for the HTTPS listener, and create the HTTPRoute to expose Windmill:
+#### Creating Gateway and HTTPRoute
+Finally, create the Gateway and HTTPRoute resources to expose Windmill via HTTPS:
+
 ```bash
-export WINDMILL_DOMAIN=xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your service URL or domain
+export WINDMILL_DOMAIN=xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your domain
 
 kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
@@ -277,8 +248,7 @@ EOF
 ```
 
 ### Verifying the Certificate Status
-
-Check the readiness of the TLS certificate for the Windmill application:
+It may take a few minutes for the certificate to be issued and the gateway to become fully operational. Check the readiness of the TLS certificate for the Windmill application:
 ```bash
 kubectl -n nginx-gateway describe cert windmill-tls-cert
 ```
