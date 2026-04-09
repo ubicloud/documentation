@@ -38,12 +38,12 @@ kubectl create secret generic -n windmill pg-db-credentials \
 ## Deploying Windmill
 Add Windmill Helm repo:
 
-```bash
+```bash wrap
 helm repo add windmill https://windmill-labs.github.io/windmill-helm-charts/
 ```
 
 Download the `values.yaml` file for the Windmill chart:
-```bash
+```bash wrap
 curl -O https://raw.githubusercontent.com/windmill-labs/windmill-helm-charts/refs/heads/main/charts/windmill/values.yaml
 ```
 
@@ -85,14 +85,14 @@ kubectl -n windmill get service windmill-app
 
 ## Connecting to Windmill
 The application will be accessible via your cluster's load balancer URL at port 8000 a few minutes after the `EXTERNAL-IP` is assigned. Run the following command to retrieve the address for your Windmill deployment.
-```bash
+```bash wrap
 echo "http://$(kubectl -n windmill get service windmill-app --output jsonpath='{.status.loadBalancer.ingress[0].hostname}'):8000"
 ```
 
 Congratulations—Windmill is now running on Ubicloud!
 
 ## Configuring TLS for Secure Access
-To expose Windmill securely via HTTPS, we'll employ NGINX Gateway Fabric, `cert-manager`, and Let's Encrypt using the Kubernetes Gateway API.
+To expose Windmill securely via HTTPS, we'll employ Nginx Gateway Fabric, cert-manager, and Let's Encrypt using the Kubernetes Gateway API.
 
 ### Installing NGINX Gateway Fabric & cert-manager
 Use the following commands to install the Gateway API CRDs, NGINX Gateway Fabric, and cert-manager:
@@ -113,17 +113,19 @@ helm install cert-manager jetstack/cert-manager \
   --set config.enableGatewayAPI=true
 ```
 
-Next, create an issuer in the `windmill` namespace to obtain certificates from Let's Encrypt:
+Next, create a ClusterIssuer to obtain certificates from Let's Encrypt:
 ```bash
-kubectl apply -n windmill -f <(cat <<EOF
+export CLUSTER_ISSUER_EMAIL=email@yourcompany.com
+
+kubectl apply -f <(cat <<EOF
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
- name: letsencrypt-windmill
+ name: letsencrypt
 spec:
  acme:
    server: https://acme-v02.api.letsencrypt.org/directory
-   email: <YOUR E-MAIL ADDREESS>
+   email: $CLUSTER_ISSUER_EMAIL
    privateKeySecretRef:
      name: letsencrypt
    solvers:
@@ -137,20 +139,29 @@ EOF
 Create the Gateway resource. NGINX Gateway Fabric will automatically provision a `LoadBalancer` service and an NGINX data plane when a Gateway is created.
 
 ```bash
-kubectl apply -n windmill -f - <<EOF
+kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
   name: windmill-gateway
+  namespace: nginx-gateway
 spec:
   gatewayClassName: nginx
   listeners:
   - name: http
     port: 80
     protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: https
     port: 443
     protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
     tls:
       mode: Terminate
       certificateRefs:
@@ -161,7 +172,7 @@ EOF
 
 Once the Gateway is created, retrieve the external address of the LoadBalancer Service:
 ```bash
-kubectl -n windmill get service windmill-gateway-nginx
+kubectl -n nginx-gateway get service windmill-gateway-nginx
 ```
 
 You should get a result in the form `mycluster-services-0b1c1.k8s.ubicloud.com`. We will use this address in the following step to route traffic to the cluster securely.
@@ -193,23 +204,30 @@ Next, update the Gateway to include the hostname for the HTTPS listener, and cre
 ```bash
 export WINDMILL_DOMAIN=xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your service URL or domain
 
-kubectl apply -n windmill -f - <<EOF
+kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: windmill-gateway
+  namespace: nginx-gateway
   annotations:
-    cert-manager.io/issuer: letsencrypt-windmill
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   gatewayClassName: nginx
   listeners:
   - name: http
     port: 80
     protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
   - name: https
     hostname: "$WINDMILL_DOMAIN"
     port: 443
     protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
     tls:
       mode: Terminate
       certificateRefs:
@@ -220,9 +238,11 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: windmill
+  namespace: windmill
 spec:
   parentRefs:
   - name: windmill-gateway
+    namespace: nginx-gateway
     sectionName: https
   hostnames:
   - "$WINDMILL_DOMAIN"
@@ -234,6 +254,25 @@ spec:
     backendRefs:
     - name: windmill-app
       port: 8000
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: windmill-redirect
+  namespace: windmill
+spec:
+  parentRefs:
+  - name: windmill-gateway
+    namespace: nginx-gateway
+    sectionName: http
+  hostnames:
+  - "$WINDMILL_DOMAIN"
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
 EOF
 ```
 
@@ -241,7 +280,7 @@ EOF
 
 Check the readiness of the TLS certificate for the Windmill application:
 ```bash
-kubectl -n windmill describe cert windmill-tls-cert
+kubectl -n nginx-gateway describe cert windmill-tls-cert
 ```
 
 Once the certificate is ready, you can access your Windmill application securely at https://xxxxx-services-xxxxx.k8s.ubicloud.com or https://windmill.yourdomain.com.
