@@ -97,7 +97,7 @@ To expose Windmill securely via HTTPS, we'll employ NGINX Gateway Fabric, `cert-
 ### Installing NGINX Gateway Fabric & cert-manager
 Use the following commands to install the Gateway API CRDs, NGINX Gateway Fabric, and cert-manager:
 ```bash wrap
-kubectl kustomize https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.4.2 | kubectl apply -f -
+kubectl kustomize https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.5.1 | kubectl apply -f -
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
   --create-namespace -n nginx-gateway
