@@ -103,6 +103,7 @@
               "managed-kubernetes/quickstart",
               "managed-kubernetes/expose-application-using-tls",
               "managed-kubernetes/resize-cluster",
+              "managed-kubernetes/upgrade",
               "managed-kubernetes/persistent-volumes",
               "managed-kubernetes/autoscale",
               "managed-kubernetes/windmill-tutorial"
