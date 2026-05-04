@@ -8,10 +8,10 @@ The pricing information below is for our managed service. Billing is based on th
 
 At a high level, our prices are 3-10x lower than comparable offerings. For example, 2 vCPU instance prices for different services are:
 
-- [GitHub Actions](#github-actions): \$0.0008/min on Ubicloud vs. \$0.008/min on GitHub
-- [Compute (VMs)](#compute): \$26/month on Ubicloud vs. \$90/month on AWS Germany
-- [Managed PostgreSQL](#managed-postgresql): \$65/month on Ubicloud vs. \$200/month on AWS Germany
-- [Burstable VMs](#burstable-vms) start at \$6.65/month and [Hobby Managed PostgreSQL](#hobby-postgresql) starts at \$12.40/month
+- [GitHub Actions](#github-actions): \$0.001/min on Ubicloud vs. \$0.008/min on GitHub
+- [Compute (VMs)](#compute): \$33.52/month on Ubicloud vs. \$90/month on AWS Germany
+- [Managed PostgreSQL](#managed-postgresql): \$62.52/month on Ubicloud vs. \$200/month on AWS Germany
+- [Burstable VMs](#burstable-vms) start at \$8.38/month and [Hobby Managed PostgreSQL](#hobby-postgresql) starts at \$15.63/month
 
 
 ## GitHub Actions
@@ -20,27 +20,27 @@ Ubicloud runners come with dedicated CPU, memory, local block storage, and a pub
 
 The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's price advantage, we recommend trying 4 vCPUs or more if your pipeline benefits from parallelism.
 
-When you enable premium runners, we automatically route your jobs to premium machines. If capacity's full, you seamlessly fall back to standard runners with no extra wait time. You are billed by the minute based on the type of runner you're using. 
+When you enable premium runners, we automatically route your jobs to premium machines. If capacity's full, you seamlessly fall back to standard runners with no extra wait time. You are billed by the minute based on the type of runner you're using.
 
 ### Linux x64 Runners
 
 | vCPU | Memory | Standard Runners |  Premium Runners |
 |------|--------|------------------|------------------|
-| 2    | 8GB    | \$0.0008/min     | \$0.0016/min     |
-| 4    | 16GB   | \$0.0016/min     | \$0.0032/min     |
-| 8    | 32GB   | \$0.0032/min     | \$0.0064/min     |
-| 16   | 64GB   | \$0.0064/min     | \$0.0128/min     |
-| 30   | 120GB  | \$0.0120/min     | \$0.0240/min     |
+| 2    | 8GB    | \$0.0010/min     | \$0.0016/min     |
+| 4    | 16GB   | \$0.0020/min     | \$0.0032/min     |
+| 8    | 32GB   | \$0.0040/min     | \$0.0064/min     |
+| 16   | 64GB   | \$0.0080/min     | \$0.0128/min     |
+| 30   | 120GB  | \$0.0150/min     | \$0.0240/min     |
 
 ### Linux arm64 Runners
 
 | vCPU | Memory | Price        |
 |------|--------|--------------|
-| 2    | 6GB    | \$0.0008/min |
-| 4    | 12GB   | \$0.0016/min |
-| 8    | 24GB   | \$0.0032/min |
-| 16   | 48GB   | \$0.0064/min |
-| 30   | 90GB   | \$0.0120/min |
+| 2    | 6GB    | \$0.0010/min |
+| 4    | 12GB   | \$0.0020/min |
+| 8    | 24GB   | \$0.0040/min |
+| 16   | 48GB   | \$0.0080/min |
+| 30   | 90GB   | \$0.0150/min |
 
 ## Compute
 
@@ -54,12 +54,12 @@ Standard VMs come with dedicated CPU, memory, and local block storage. You can t
 
 | Virtual Machine | vCPU | Memory | Storage |               Pricing             |
 |:---------------:|:----:|:------:|:-------:|:---------------------------------:|
-|    standard-2   |   2  |   8GB  |   40GB  | \$0.00067/min <br/> (\$26.60/mo)  |
-|    standard-4   |   4  |  16GB  |   80GB  | \$0.00133/min <br/> (\$53.20/mo)  |
-|    standard-8   |   8  |  32GB  |  160GB  | \$0.00266/min <br/> (\$106.40/mo) |
-|   standard-16   |  16  |  64GB  |  320GB  | \$0.00533/min <br/> (\$212.80/mo) |
-|   standard-30   |  30  |  120GB |  600GB  | \$0.01000/min <br/> (\$399.00/mo) |
-|   standard-60   |  60  |  240GB |  1200GB | \$0.02000/min <br/> (\$798.00/mo) |
+|    standard-2   |   2  |   8GB  |   40GB  | \$0.00083/min <br/> (\$33.52/mo)  |
+|    standard-4   |   4  |  16GB  |   80GB  | \$0.00166/min <br/> (\$67.03/mo)  |
+|    standard-8   |   8  |  32GB  |  160GB  | \$0.00332/min <br/> (\$134.06/mo) |
+|   standard-16   |  16  |  64GB  |  320GB  | \$0.00665/min <br/> (\$268.13/mo) |
+|   standard-30   |  30  |  120GB |  600GB  | \$0.01247/min <br/> (\$502.74/mo) |
+|   standard-60   |  60  |  240GB |  1200GB | \$0.02494/min <br/> (\$1005.48/mo) |
 
 ### Burstable VMs
 
@@ -67,8 +67,8 @@ Burstable VMs come with shared CPUs.  Each VM can utilize host cpu capacity up t
 
 | Virtual Machine | vCPU | Memory | Storage |               Pricing             |
 |:---------------:|:----:|:------:|:-------:|:---------------------------------:|
-|   burstable-1   |   1  |   2GB  |   10GB  | \$0.00017/min <br/> (\$6.65/mo)   |
-|   burstable-2   |   2  |   4GB  |   20GB  | \$0.00033/min <br/> (\$13.40/mo)  |
+|   burstable-1   |   1  |   2GB  |   10GB  | \$0.00021/min <br/> (\$8.38/mo)   |
+|   burstable-2   |   2  |   4GB  |   20GB  | \$0.00042/min <br/> (\$16.76/mo)  |
 
 ### Networking
 
@@ -91,12 +91,12 @@ Standard Managed PostgreSQL comes with dedicated CPU, memory, and local block st
 
 |  PostgreSQL | vCPU | Memory | Storage | Monthly Price |
 |:-----------:|:----:|:------:|:-------:|:-------------:|
-|  standard-2 |   2  |   8GB  |   64GB  |      $49      |
-|  standard-4 |   4  |  16GB  |  128GB  |      $99      |
-|  standard-8 |   8  |  32GB  |  256GB  |      $198     |
-| standard-16 |  16  |  64GB  |  512GB  |      $396     |
-| standard-30 |  30  |  120GB | 1,024GB |      $749     |
-| standard-60 |  60  |  240GB | 2,048GB |     $1498     | 
+|  standard-2 |   2  |   8GB  |   64GB  |       $62     |
+|  standard-4 |   4  |  16GB  |  128GB  |      $125     |
+|  standard-8 |   8  |  32GB  |  256GB  |      $250     |
+| standard-16 |  16  |  64GB  |  512GB  |      $500     |
+| standard-30 |  30  |  120GB | 1,024GB |      $944     |
+| standard-60 |  60  |  240GB | 2,048GB |     $1785     |
 
 ### Hobby PostgreSQL
 
@@ -104,8 +104,8 @@ Hobby Managed PostgreSQL comes with shared CPUs. Each VM can utilize host cpu ca
 
 |  PostgreSQL  | vCPU | Memory | Storage | Monthly Price |
 |:------------:|:----:|:------:|:-------:|:-------------:|
-|  hobby-1     |   1  |   2GB  |   16GB  |      $12.41   |
-|  hobby-2     |   2  |   4GB  |   32GB  |      $24.81   |
+|  hobby-1     |   1  |   2GB  |   16GB  |      $15.63   |
+|  hobby-2     |   2  |   4GB  |   32GB  |      $31.27   |
 
 
 ## Managed Kubernetes
@@ -115,12 +115,12 @@ Managed Kubernetes comes with dedicated CPU, memory, local block storage, and pu
 
 | Control Plane               | Worker Nodes | Node Specs                                 | Monthly Price |
 |:---------------------------:|:------------:|:------------------------------------------:|:-------------:|
-|  Single node <br/> (non-HA) |           1  | 2 vCores, 8 GB memory, 40GB local storage  |        $45.60 |
-|  Single node <br/> (non-HA) |           3  | 2 vCores, 8 GB memory, 40GB local storage  |       $104.80 |
-|  Single node <br/> (non-HA) |          10  | 2 vCores, 8 GB memory, 40GB local storage  |       $312.00 |
-|                3 nodes (HA) |           3  | 2 vCores, 8 GB memory, 40GB local storage  |       $136.80 |
-|                3 nodes (HA) |           5  | 2 vCores, 8 GB memory, 40GB local storage  |       $196.00 |
-|                3 nodes (HA) |          10  | 2 vCores, 8 GB memory, 40GB local storage  |       $344.00 |
+|  Single node <br/> (non-HA) |           1  | 2 vCores, 8 GB memory, 40GB local storage  |        $57.46 |
+|  Single node <br/> (non-HA) |           3  | 2 vCores, 8 GB memory, 40GB local storage  |       $132.05 |
+|  Single node <br/> (non-HA) |          10  | 2 vCores, 8 GB memory, 40GB local storage  |       $393.12 |
+|                3 nodes (HA) |           3  | 2 vCores, 8 GB memory, 40GB local storage  |       $172.37 |
+|                3 nodes (HA) |           5  | 2 vCores, 8 GB memory, 40GB local storage  |       $246.96 |
+|                3 nodes (HA) |          10  | 2 vCores, 8 GB memory, 40GB local storage  |       $433.33 |
 
 We calculate usage at per-minute granularity and bill you at the end of the month for usage.
 
