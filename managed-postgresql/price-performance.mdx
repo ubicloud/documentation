@@ -5,7 +5,7 @@ title: 'Price-Performance'
 Ubicloud Managed PostgreSQL provides **9x** better price-performance compared to similar managed PostgreSQL services thanks to its unique architecture based on NVMe SSD storage. The following benchmarks compare Ubicloud PostgreSQL with AWS Aurora and AWS RDS PostgreSQL.
 
 ## TPC-C Benchmark
-Ubicloud PostgreSQL runs **1.4x** more transactions than AWS Aurora and costs **5.8x** less. Similarly, Ubicloud Postgres runs **4.6x** more transactions than AWS RDS and costs **2.8x** less. Ubicloud PostgreSQL also has **1.91x** lower latency compared to AWS Aurora and **7.65x** lower latency than AWS RDS PostgreSQL.
+Ubicloud PostgreSQL runs **1.4x** more transactions than AWS Aurora and costs **4.6x** less. Similarly, Ubicloud Postgres runs **4.6x** more transactions than AWS RDS and costs **2.2x** less. Ubicloud PostgreSQL also has **1.91x** lower latency compared to AWS Aurora and **7.65x** lower latency than AWS RDS PostgreSQL.
 
 Benchmark Configuration:
 - **Ubicloud**: standard-8 (8 vCPUs, 32 GB RAM) instance with 1 TB SSD storage
@@ -19,14 +19,14 @@ Benchmark Configuration:
 |:-----------------------:|:--------:|:--------:|:-------:|
 |         **TPS**         |   873.25 |   636.31 |  188.31 |
 |       **Latency**       |   314.45 |   601.29 | 2405.65 |
-|        **Price**        |   259.92 |  1501.00 |  725.02 |
+|        **Price**        |   327.50 |  1501.00 |  725.02 |
 |    **TPS Difference**   |     -    |    1.37x |   4.64x |
-|      **Price-TPS**      |     -    |    7.93x |  12.94x |
+|      **Price-TPS**      |     -    |    6.29x |  10.27x |
 |  **Latency Difference** |     -    |    1.91x |   7.65x |
-|    **Price-Latency**    |     -    |   11.04x |  21.34x |
+|    **Price-Latency**    |     -    |    8.76x |  16.94x |
 
 ## TPC-H Benchmark
-Ubicloud PostgreSQL runs 22 TPC-H queries **2.42x** faster than AWS Aurora and **2.96x** faster than AWS RDS PostgreSQL, while costing **6.40x** less than AWS Aurora and **3.00x** less than AWS RDS PostgreSQL.  
+Ubicloud PostgreSQL runs 22 TPC-H queries **2.42x** faster than AWS Aurora and **2.96x** faster than AWS RDS PostgreSQL, while costing **5.08x** less than AWS Aurora and **2.37x** less than AWS RDS PostgreSQL.
 
 Benchmark Configuration:
 - **Ubicloud**: standard-8 (8 vCPUs, 32 GB RAM) instance with 512 GB SSD storage
@@ -59,6 +59,6 @@ Benchmark Configuration:
 |              **Q21**             |   103.87 |      729.29 |      213.65 |
 |              **Q22**             |     9.88 |       30.37 |       10.49 |
 |   **Geometric Mean (seconds)**   |    79.72 |      193.23 |      235.61 |
-|           **Price ($)**          |   218.96 |     1401.57 |      654.87 |
+|           **Price ($)**          |   275.89 |     1401.57 |      654.87 |
 |    **Performance Difference**    |     -    |       2.42x |       2.96x |
-|      **Price-Performance**       |     -    |      15.48x |       8.88x |
+|      **Price-Performance**       |     -    |      12.29x |       7.02x |
