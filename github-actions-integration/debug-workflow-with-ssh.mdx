@@ -12,7 +12,7 @@ To use this feature, add the following step to your workflow as the first step:
 
 ```yaml
 - name: Setup SSH access
-  uses: ubicloud/ssh-runner@v1
+  uses: ubicloud/ssh-runner@v2
   with:
     public-ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
     wait-minutes: 30  # Optional, default is 10 minutes
@@ -45,7 +45,7 @@ You can also set up SSH access only for failed jobs:
 ```yaml
 - name: Setup SSH access
   if: ${{ failure() }}
-  uses: ubicloud/ssh-runner@v1
+  uses: ubicloud/ssh-runner@v2
   with:
     public-ssh-key: ${{ secrets.SSH_PUBLIC_KEY }}
     wait-minutes: 30
