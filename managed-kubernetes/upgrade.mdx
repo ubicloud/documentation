@@ -1,0 +1,41 @@
+---
+title: 'Upgrade Your Cluster'
+---
+
+You can upgrade your Kubernetes cluster to the next supported version to keep up with the latest features, security fixes, and bug fixes from the Kubernetes project. Each upgrade moves your cluster one minor version forward, so if more recent versions are available you can repeat the process to reach the latest one. Upgrades can be triggered through the web interface, CLI, or API.
+
+## Check the Upgrade Status of Your Cluster
+
+You can see the current version of your cluster in the **Overview** tab of your cluster's page. The **Settings** tab shows the upgrade status of your cluster, which can be one of the following:
+
+- **Up to date**: your cluster is already running the latest supported version, so no upgrade is needed at the moment.
+- **Upgrade available**: a newer version is available and you can start the upgrade by clicking the **Upgrade** button.
+- **Upgrading**: an upgrade is currently in progress.
+- **Not ready**: another operation, such as a worker node pool resize, is in progress, or the cluster has not yet finished bootstrapping. You can come back once that operation finishes.
+
+## Upgrade via Web Interface
+
+1. Navigate to the Kubernetes page in the [Ubicloud Console](https://console.ubicloud.com).
+2. Click on the name of the cluster you want to upgrade.
+3. Click the **Settings** tab.
+4. In the **Upgrade Cluster** section, click the **Upgrade** button.
+
+Once the upgrade is scheduled, the display state of your cluster changes to **upgrading**. The control plane is upgraded first, followed by the worker nodes one at a time, so your workloads keep running throughout the process. You can return to the **Settings** tab at any time to check the progress.
+
+## Upgrade via CLI
+
+You can also upgrade your cluster using the [`ubi`](https://www.ubicloud.com/docs/quick-start/cli) CLI tool with the `upgrade` command:
+
+```bash
+ubi kc (location/kc-name | kc-id) upgrade
+```
+
+## Upgrade via API
+
+To upgrade your cluster using the API, send a `POST` request to the `kubernetes-cluster/{cluster_ref}/upgrade` endpoint:
+
+```http
+POST https://api.ubicloud.com/project/{project_id}/location/{location}/kubernetes-cluster/{kubernetes_cluster_reference}/upgrade
+```
+
+You can find more information in the API documentation: [Upgrade a Kubernetes Cluster](https://www.ubicloud.com/docs/api-reference/kubernetes-cluster/upgrade-a-kubernetes-cluster).
