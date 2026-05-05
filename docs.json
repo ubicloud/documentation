@@ -172,6 +172,7 @@
           {
             "group": "Changelog",
             "pages": [
+              "changelog/2026-04",
               "changelog/2026-03",
               "changelog/2026-02",
               "changelog/2026-01",

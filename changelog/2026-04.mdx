@@ -1,0 +1,68 @@
+---
+title: "April 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### Log destinations
+
+You can now forward Postgres logs to third-party providers including Mezmo, OpenObserve, and Honeybadger from your Postgres resource. Configure one or more log destinations per resource and Ubicloud will ship logs continuously from your instance.
+
+![PostgreSQL Log Destinations](/changelog/2026-04-pg-log-destination1.png)
+![PostgreSQL Log Destinations](/changelog/2026-04-pg-log-destination2.png)
+
+### LZ4 compression by default for WAL and TOAST
+
+New Postgres resources now use LZ4 for WAL and TOAST compression by default. This reduces replication bandwidth, lets `wal_buffers` carry more, lessens the impact of slot lag from logical replication, and is backwards compatible — existing TOAST values keep their original compression method.
+
+### Disk-full protection
+
+When a Postgres data disk approaches capacity, Ubicloud now intervenes progressively to keep the database safe: throttling kicks in at 95% to give standbys time to catch up, `default_transaction_read_only` is automatically toggled below a 5 GiB threshold, and Postgres is restarted to terminate long-running write connections below 3 GiB. On disks smaller than 64 GB the thresholds scale down. Root-disk usage is also observed and paged on.
+
+### Higher file descriptor limits and tighter TCP keepalive
+
+`LimitNOFILE` is now set to 65536 on the postgresql and pgbouncer systemd units, giving high-connection workloads more headroom. TCP keepalive timers on Postgres connections have also been tightened from Linux's default 2-hour grace period down to one minute, so dead connections are detected and reclaimed quickly.
+
+### `pgbouncer` improvements
+
+pgbouncer auth functions have been moved into a dedicated `ubi_admin` database, so user actions on `template1` (deleting auth functions, creating databases from a different template) no longer break authentication. The `max_db_connections` setting now also honors a `user_config` override when sizing the pool.
+
+### API and listing updates
+
+`target_server_count` is now exposed in the Postgres API response and OpenAPI schema, so you can read the expected number of servers (primary + standbys) for a resource. The PostgreSQL list endpoint also returns resources sorted alphabetically.
+
+<PrList ids={[5145, 5281, 4332, 5233, 5247, 5183, 5253, 5141, 5249, 4216, 5192]} />
+
+## GitHub Runners
+
+### Cache entry scope in the API
+
+The cache listing API, CLI, and SDK now return the `scope` (branch name) for each cache entry. Previously this information was visible in the dashboard only, making it impossible to filter caches by branch programmatically.
+
+<PrList ids={[5240]} />
+
+## Ubicloud Kubernetes
+
+### Kubernetes 1.35
+
+You can now provision Kubernetes clusters running version 1.35.
+
+<PrList ids={[4969]} />
+
+## Authentication
+
+### OIDC group-based authorization
+
+If your OIDC provider returns groups in the token or user info, Ubicloud can now use those groups (optionally with a configured prefix) to make authorization decisions. A user logged in via OIDC is treated as a member of the subject tags matching their groups, so you can manage Ubicloud access through your existing identity provider's group memberships.
+
+<PrList ids={[5012]} />
+
+## Pricing Updates
+
+Ubicloud is updating prices for most cloud services after keeping prices unchanged since 2024. New deployments of virtual machines, Managed PostgreSQL databases, Managed Kubernetes clusters, and GitHub Actions standard runners in Germany, Finland, and Virginia are charged at the new rates starting May 1, 2026. Existing resources move to the new rates on June 1, 2026.
+
+Prices are increasing by 26% for the affected services, reflecting higher infrastructure costs across RAM add-ons, server setup fees, server leases, and USD/EUR exchange rates. Rates for AWS-powered regions, GitHub Actions premium runners and AI inference endpoints remain unchanged. Finland pricing is now aligned with Germany pricing.
+
+For more details, see our [blog post](https://www.ubicloud.com/blog/ubicloud-price-adjustment-2026) and the [pricing documentation](https://www.ubicloud.com/docs/about/pricing).
