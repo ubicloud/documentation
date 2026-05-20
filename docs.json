@@ -84,6 +84,7 @@
               "managed-postgresql/overview",
               "managed-postgresql/connection",
               "managed-postgresql/metrics",
+              "managed-postgresql/logs",
               "managed-postgresql/networking",
               "managed-postgresql/resize",
               "managed-postgresql/high-availability",

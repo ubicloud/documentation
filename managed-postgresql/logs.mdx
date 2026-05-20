@@ -1,0 +1,73 @@
+---
+title: 'Logs'
+---
+
+You can forward logs from your Ubicloud PostgreSQL instance to an external
+destination for long-term retention, alerting, or correlation with the rest of
+your observability stack. Logs are shipped by an OpenTelemetry Collector
+running alongside the database.
+
+![Log destinations](/managed-postgresql/log-destinations-screenshot.png)
+
+Two destination types are supported:
+
+- **OTLP HTTP**: Sends logs to an OTLP-compatible HTTP endpoint over HTTPS.
+  Authentication is performed via HTTP headers (e.g., an `Authorization`
+  header or a vendor-specific API key header).
+- **Syslog (RFC 5424 over TLS)**: Sends logs as RFC 5424 messages over a TLS
+  TCP connection. Authentication is performed via syslog structured data
+  elements, which many providers use to identify the account or stream.
+
+Each log record forwarded to a destination contains a unified set of fields,
+including the message body, severity, stream (`postgres`, `pgbouncer`, or
+`upgrade`), the server's ubid as the `instance`, and the server role
+(`primary` or `standby`). For `postgres` stream entries, additional
+attributes such as `pid`, `dbname`, `user`, `app_name`, and
+`remote_host_port` are included when available.
+
+Only `https://` URLs are accepted for OTLP destinations, and only `tcp://`
+URLs for syslog destinations. In both cases, data is encrypted in transit.
+
+## Adding a Log Destination
+
+Open the **Log Destinations** tab on your PostgreSQL instance's details page.
+The **Add Log Destination** section provides a form to configure a new
+destination:
+
+- **Provider**: Select your logging provider from the dropdown. Presets are
+  available for common providers such as Grafana Cloud, Datadog, New Relic,
+  Honeybadger, Better Stack, Sumo Logic, OpenObserve, Mezmo, Loggly, Logentries,
+  and Papertrail. Selecting a preset fills in the destination type, endpoint,
+  and required authentication fields for you. You can also pick **Generic OTLP
+  HTTP** or **Generic Syslog** to configure a destination manually.
+- **Name**: A name to identify this destination.
+- **Endpoint**: The destination URL. The protocol prefix (`https://` for OTLP
+  or `tcp://` for syslog) is fixed based on the selected type.
+- **Authentication**: For OTLP destinations, add the HTTP headers required by
+  your provider (e.g., an `Authorization` or API key header). For syslog
+  destinations, add the RFC 5424 structured data elements your provider uses
+  for authentication.
+
+Click **Add** to save the destination. Logs will begin forwarding shortly
+after.
+
+The same can be done using the Ubicloud [API](/api-reference/overview) or the
+[`ubi` CLI](/quick-start/cli).
+
+## Listing and Removing Log Destinations
+
+The **Log Destinations** tab lists all configured destinations along with
+their name, type, and endpoint. To remove a destination, use the delete button
+next to it.
+
+Log destinations can also be listed and removed via the API and CLI.
+
+## Tested Providers
+
+Log destinations use the OTLP HTTP and RFC 5424 syslog protocols and should
+work with any provider that supports them. The following providers have been
+verified end-to-end:
+
+- Mezmo
+- OpenObserve
+- Honeybadger
