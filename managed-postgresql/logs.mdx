@@ -2,6 +2,60 @@
 title: 'Logs'
 ---
 
+The Logs view of your Ubicloud PostgreSQL instance lets you browse logs from
+your database directly in the Ubicloud console. You can also forward the same
+logs to an external destination for long-term retention, alerting, or
+correlation with the rest of your observability stack.
+
+![PostgreSQL Logs](/managed-postgresql/logs-screenshot.png)
+
+## Browsing Logs
+
+The Logs tab on the PostgreSQL details page provides a searchable view over
+recent log lines from your instance. By default, it shows the last 30 minutes
+of logs from the `postgres` stream on the `primary` server.
+
+Logs are retained for up to 7 days. A single query can span at most 24 hours
+of that range.
+
+### Filters
+
+The following filters are available at the top of the Logs view:
+
+- **Start / End (UTC)**: The time range to query. Defaults to the last 30
+  minutes. The range must be at most 24 hours and cannot start more than 7 days
+  in the past.
+- **Stream**: The source of the log line.
+  - `postgres` — log lines emitted by the PostgreSQL server itself.
+  - `pgbouncer` — log lines from the PgBouncer connection pooler.
+  - `upgrade` — log lines from in-place major version upgrades.
+- **Server role**: `primary` or `standby`. For instances with HA enabled, this
+  selects which server's logs to display.
+- **Level**: Filter by severity. One of `DEBUG`, `INFO`, `WARN`, `ERROR`, or
+  `FATAL`.
+- **Pattern**: A substring to match against the log message. Up to 200
+  characters.
+- **Limit**: The maximum number of log lines to return. One of 50, 100, 250,
+  or 500.
+
+Click **Apply** to run the query, or **Reset** to clear all filters back to
+their defaults.
+
+### Reading log entries
+
+Each row shows the timestamp (UTC), severity level, stream, server role, and
+the log message. Severity levels are color-coded — `ERROR` and `FATAL` are
+shown in red, `WARN` in yellow, and `DEBUG` in gray.
+
+Rows with additional context (such as `pid`, `dbname`, `user`, `app_name`, or
+`remote_host_port`) can be expanded to reveal those fields.
+
+If more matching logs are available than fit within the selected time range, a
+banner at the top of the results lets you load the next page or suggests
+increasing the limit.
+
+## Log Destinations
+
 You can forward logs from your Ubicloud PostgreSQL instance to an external
 destination for long-term retention, alerting, or correlation with the rest of
 your observability stack. Logs are shipped by an OpenTelemetry Collector
@@ -28,7 +82,7 @@ attributes such as `pid`, `dbname`, `user`, `app_name`, and
 Only `https://` URLs are accepted for OTLP destinations, and only `tcp://`
 URLs for syslog destinations. In both cases, data is encrypted in transit.
 
-## Adding a Log Destination
+### Adding a Log Destination
 
 Open the **Log Destinations** tab on your PostgreSQL instance's details page.
 The **Add Log Destination** section provides a form to configure a new
@@ -54,7 +108,7 @@ after.
 The same can be done using the Ubicloud [API](/api-reference/overview) or the
 [`ubi` CLI](/quick-start/cli).
 
-## Listing and Removing Log Destinations
+### Listing and Removing Log Destinations
 
 The **Log Destinations** tab lists all configured destinations along with
 their name, type, and endpoint. To remove a destination, use the delete button
@@ -62,7 +116,7 @@ next to it.
 
 Log destinations can also be listed and removed via the API and CLI.
 
-## Tested Providers
+### Tested Providers
 
 Log destinations use the OTLP HTTP and RFC 5424 syslog protocols and should
 work with any provider that supports them. The following providers have been
