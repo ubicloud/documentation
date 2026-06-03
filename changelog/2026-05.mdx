@@ -1,0 +1,68 @@
+---
+title: "May 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### PostgreSQL Logs Available in Dashboard, CLI, and API
+
+PostgreSQL logs are now aggregated and available directly from the dashboard, CLI, and API. You can inspect database activity without connecting to the server.
+
+![PostgreSQL logs](/changelog/2026-05-pg-logs.png)
+
+### Reliability Improvements
+
+Primary failover is now faster, with quicker fencing of the old primary. Disk-full handling is smarter: as a disk approaches capacity, Ubicloud applies tiered read-only protection and bypasses maintenance windows in critical cases to keep your database safe.
+
+<PrList ids={[5290, 5319, 5406, 5460, 5325, 5343, 5393, 5272, 5434, 5461, 5489]} />
+
+## Ubicloud Kubernetes
+
+### Cluster Upgrades and Kubernetes 1.36 Support
+
+Ubicloud Kubernetes now supports v1.36. New clusters can be created on the latest releases, while clusters already running an older supported version can now be upgraded in-place from the Web UI, CLI, and API. Ubicloud upgrades the control plane first, then rolls node pools forward once the control plane is ready, so clusters move to a new version without manual intervention.
+
+![Kubernetes cluster upgrade](/changelog/2026-05-kubernetes-upgrades.png)
+
+<PrList ids={[5176, 5323, 5346, 5367, 5411, 5381]} />
+
+
+## Compute & Networking
+
+### Google Cloud Platform (Preview)
+
+Ubicloud now runs on Google Cloud Platform as a third provider alongside our metal and AWS regions, with first-class support for VMs, subnets, VPCs, firewalls, and PostgreSQL. Reach out to us via support@ubicloud.com if you're interested.
+
+
+### UDP Firewall Rules
+
+You can now create UDP firewall rules from the Web UI, API, and CLI. Previously only TCP rules were available through the interface.
+
+![UDP firewall rules](/changelog/2026-05-udp-firewall-rules.png)
+
+
+### Ubuntu Noble as Default Boot Image
+
+New VMs now default to Ubuntu 24.04 (Noble) when created via the CLI. You can still create VMs on 22.04 by passing `-b ubuntu-jammy` explicitly.
+
+<PrList ids={[5286, 5384, 5404, 5484, 5493]} />
+
+
+## GitHub Runners
+
+### Bulk Cache Deletion
+
+You can now select and delete multiple GitHub Actions cache entries at once from the Web UI using checkboxes, instead of removing them one at a time.
+
+<PrList ids={[5387]} />
+
+
+## Billing & Account
+
+### Price Update
+
+Pricing for virtual machines, PostgreSQL, Kubernetes, and standard GitHub Actions runners is increasing by 26% in our Germany, Finland, and Virginia regions. New deployments see the updated rate starting May 1, 2026, and existing resources starting June 1, 2026. AWS-powered regions and premium runner pricing are unchanged.
+
+<PrList ids={[5324]} />
