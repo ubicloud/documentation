@@ -8,7 +8,7 @@ The pricing information below is for our managed service. Billing is based on th
 
 At a high level, our prices are 3-10x lower than comparable offerings. For example, 2 vCPU instance prices for different services are:
 
-- [GitHub Actions](#github-actions): \$0.001/min on Ubicloud vs. \$0.008/min on GitHub
+- [GitHub Actions](#github-actions): \$0.0016/min on Ubicloud vs. \$0.008/min on GitHub
 - [Compute (VMs)](#compute): \$33.52/month on Ubicloud vs. \$90/month on AWS Germany
 - [Managed PostgreSQL](#managed-postgresql): \$62.52/month on Ubicloud vs. \$200/month on AWS Germany
 - [Burstable VMs](#burstable-vms) start at \$8.38/month and [Hobby Managed PostgreSQL](#hobby-postgresql) starts at \$15.63/month
@@ -16,11 +16,9 @@ At a high level, our prices are 3-10x lower than comparable offerings. For examp
 
 ## GitHub Actions
 
-Ubicloud runners come with dedicated CPU, memory, local block storage, and a public IPv4 address. Our GitHub Managed Runner Application allocates virtual machines (VMs) across data centers in Germany to provide high availability. Every account gets a \$1/month credit that's equivalent to 1,250 minutes of Ubicloud runner time.
+Ubicloud runners come with dedicated CPU, memory, local block storage, and a public IPv4 address. Our GitHub Managed Runner Application allocates virtual machines (VMs) across data centers in Germany to provide high availability. Every account gets a \$2/month credit that's equivalent to 1,250 minutes of Ubicloud runner time.
 
 The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's price advantage, we recommend trying 4 vCPUs or more if your pipeline benefits from parallelism.
-
-When you enable premium runners, we automatically route your jobs to premium machines. If capacity's full, you seamlessly fall back to standard runners with no extra wait time. You are billed by the minute based on the type of runner you're using.
 
 ### Linux x64 Runners
 
@@ -31,6 +29,10 @@ When you enable premium runners, we automatically route your jobs to premium mac
 | 8    | 32GB   | \$0.0040/min     | \$0.0064/min     |
 | 16   | 64GB   | \$0.0080/min     | \$0.0128/min     |
 | 30   | 120GB  | \$0.0150/min     | \$0.0240/min     |
+
+<Info>
+  **Standard runners** were deprecated in June 2026 and are only available to customers who were using them prior to that date. All new users get the superior performance of our premium runners by default.
+</Info>
 
 ### Linux arm64 Runners
 

@@ -9,11 +9,11 @@ Ubicloud runners provide a number of price-performance advantages over GitHub ru
 - Ubicloud Runners outperform GitHub Runners even at this price point
 - Ubicloud cloud services are open source under the AGPL v3 license, if you choose to manage your infrastructure yourself
 
-We charge only for usage and at per minute granularity. Every account gets a $1/month credit that's equivalent to 1,250 minutes of Ubicloud (2 vCPU) runner time. You can read more about our Linux x64 and Arm64 prices in the [general pricing page](/about/pricing#github-actions).
+We charge only for usage and at per minute granularity. Every account gets a $2/month credit that's equivalent to 1,250 minutes of Ubicloud (2 vCPU) runner time. You can read more about our Linux x64 and arm64 prices in the [general pricing page](/about/pricing#github-actions).
 
 ## Performance
 
-In addition to being 10x more cost-effective, Ubicloud runners are also faster. This is because Ubicloud VMs run on newer hardware than those of GitHub's Azure VMs.
+In addition to being 7x more cost-effective, Ubicloud runners are also faster. This is because Ubicloud VMs run on newer hardware than those of GitHub's Azure VMs.
 
 Below is a sample of run times across open source projects for GitHub and Ubicloud runners. We also display Ubicloud 4 vCore runner times. Since Ubicloud comes with a significant price advantage, we recommend trying more powerful runners for faster builds.
 
@@ -43,3 +43,24 @@ Below is a sample of run times across open source projects for GitHub and Ubiclo
         **Run date:** 2025-01-07
     </Card>
 </CardGroup>
+
+## Why Faster Builds Matter
+
+Build and test jobs don't just consume compute, they block developer time.
+
+When a developer pushes code and waits 15–20 minutes for CI to complete, that's time spent:
+
+- Waiting to merge a pull request
+- Context-switching to other work
+- Losing momentum on the task at hand
+
+Now multiply that across an engineering team. Even **saving 3–5 minutes per job** adds up to:
+
+- Dozens of hours per week in recovered dev time
+- Fewer PRs left idle due to slow feedback
+- Faster iteration on features and bug fixes
+- Higher team velocity, fewer productivity stalls
+
+> **Example**: If your team runs 1,000 jobs/week and Ubicloud runners cut job time by 4 minutes on average, that's over **66 hours of developer time saved every month**.
+
+Ubicloud runners aren't just about faster CI, they're about giving your engineers back their time so they can build, ship, and move faster.
