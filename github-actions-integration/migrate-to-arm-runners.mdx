@@ -10,8 +10,8 @@ For this, you simply need to change your platform and remove the QEMU step.
 
 ## Arm image
 
-GitHub Actions doesn't currently have an official Arm image available. As a result, Ubicloud builds its own Ubuntu image; and our Arm runners don't have all pre-installed packages that are available on x64.
+GitHub began publishing official arm64 images in the [actions/runner-images](https://github.com/actions/runner-images) repository in June 2026. Prior to that, Ubicloud built its own arm64 images since GitHub did not publish templates for arm64 at the time. We now use GitHub's templates to build our arm64 images as well, and update them monthly following each new GitHub release, the same process we use for our x64 images.
 
-If your workflow has a package dependency that doesn't exist on Ubicloud's arm image, we recommend installing the dependency manually for the time being.
+If you notice any discrepancies between Ubicloud arm64 runners and the official GitHub runners, please reach out to us at support@ubicloud.com.
 
-If you're a large customer and need commonly used packages on arm64, you contact us [support@ubicloud.com](mailto:support@ubicloud.com).
+If your workflow has a package dependency that doesn't exist on Ubicloud's image, we recommend installing the dependency manually for the time being or creating an issue at [actions/runner-images](https://github.com/actions/runner-images) repository.

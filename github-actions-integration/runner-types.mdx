@@ -80,10 +80,6 @@ If your workflow has a package dependency that doesn’t exist on Ubicloud’s i
 
 Ubicloud arm64 runners are powered by Ampere Altra Q80-30 processors, with each arm64 vCPU backed by a dedicated physical core. This ensures consistent, high-performance computing for your workloads.
 
-GitHub launched official arm64 runners at the beginning of 2025. However, GitHub doesn't create arm64 images; their partner does. Unfortunately, they don't publish a packer template like the one for x64 images. As a result, Ubicloud builds its own Ubuntu arm64 image, and our arm64 runners don’t have all the pre-installed packages that are available on x64.
+GitHub began publishing official arm64 images in the [actions/runner-images](https://github.com/actions/runner-images) repository in June 2026. Prior to that, Ubicloud built its own arm64 images since GitHub did not publish templates for arm64 at the time. We now use GitHub's templates to build our arm64 images as well, and update them monthly following each new GitHub release, the same process we use for our x64 images.
 
-Arm shares a list of installed packages in the [actions/partner-runner-images](https://github.com/actions/partner-runner-images) repository, and we try to keep it similar. However, our images might not be identical to GitHub's arm64 images since they don't share the exact template and versions.
-
-If your workflow has a package dependency that doesn’t exist on Ubicloud’s arm64 image, we recommend installing the dependency manually for the time being.
-
-If you need commonly used packages on arm64 that are already installed on x64, please contact us at support@ubicloud.com.
+If you notice any discrepancies between Ubicloud arm64 runners and the official GitHub runners, please reach out to us at support@ubicloud.com.
