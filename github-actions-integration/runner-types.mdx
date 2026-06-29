@@ -21,7 +21,7 @@ By default, using `runs-on: ubicloud` provisions a 2 vCPU x64 Ubuntu 24.04 runne
 | `ubicloud-standard-16-arm` | Ubuntu 24.04 | 16   | 48GB   | 300GB |
 | `ubicloud-standard-30-arm` | Ubuntu 24.04 | 30   | 90GB   | 400GB |
 
-You can append `-ubuntu-2204` or `-ubuntu-2404` to explicitly set the operating system.
+You can append `-ubuntu-2204`, `-ubuntu-2404`, or `-ubuntu-2604` to explicitly set the operating system.
 
 Ubicloud runners support the following label patterns:
 
@@ -44,7 +44,7 @@ runs-on: ubicloud-standard-{vcpu}-arm-{os}
     The supported number of vCPUs are 2 (default), 4, 8, 16, and 30.
   </Card>
   <Card title="{os}" icon="ubuntu">
-    The operation system can be `ubuntu-2204`, `ubuntu-2404` (default).
+    The operation system can be `ubuntu-2204`, `ubuntu-2404` (default), `ubuntu-2604`.
   </Card>
 </CardGroup>
 
