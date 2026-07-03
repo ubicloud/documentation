@@ -1,0 +1,50 @@
+---
+title: 'Firewall'
+---
+
+Every Ubicloud Kubernetes cluster comes with managed firewalls that protect your nodes. All inbound traffic to the cluster nodes is blocked by default, and the ports of your LoadBalancer services are opened automatically as you create them. This document explains what is reachable by default, how automatic exposure works, and how you can open additional ports yourself.
+
+## Default Rules
+
+Ubicloud firewalls only allow inbound traffic that is explicitly permitted by a rule; everything else is dropped. A new Kubernetes cluster starts with the following access:
+
+- **Kubernetes API**: The API server is reachable through the cluster's API server load balancer on port 443. This is the endpoint your kubeconfig file points to.
+- **SSH (port 22)**: Used by the Ubicloud control plane to provision and manage your nodes.
+- **Intra-cluster traffic**: Nodes communicate freely with each other on all ports and protocols within the cluster's private subnet. This carries pod-to-pod, pod-to-apiserver, and kubelet traffic.
+
+Everything else, such as NodePorts or the kubelet API, is not reachable from outside the cluster.
+
+## Automatic Exposure of LoadBalancer Services
+
+When you create a Service of type LoadBalancer, the Ubicloud cloud controller manager publishes its ports on the cluster's services load balancer and opens them on the cluster firewall automatically. There is nothing to configure: the moment the service is up, its ports accept traffic from the internet over both IPv4 and IPv6, and the traffic is routed to your service through the load balancer.
+
+For example, exposing an nginx deployment on port 80:
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+EOF
+```
+
+Once the service is created, `kubectl get service nginx` shows the domain assigned to it in the `EXTERNAL-IP` column, and port 80 is open to the public. Only the service port (`port`) is exposed; the `nodePort` that Kubernetes allocates behind it stays closed to direct outside access.
+
+When you delete the service or remove a port from it, the corresponding firewall rule is removed automatically as well.
+
+<Note>Each Kubernetes cluster has a single services load balancer, so multiple LoadBalancer services cannot share the same port.</Note>
+
+## Opening Additional Ports
+
+The cluster's private subnet comes with a firewall in your project, named after the cluster's ID. You can find it on the console under **Networking > Firewalls**. It starts without any rules, and any rules you add to it are yours: Ubicloud never modifies or removes them.
+
+You can add rules to this firewall to allow inbound traffic to the nodes directly, for example to reach a NodePort from your office network. See the [Firewall](https://www.ubicloud.com/docs/networking/firewall) documentation for how to manage rules.
+
+The rules that keep the cluster itself working, such as intra-cluster traffic and the automatically exposed service ports, are managed by Ubicloud separately.
