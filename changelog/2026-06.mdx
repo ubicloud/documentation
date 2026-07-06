@@ -1,0 +1,78 @@
+---
+title: "June 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+
+## Compute
+
+### Machine Images (Preview)
+
+![Machine images in the web console](/changelog/2026-06-machine-images.png)
+
+Machine Images feature is available in preview. You can now list, inspect, create, and delete machine images through the web UI, API or CLI; and when creating a VM you can pick one of your project's published machine images directly from the Boot Image selector. This feature is gated behind a flag; reach out if you're interested in trying it. The VM overview page, along with `vm show` in the CLI and API, now displays the image a VM was booted from — the image name for base images, or `name@version` for machine images.
+
+![Create VMs from machine images](/changelog/2026-06-machine-images-2.png)
+
+### Ubuntu 26.04 and Debian 13 VMs
+
+You can now create VMs running Ubuntu 26.04 or Debian 13. Both images are available across the fleet.
+
+<PrList ids={[5632, 5633, 5539, 5403, 5533, 5580, 5639, 5707, 5709, 5737]} />
+
+
+## GitHub Runners
+
+
+### Ubuntu 26.04 runners
+
+You can now run GitHub Actions jobs on Ubuntu 26.04 runners, matching GitHub's newly published public-preview image.
+
+### Provisioning failure notifications
+
+When a runner can't be provisioned because of a configuration issue on user side — self-hosted runners disabled, GitHub Actions turned off, an organization IP allow list, or the repository not shared with the Ubicloud GitHub App, etc. — we now email everyone with GitHub access on the project, explaining the exact error and how to fix it automatically.
+
+### GitHub Runners default to using Premium Runners
+
+Premium runners are now the standard experience for new projects. The free monthly runner credits have doubled from \$1 to \$2 to keep the same 1,250 free minutes for premium runners.
+
+<PrList ids={[5542, 5563, 5661, 5678, 5729]} />
+
+
+## Managed PostgreSQL
+
+### Committed memory in metrics
+
+![PostgreSQL Committed Memory Metrics](/changelog/2026-06-pg-committed-metrics.png)
+
+The PostgreSQL metrics dashboard now graphs committed memory, giving you more visibility into instance memory usage.
+
+### IPv6 (AAAA) records
+
+Public IPv6 (AAAA) DNS records are no longer added to Postgres databases by default, since some Postgres clients don't fall back to IPv4 cleanly when IPv6 connectivity is impaired. Private AAAA records are still published, and you can re-enable public AAAA records anytime from the "Add IPv6 (AAAA) DNS record" option on the database's settings page.
+
+### Capabilities API
+
+A new `/project/{project_id}/postgres/capabilities` endpoint reports the locations available to your project alongside their SKU details, making it easier to discover where and with which options you can create Postgres instances.
+
+<PrList ids={[5585, 5712, 5733, 4257]} />
+
+
+## Ubicloud Kubernetes
+
+### Retire worker nodes
+
+![Retire worker nodes individually](/changelog/2026-06-kubernetes-node-retire.png)
+
+You can now retire an individual Kubernetes worker node, which schedules the node for retirement and reduces its node pool's node count.
+
+<PrList ids={[5706]} />
+
+## Billing & Account
+
+### 2026 pricing applied to existing resources
+
+The 2026 price update for VMs, PostgreSQL, Kubernetes, and standard GitHub runners in Germany, Finland, and Virginia — in effect for new resources since May 1, 2026 — now applies to existing resources as well, effective June 1, 2026.
+
+<PrList ids={[5536]} />
