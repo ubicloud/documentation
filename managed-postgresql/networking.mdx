@@ -4,9 +4,19 @@ title: 'Networking'
 
 Ubicloud PostgreSQL instances are accessible over the internet by default. To
 restrict connections to your database based on the IP address of the client, you
-can set up Firewall Rules in the Networking view.
+can set up firewall rules for the database. Start by going to the Networking
+tab for the Database.
 
 ![Networking view](/managed-postgresql/networking-screenshot.png)
+
+Then click the "manage firewall rules using the firewall for this PostgreSQL
+database" link.
+
+![Networking view](/managed-postgresql/firewall-networking-screenshot.png)
+
+You can then modify the firewall rules for this firewall the same as any other
+Ubicloud firewall, see the [firewall documentation](/networking/firewall) for
+details.
 
 ## Adding and Modifying Firewall Rules
 
@@ -16,8 +26,8 @@ IP ranges.
 
 To modify an existing firewall rule, click the "Edit" button next to it, change
 the IP range and description as needed and confirm the change.
-You can also delete a firewall rule by clicking the "Delete" button next to it.
-To add a new firewall rule, enter the IP range and description and click the
-"Create" button.
+You can also delete a firewall rule by clicking the "Remove" button next to it.
+To add a new firewall rule, click the "Add Firewall Rule" button and fill out and
+submit the form.
 
 Any changes made to the firewall rules should typically take effect within a minute.
