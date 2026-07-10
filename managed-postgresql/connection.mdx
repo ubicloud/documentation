@@ -27,7 +27,6 @@ Supported formats are:
 - **jdbc**: connection details in the JDBC format, for connecting with
 Java-based clients.
 
-
 ## PgBouncer
 
 Ubicloud PostgreSQL provides a bundled [PgBouncer](https://www.pgbouncer.org/) instance for server side
@@ -35,6 +34,19 @@ connection pooling. PgBouncer helps improve connection management, performance,
 and resource utilization for your instance, especially those handling a high
 number of connections. To use PgBouncer for your PostgreSQL connections, check
 the "Use pgBouncer?" checkbox to obtain the connection string for PgBouncer.
+
+## Private DNS
+
+All Ubicloud PostgreSQL databases have both private and public DNS records.
+For databases that should be accessed by other Ubicloud resources (such as
+virtual machines, Kubernetes clusters, and other PostgreSQL databases), it's
+recommended to connect the subnets with those resources to the PostgreSQL
+database subnet, and have those resources use the private DNS records. This
+allows you to easily use firewall rules to manage access to your PostgreSQL
+database. To see connection strings that use the private DNS records, check
+the "Use Private DNS?" checkbox. Note that the "Use Private DNS?" checkbox
+only shows up if the subnet for the PostgreSQL database has been connected
+to another subnet.
 
 ## TLS
 
