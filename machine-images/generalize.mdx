@@ -1,0 +1,24 @@
+---
+title: 'Generalizing an Image'
+---
+
+<Warning>
+Do not run these cleanup commands on a VM you plan to keep using as the same instance. They are intended for image preparation and should be run only on template VMs. Some of them, cloud-init cleanup and host key removal in particular, will affect network and SSH access to the VM.
+</Warning>
+
+Every VM cloned from a machine image inherits all of the source VM's on-disk state.
+
+It is recommend that before you capture an image, SSH into the source VM and strip the bits that should be unique per VM, such as host keys, machine ID, cloud-init caches, logs, and shell history:
+
+```bash
+sudo cloud-init clean --logs --machine-id
+sudo rm -f /etc/ssh/ssh_host_*
+sudo rm -rf /var/log/* /tmp/* /var/tmp/*
+sudo apt-get clean
+sudo truncate -s 0 ~/.bash_history /root/.bash_history 2>/dev/null
+history -c
+```
+
+Exit the SSH session when you are done, then stop the VM so its disk is in a consistent state for capture.
+
+The commands above assume a Debian or Ubuntu source VM. On other distributions, substitute the equivalent package-cache cleanup (for example, `sudo dnf clean all` on AlmaLinux).

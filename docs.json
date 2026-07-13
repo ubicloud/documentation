@@ -111,6 +111,14 @@
             ]
           },
           {
+            "group": "Machine Images",
+            "pages": [
+              "machine-images/overview",
+              "machine-images/quickstart",
+              "machine-images/generalize"
+            ]
+          },
+          {
             "group": "Networking",
             "pages": [
               "networking/private-subnet",
