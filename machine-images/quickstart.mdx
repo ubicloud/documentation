@@ -1,0 +1,74 @@
+---
+title: 'Quickstart'
+---
+
+In this guide you'll capture a machine image from an existing VM, publish it as the latest version, and boot a new VM from it using the [Ubicloud console](https://console.ubicloud.com).
+
+The same actions are available in the [Ubicloud CLI](/quick-start/cli) under `ubi mi`.
+
+### Creating a new Machine Image
+
+<Steps>
+  <Step title="Prepare a source VM">
+    Create a VM with a disk of up to 40 GiB, and customize it into your "golden" template: install packages, configure, etc.
+
+    After you are done preparing, stop it. A machine image can only be captured from a **stopped** VM.
+
+    To stop a VM:
+
+    1. Select "Compute" from the navigation bar.
+    2. Click on your VM's name.
+    3. Go to the "Settings" tab.
+    4. Click "Stop".
+
+    <Note>
+    Before capturing the image, consider [generalizing the source VM](/machine-images/generalize) to remove state that should be unique to each VM. Then stop the VM to ensure its disk is in a consistent state.
+
+    Generalizing the VM is optional.
+    </Note>
+  </Step>
+  <Step title="Capture the Image">
+    In the console, select "Machine Images" from the left menu. Click "Create Machine Image".
+    Select a stopped VM. Click "Create".
+
+    The version label defaults to a UTC timestamp. You can override it by filling in the "Version Label" field in the create form.
+
+    Optionally, you can select "Destroy source VM after capture" to automatically destroy
+    the source VM after the capture is done.
+  </Step>
+  <Step title="Wait until it is ready">
+    After the previous stage, you will be redirected to the "Versions" tab of the machine image.
+    After a few minutes, the new version will reach the "ready" state.
+
+    Once the version is ready, it is automatically designated as the latest version.
+  </Step>
+</Steps>
+
+### Boot a VM from the image
+
+After the version you just created reaches the "ready" state, you can boot VMs from it.
+
+In the "Create Virtual Machine" form, a "Machine Image" option appears in the Boot Image selector. Choose it, then pick one of your images to boot a VM from its latest version.
+
+<Note>
+The web console currently supports booting only from the latest version. To boot from a specific version, use the CLI.
+</Note>
+
+### Manage versions
+
+You can create new versions or delete old versions from the "Versions" tab of the machine image.
+
+![Machine image versions and their states](/machine-images/versions-screenshot.png)
+
+
+### Change the latest version
+
+To designate a different version as the latest, open the image's **Settings** page, select the desired version, and click **Save**.
+
+This can also be used to roll back to an older version.
+
+![Set the latest version of a machine image](/machine-images/latest-version-screenshot.png)
+
+### Clean up
+
+Destroy versions you no longer need. A machine image can only be destroyed after all of its versions have been destroyed.

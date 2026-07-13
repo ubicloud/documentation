@@ -1,0 +1,30 @@
+---
+title: 'Overview'
+---
+
+Ubicloud Machine Images let you capture a virtual machine's disk as a reusable, versioned image and boot new VMs from it. You can install dependencies, apply configuration, and prepare data once, then launch identical VMs from the resulting image.
+
+## Versions
+
+An image can have multiple versions.
+
+One version can be designated the image's **latest** version. It is used when a VM requests`image-name@latest`.
+
+## Booting a VM from an image
+
+When creating a VM, you can select a machine image as its boot image and choose either a specific version or the latest version. The image and VM must be in the same location.
+
+<Note>
+The web console currently supports booting only from the latest version. To boot from a specific version, use the CLI.
+</Note>
+
+## Limitations
+
+The source VM must meet the following requirements:
+
+- **Stopped**: Stop the VM before capturing an image or version from it.
+- **Disk size**: The VM must have a single disk no larger than 40 GiB.
+
+## Next steps
+
+Follow the [Quickstart](/machine-images/quickstart) to capture your first image and boot a VM from it.
