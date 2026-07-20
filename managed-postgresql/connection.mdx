@@ -53,8 +53,15 @@ to another subnet.
 Ubicloud PostgreSQL instances are secured with TLS. By default, **TLS v1.3** is
 the minimum supported version.
 
-For production workloads, it is recommened that you connect to your instance
-using a verified TLS connection. To do this, download the CA certificate bundle
+New Ubicloud PostgreSQL instances use certificates signed by a public certificate
+authority. This allows you to verify the entire certificate chain for the TLS
+connection using the system certificate store, without having to download a CA
+certificate bundle. The connection strings on the connection page will include
+the settings needed for full verification if the instance uses a public
+certificate authority.
+
+For older Ubicloud PostgreSQL instances that use self-signed CA certificates,
+it is recommened that you download the CA certificate bundle
 from the Connection view, and add them to your database client's trusted
 certificates.
 
