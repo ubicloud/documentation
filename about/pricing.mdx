@@ -79,6 +79,19 @@ Ubicloud creates each VM in a private subnet. For free, each VM gets a private I
 Each VM has a monthly egress quota of 0.625TB per 2 vCPUs. If you exceed this limit, we will charge you \$3 per TB of egress traffic. We don't charge for ingress traffic or traffic between your resources within the same cloud region.
 
 
+## Machine Images
+
+[Machine images](/machine-images/overview) let you capture a VM's disk as a reusable, versioned image and boot new VMs from it. You are billed for the storage that your image versions consume.
+
+| Resource              | Pricing                                            |
+|:---------------------:|:--------------------------------------------------:|
+| Machine Image Storage | \$0.0000034722/GiB/min <br/> (approximately \$0.15/GiB/month)    |
+
+- Billing is based on the "Archive Size" of each captured image version, which can be less than the source VM's disk allocation because of compression. We calculate usage at per-minute granularity and bill you at the end of the month.
+- Each version of an image is billed separately. Destroy versions you no longer need to stop incurring charges.
+- This rate is the same across all Ubicloud regions.
+
+
 ## Managed PostgreSQL
 
 Ubicloud Managed PostgreSQL comes in standard and hobby flavors. The following tables display our pricing in Germany.
