@@ -12,10 +12,12 @@ It is recommend that before you capture an image, SSH into the source VM and str
 
 ```bash
 sudo cloud-init clean --logs --machine-id
+sudo journalctl --rotate
+sudo journalctl --vacuum-time=1s
 sudo rm -f /etc/ssh/ssh_host_*
 sudo rm -rf /var/log/* /tmp/* /var/tmp/*
 sudo apt-get clean
-sudo truncate -s 0 ~/.bash_history /root/.bash_history 2>/dev/null
+sudo truncate -s 0 ~/.bash_history /root/.bash_history /home/ubi/.ssh/authorized_keys 2>/dev/null
 history -c
 ```
 
