@@ -85,6 +85,7 @@
               "managed-postgresql/metrics",
               "managed-postgresql/logs",
               "managed-postgresql/networking",
+              "managed-postgresql/security",
               "managed-postgresql/resize",
               "managed-postgresql/high-availability",
               "managed-postgresql/read-replicas",

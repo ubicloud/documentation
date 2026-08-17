@@ -1,0 +1,49 @@
+---
+title: 'Security'
+---
+
+Ubicloud is committed to keeping customer data safe and secure. You can read
+more about our security practices in [our Trust Center](https://trust.ubicloud.com/).
+This page describes how Ubicloud protects the data in your managed PostgreSQL
+databases.
+
+## Encryption at Rest
+
+All managed PostgreSQL volumes, both the boot disk and the data disk, are
+encrypted at rest. Encryption is enabled by default and there is nothing you
+need to configure.
+
+We implement envelope encryption for disk-level encryption. Each Ubicloud
+VM/database has its own distinct data encryption key (DEK) and key encryption
+key (KEK). More details are available in
+[our blog post](https://www.ubicloud.com/blog/ubicloud-block-storage-encryption).
+
+## Encryption in Transit
+
+All communication between the control plane and database instances, as well as
+between database servers (for example, in [high availability](/managed-postgresql/high-availability)
+setups), is encrypted using TLS.
+
+Client connections to your database are also secured with TLS. See
+[Connection](/managed-postgresql/connection#tls) for the supported TLS versions
+and for how to verify the certificate chain from your database client.
+
+## Backup Encryption
+
+Backups are encrypted both at rest and in transit. Backup servers run on
+Ubicloud VMs and follow the same encryption model, but they use separate
+encryption keys.
+
+Backup storage is also isolated per database at the bucket level. See
+[Backup and Restore](/managed-postgresql/backup-and-restore) for details on how
+backups are taken, retained, and restored.
+
+## Network and Access Controls
+
+Ubicloud PostgreSQL databases are reachable over the internet by default. You
+can restrict which clients may connect by using firewall rules, and you can
+keep traffic on your private network by using private DNS. See
+[Networking](/managed-postgresql/networking) for details.
+
+To control which users in your project can view and manage a database, use
+Ubicloud's [attribute-based access control](/security/authorization).
