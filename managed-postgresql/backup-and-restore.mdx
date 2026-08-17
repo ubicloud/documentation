@@ -12,6 +12,41 @@ Storage for backups are isolated at the bucket level. We create separate buckets
 
 **Backup Duration:** We retain backups for a period of 7 days, offering a sufficient window for recovery in case of data loss. If you need a longer backup retention period, feel free to contact us at [support@ubicloud.com](mailto:support@ubicloud.com).
 
+## Download Backups
+
+You can download the backups of your managed PostgreSQL database directly from
+object storage. Ubicloud gives you temporary, read-only credentials that are
+scoped to your database's own backup bucket. You use these credentials with
+standard tools such as [wal-g](https://github.com/wal-g/wal-g), the AWS CLI, or
+the MinIO client (`mc`).
+
+![Backup download credentials](/managed-postgresql/backup-download-screenshot.png)
+
+Ubicloud stores backups in WAL-G format: base backups under `basebackups_005/`
+and WAL segments under `wal_005/`.
+
+### Availability
+
+- Backup download is available by default for databases on AWS.
+- For databases on Ubicloud metal, an administrator must enable it for the project.
+- Backup download is not available for read replicas. Request the credentials on the primary database instead.
+- Backup download is not available for GCP-hosted databases.
+- You need the `Postgres:view` permission on the database.
+
+### Get download credentials
+
+The credentials are read-only. They expire after 36 hours. Ubicloud creates a
+new set each time you ask and does not store them. To get a new set, you can
+request the credentials again via the web console, API and CLI.
+
+To obtain the credentials from the web console, go to the Backup/Restore tab for
+your Ubicloud PostgreSQL database. In the Backup Download Access panel, click
+"Get download credentials". The console shows the credentials and example
+commands. The secret and session token are hidden until you click to show them.
+
+The web console also shows example commands to use the credentials to access the
+backups with tools like `aws s3 sync`, `mc mirror` and `wal-g`.
+
 ## Restore
 
 To restore a database, use the "Fork" functionality available in the Backup/Restore view.
