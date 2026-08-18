@@ -8,7 +8,7 @@ The pricing information below is for our managed service. Billing is based on th
 
 At a high level, our prices are 3-10x lower than comparable offerings. For example, 2 vCPU instance prices for different services are:
 
-- [GitHub Actions](#github-actions): \$0.001/min on Ubicloud vs. \$0.008/min on GitHub
+- [GitHub Actions](#github-actions): \$0.00125/min on Ubicloud vs. \$0.00600/min on GitHub
 - [Compute (VMs)](#compute): \$33.52/month on Ubicloud vs. \$90/month on AWS Germany
 - [Managed PostgreSQL](#managed-postgresql): \$62.52/month on Ubicloud vs. \$200/month on AWS Germany
 - [Burstable VMs](#burstable-vms) start at \$8.38/month and [Hobby Managed PostgreSQL](#hobby-postgresql) starts at \$15.63/month
@@ -22,29 +22,39 @@ The tag `ubicloud-standard-2` defaults to Linux x64 2 vCPUs. Given Ubicloud's pr
 
 When you enable premium runners, we automatically route your jobs to premium machines. If capacity's full, you seamlessly fall back to standard runners with no extra wait time. You are billed by the minute based on the type of runner you're using.
 
-### Linux x64 Runners
+### Standard x64 Runners
 
-| vCPU | Memory | Standard Runners |  Premium Runners |
+| vCPU | Memory | Ubicloud Standard |  GitHub Standard  |
+|------|--------|-------------------|-------------------|
+| 2    | 8GB    | \$0.00125/min     | \$0.00600/min     |
+| 4    | 16GB   | \$0.00250/min     | \$0.01200/min     |
+| 8    | 32GB   | \$0.00500/min     | \$0.02200/min     |
+| 16   | 64GB   | \$0.01000/min     | \$0.04200/min     |
+| 30   | 120GB  | \$0.01875/min     | \$0.07700/min     |
+
+### Premium x64 Runners
+
+| vCPU | Memory | Ubicloud Premium |  GitHub Standard |
 |------|--------|------------------|------------------|
-| 2    | 8GB    | \$0.0010/min     | \$0.0016/min     |
-| 4    | 16GB   | \$0.0020/min     | \$0.0032/min     |
-| 8    | 32GB   | \$0.0040/min     | \$0.0064/min     |
-| 16   | 64GB   | \$0.0080/min     | \$0.0128/min     |
-| 30   | 120GB  | \$0.0150/min     | \$0.0240/min     |
+| 2    | 8GB    | \$0.002/min      | \$0.006/min      |
+| 4    | 16GB   | \$0.004/min      | \$0.012/min      |
+| 8    | 32GB   | \$0.008/min      | \$0.022/min      |
+| 16   | 64GB   | \$0.016/min      | \$0.042/min      |
+| 30   | 120GB  | \$0.030/min      | \$0.077/min      |
 
 <Info>
   All new users get the superior performance of our premium runners by default. You disable premium runners in your account settings if you want to use standard runners instead.
 </Info>
 
-### Linux arm64 Runners
+### arm64 Runners
 
-| vCPU | Memory | Price        |
-|------|--------|--------------|
-| 2    | 6GB    | \$0.0010/min |
-| 4    | 12GB   | \$0.0020/min |
-| 8    | 24GB   | \$0.0040/min |
-| 16   | 48GB   | \$0.0080/min |
-| 30   | 90GB   | \$0.0150/min |
+| vCPU | Memory | Ubicloud      |  GitHub       |
+|------|--------|---------------|---------------|
+| 2    | 6GB    | \$0.00125/min | \$0.00500/min |
+| 4    | 12GB   | \$0.00250/min | \$0.00800/min |
+| 8    | 24GB   | \$0.00500/min | \$0.01400/min |
+| 16   | 48GB   | \$0.01000/min | \$0.02600/min |
+| 30   | 90GB   | \$0.01875/min | \$0.04687/min |
 
 ## Compute
 
