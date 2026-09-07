@@ -1,0 +1,89 @@
+---
+title: "August 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### Backup Downloads (preview)
+
+Downloading backups of your PostgreSQL database from Ubicloud is available in preview, so you can keep your own copy or load the data into another environment.
+
+![Postgres Backup Downloads](/changelog/2026-08-postgres-backups-download.png)
+
+### Failover Notifications
+
+Ubicloud now emails everyone with access to a database when a standby is promoted to primary, so an interrupted connection comes with an explanation. Planned failovers such as resizes, version upgrades, provider maintenance, and storage auto-scaling cutovers as well as unplanned failovers due to unavailability events are called out accordingly.
+
+### PostgreSQL 18 by Default
+
+New databases are created on PostgreSQL 18 whether you use the web console, the API, or the CLI, and older versions remain selectable. New PostgreSQL 17 and 18 clusters also use PostgreSQL's builtin `C.UTF-8` locale provider, which keeps sort order stable across major version and operating system upgrades.
+
+### Clearer Resize and Upgrade Pages
+
+The resize page now shows your current instance size, vCPU and memory, storage size, and disk usage above the form, and storage sizes too small to hold the data in use are disabled with the reason on the card. Resize and upgrade pages also break failover timing into steps, naming your maintenance window and the downtime each step costs.
+
+![Postgres resize page](/changelog/2026-08-postgres-resize.png)
+
+### Network Access at Creation
+
+Network access on the create form is now two cards: open to the internet, or no access yet. Each card clearly states the firewall rules it creates. Creating a database with no firewall rules, previously available only through the API and CLI, now works in the web console as well.
+
+### Metric Destinations
+
+Metric destinations can now authenticate with bearer tokens and send custom headers, which covers providers that need a header for tenant routing, such as Mimir. Exported metrics also carry a `resource_name` label, so a metrics query and a log query can use the same field.
+
+### Autovacuum Default Scaled to Instance Size
+
+Autovacuum defaults now scale with the size of the database instance. Larger instances vacuum more aggressively instead of accumulating bloat on insert and update heavy workloads.
+
+<PrList ids={[5979, 5983, 5994, 6060, 6078, 6079, 6082, 6141, 6146, 6147, 6148, 6211, 6243, 6249]} />
+
+## Compute
+
+### Serial Log for VMs
+
+You can now read serial console log of a Ubicloud Virtual Machine from the Serial Log tab on the VM page, the `ubi vm ... serial-log` CLI command, or the API. This is the fastest way to find out why a VM failed during init and never became reachable. Repeated fetches reuse the most recent result for 60 seconds, and the button shows the countdown.
+
+![Serial Log tab on the VM page](/changelog/2026-08-vm-serial-log.png)
+
+### More Resilient DNS
+
+VMs now send each DNS query to an upstream resolver on every available address family at once and take the first answer. Losing IPv6 or IPv4 connectivity, or a single upstream provider, no longer takes DNS down inside your VMs.
+
+<PrList ids={[5893, 6000, 6236]} />
+
+## Ubicloud Kubernetes
+
+### Cluster Metrics
+
+Kubernetes clusters now have a Metrics tab with various charts of node-level and control plane metrics, including API server and scheduler activity. You can filter the charts to a single node, and the same data is available through the API.
+
+![Metrics tab on a Kubernetes cluster](/changelog/2026-08-kubernetes-metrics.png)
+
+<PrList ids={[6035, 6090, 6094, 6095, 6096, 6324]} />
+
+## GitHub Runners
+
+### Standard Runners Available for New Customers
+
+New customers can choose standard runners again. The June 2026 cutoff has been removed, and installations that were affected by it also see the premium runner option again.
+
+<PrList ids={[6029, 6066, 6206]} />
+
+## Billing & Account
+
+### September 2026 Price Change
+
+Prices for VMs, PostgreSQL databases, Kubernetes clusters, and standard and premium GitHub Actions runners in our Germany and Finland regions go up 25% for new deployments starting September 1, 2026. Existing resources keep their current rates for now. The Virginia, AWS, and GCP regions are not affected, and IPv4 address pricing is unchanged.
+
+### Projects Always Keep an Admin
+
+Removing the last admin from a project is now blocked, whether through the user permissions page or by closing the account. A project can no longer end up with resources and no one able to manage them.
+
+### Account Closure Confirmation
+
+Closing your account now sends you a confirmation email.
+
+<PrList ids={[6056, 6111, 6121, 6204]} />
