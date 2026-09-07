@@ -132,6 +132,7 @@
           {
             "group": "Security",
             "pages": [
+              "security/overview",
               "security/authorization",
               "security/trust-center"
             ]

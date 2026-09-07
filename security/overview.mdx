@@ -1,0 +1,66 @@
+---
+title: 'Security Overview'
+sidebarTitle: 'Overview'
+description: 'Ubicloud is committed to keeping customer data safe and secure.'
+---
+
+Ubicloud is committed to keeping customer data safe and secure. You can review
+our security posture, compliance status, and request security documentation in
+[our Trust Center](https://trust.ubicloud.com/). This page summarizes how we
+secure the platform itself. For service-specific practices, see the security
+pages for [Managed PostgreSQL](/managed-postgresql/security) and
+[GitHub Actions](/github-actions-integration/security).
+
+## Infrastructure Security
+
+We follow established cloud security practices, and the code that implements
+them is public in our [GitHub repository](https://github.com/ubicloud/ubicloud).
+
+- **Compute:** We use Linux KVM for full virtualization and
+  [Cloud Hypervisor](https://github.com/cloud-hypervisor/cloud-hypervisor) as
+  our virtual machine monitor (VMM). Each VMM instance runs inside its own Linux
+  namespaces for isolation. The control plane communicates with bare metal
+  hosts over SSH.
+- **Block Storage:** Virtual disks are provided by
+  [ubiblk](https://github.com/ubicloud/ubiblk), our open source vhost-user
+  block backend, and are encrypted at rest. We use envelope encryption: each
+  volume has its own data encryption key (DEK), which is itself encrypted with a
+  key encryption key (KEK) held by the control plane. A compromised host alone
+  is not enough to decrypt customer data. See
+  [our blog post](https://www.ubicloud.com/blog/ubicloud-block-storage-encryption)
+  for details.
+- **Virtual Networking:** Traffic between VMs in a private subnet travels over
+  [IPsec](https://en.wikipedia.org/wiki/IPsec) tunnels, and tunnel keys are
+  rotated daily. Each customer's VMs operate in their own networking
+  namespace.
+- **Firewalls:** Firewalls are stateful ingress filters implemented with Linux
+  nftables. Traffic initiated by a VM and its return traffic is always allowed.
+  To minimize initial setup, the default firewall attached to a new private
+  subnet allows all inbound traffic; we recommend restricting it to the ports
+  and sources you need. See [Firewalls](/networking/firewall). Managed
+  PostgreSQL databases allow inbound traffic on the PostgreSQL port (5432) and
+  the connection pooler port (6432) by default, and SSH only from Ubicloud's
+  control plane.
+
+## Compliance
+
+Ubicloud is SOC 2 Type 2 compliant. You can request our SOC 2 Type 2 report and
+our most recent penetration test report through
+[our Trust Center](https://trust.ubicloud.com/). We are also happy to complete
+security questionnaires.
+
+## Reporting a Security Vulnerability
+
+If you believe you have found a vulnerability in Ubicloud, email
+[security@ubicloud.com](mailto:security@ubicloud.com). Please do not open a
+public GitHub issue.
+
+We will acknowledge your report within 3 business days and aim to give you an
+initial assessment within 14 days. We triage each report on its own terms: how
+exploitable it is, how many users are realistically affected, and how
+disruptive the fix is. Fixes are merged as soon as they are fully tested, and
+publication of issue details is handled case by case.
+
+Hardening suggestions and defense-in-depth ideas are welcome as regular GitHub
+issues rather than security reports. Our full policy is in
+[SECURITY.md](https://github.com/ubicloud/ubicloud/blob/main/SECURITY.md).
