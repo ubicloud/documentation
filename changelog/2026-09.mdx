@@ -1,0 +1,91 @@
+---
+title: "September 2026"
+---
+
+import { PrList } from "/snippets/pr-list.mdx";
+
+## Managed PostgreSQL
+
+### Configure Shared Memory Allocation
+
+Ubicloud PostgreSQL now lets you control how much memory is set aside for shared buffers, so you can tune database performance for memory-intensive workloads. Set a shared memory percentage and Ubicloud handles huge page allocation and buffer sizing for you.
+
+### See When Your Databases Were Created
+
+The PostgreSQL overview page and database list now show a creation time for every resource, so you can gauge the age of a cluster at a glance without going through the API.
+
+![Creation Time on PostgreSQL Overview](/changelog/2026-09-pg-create-time.png)
+
+### Flexible Time Units in Settings
+
+Eleven PostgreSQL time settings now accept human-friendly unit strings such as `15s` or `2min`, in addition to plain numbers. This makes values like connection timeouts and keepalive intervals easier to read and configure through the API.
+
+<PrList ids={[5779, 6445, 6491, 6528]} />
+
+## Github Runners
+
+### Guided Setup Workflow
+
+Onboarding to GitHub Actions runners is now a guided four-step flow: sign in with GitHub, install the GitHub App, add a payment method, and update your workflow files. Each step presents a single action, so you always know exactly what comes next, and every step shows your progress through the setup.
+
+![Github Actions Guided Setup](/changelog/2026-09-gha-setup-flow.png)
+
+### More Runner Capacity During Busy Periods
+
+Large 30 vCPU runners can now spill over to AWS capacity instead of waiting for a free host, and we've raised the default spillover quotas so busy projects keep launching runners on AWS rather than queueing. Together this shortens the wait for the labels that are hardest to place during peak demand.
+
+### Transparent Hardware Substitutions
+
+When we run your job on different hardware than you requested, the runner list now tells you. If you get premium hardware for a standard request, it's free; if you get standard hardware for a premium request, you're billed at the standard rate.
+
+### Clearer Runner Billing
+
+A note under the runner list now clarifies that billing only covers job execution, not provisioning or idle runners that GitHub never assigns a job to.
+
+<PrList ids={[6311, 6312, 6391, 6347, 6346, 6358, 6381, 6379]} />
+
+## Ubicloud Kubernetes
+
+### Kubernetes v1.37 Now Available
+
+Ubicloud Kubernetes now supports Kubernetes v1.37, enabling the latest features and improvements.
+
+![Kubernetes v1.37](/changelog/2026-09-k8s-v137.png)
+
+### Pin Workloads to a Nodepool
+
+Worker nodes now carry an `ubicloud.com/nodepool` label, so you can use a `nodeSelector` to pin workloads to a specific nodepool. Nodes joined after this change receive the label automatically.
+
+<PrList ids={[6303, 6344]} />
+
+## Compute
+
+### AlmaLinux 10
+
+Ubicloud now supports AlmaLinux 10 VMs, giving you another base image option for your workloads.
+
+<PrList ids={[6426]} />
+
+## Billing & Account
+
+### September 2026 Price Update
+
+Prices for VMs, PostgreSQL, Kubernetes, and GitHub runners in Germany and Finland increased by 25% on September 1, 2026. New resources pick up the new rates on their own, and existing resources are being migrated to the new rates automatically.
+
+### Updated Premium Runner Pricing
+
+The premium runner comparison in the console now reflects current pricing, stating that premium runners cost about a third of GitHub-hosted runners. The monthly free runner credit moves with it.
+
+### PKCE for OIDC Login
+ 
+OIDC logins now use PKCE when your identity provider supports it, adding protection against intercepted authorization codes. Providers that don't advertise PKCE support continue to work as before.
+
+### Audit Log Improvements
+ 
+Renaming a project now appears as a rename action in the audit log.
+
+### Project Management API Changes
+
+The API no longer supports listing or creating projects. Since access tokens are scoped to a single project, a token can no longer create or enumerate other projects.
+
+<PrList ids={[6205, 6207, 6408, 6490]} />
