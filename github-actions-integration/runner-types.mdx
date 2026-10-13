@@ -73,3 +73,18 @@ Ubicloud arm64 runners are powered by Ampere Altra Q80-30 processors, with each 
 GitHub began publishing official arm64 images in the [actions/runner-images](https://github.com/actions/runner-images) repository in June 2026. Prior to that, Ubicloud built its own arm64 images since GitHub did not publish templates for arm64 at the time. We now use GitHub's templates to build our arm64 images as well, and update them monthly following each new GitHub release, the same process we use for our x64 images.
 
 If you notice any discrepancies between Ubicloud arm64 runners and the official GitHub runners, please reach out to us at support@ubicloud.com.
+
+## US Runners
+
+By default, Ubicloud runs your jobs in Europe. If your infrastructure sits in the United States, we can enable our US fleet for your account so jobs run closer to the services they talk to.
+
+Only standard runners are available in the US, we don't have premium runners there. Our US fleet is also smaller, so the vCPU concurrency we can offer there is more limited.
+
+You can choose between two placement options:
+
+- **US only.** Every job runs in the US. If no US capacity is free, the job waits for a runner.
+- **US first, with fallback.** We prioritize the US fleet, and a job falls back to Europe when US capacity isn't available rather than waiting in the queue.
+
+Ubicloud Cache stores your files in a single region, so enabling US runners means moving your cache bucket to the US. Moving it deletes your existing caches, so your first jobs after the switch run without one. If you choose the fallback option, jobs that run in Europe still reach your US cache, but downloads and uploads are slower than they would be in-region.
+
+<Note>US runners are enabled per account. To get started, email us at [support@ubicloud.com](mailto:support@ubicloud.com) with the peak vCPU concurrency you expect, so we can confirm our US capacity covers it. You don't need to change the labels in your workflow files.</Note>
