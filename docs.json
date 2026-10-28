@@ -75,7 +75,8 @@
               "github-actions-integration/ubicloud-cache",
               "github-actions-integration/debug-workflow-with-ssh",
               "github-actions-integration/price-performance",
-              "github-actions-integration/security"
+              "github-actions-integration/security",
+              "github-actions-integration/compliance"
             ]
           },
           {

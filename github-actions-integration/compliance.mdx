@@ -1,0 +1,86 @@
+---
+title: 'GitHub Actions Compliance'
+sidebarTitle: 'Compliance'
+---
+
+This page answers the questions we're most often asked during security and procurement reviews of our GitHub Actions integration. For our broader security practices, see [GitHub Actions Security](/github-actions-integration/security).
+
+<Card title="Trust Center" icon="shield-check" href="https://trust.ubicloud.com">
+  Request our SOC 2 Type 2 report and penetration test report, and sign our Data Processing Agreement.
+</Card>
+
+## Reports and agreements
+
+<AccordionGroup>
+  <Accordion title="Do you have a SOC 2 report?">
+    Yes. You can request our SOC 2 Type 2 report, along with our most recent penetration test report, through our [Trust Center](https://trust.ubicloud.com).
+  </Accordion>
+
+  <Accordion title="Can we sign a Data Processing Agreement, and can we sign it before signup?">
+    Yes. Our Data Processing Agreement, which covers Article 28 of the GDPR, is available through our [Trust Center](https://trust.ubicloud.com) and can be signed there before or at signup.
+
+    If you run into any problem executing the document, email us at [support@ubicloud.com](mailto:support@ubicloud.com) and we'll help.
+  </Accordion>
+</AccordionGroup>
+
+## How we handle your data
+
+<AccordionGroup>
+  <Accordion title="Is our code used for anything other than running our jobs?">
+    No. Customer source code, logs, caches and artifacts are used strictly to run your jobs, and never for analytics, product development, benchmarking, or training AI or machine-learning models.
+  </Accordion>
+
+  <Accordion title="What happens to the runner VM after a job finishes?">
+    Every job runs on a fresh, fully isolated virtual machine provisioned with Linux KVM. When the job finishes, the VM and its block storage are destroyed immediately, and we crypto-shred the storage so that no data persists between jobs.
+
+    We don't capture or back up job output, source code or build artifacts. See [GitHub Actions Security](/github-actions-integration/security) for more on our ephemeral VM and just-in-time runner model.
+  </Accordion>
+
+  <Accordion title="What data do you retain, and for how long?">
+    We retain control plane metadata about each job, such as when it was initiated, its start time and duration, the hardware selected and the IP addresses involved. This is what lets us maintain an audit trail and investigate security incidents.
+
+    Cache entries are removed automatically after seven days without access. Service and audit logs follow our SOC 2 retention guidelines, up to 180 days for audit logs.
+  </Accordion>
+
+  <Accordion title="Which Ubicloud employees can access a runner VM, its disk, logs or cache?">
+    Engineer access to a runner VM, its disk, logs or cache is restricted by job role and operational necessity. All access is logged, and your data is encrypted both at rest and in transit.
+  </Accordion>
+</AccordionGroup>
+
+## Where your jobs run
+
+<AccordionGroup>
+  <Accordion title="Where are our runners and caches located?">
+    Ubicloud runners process data within Europe by default. Most of our fleet runs on Hetzner hosts in Germany (FSN1), alongside Leaseweb hosts in Germany (FRA-01), and we're diversifying providers to avoid a single point of failure.
+
+    At times of high demand we can fall back to external compute providers such as AWS in eu-central-1 (Frankfurt) to prevent long queue times. That region is also within the EU.
+
+    US runners are available but are only used if you explicitly ask us to enable them. Email [support@ubicloud.com](mailto:support@ubicloud.com) if you need them.
+  </Accordion>
+
+  <Accordion title="Who are your subprocessors?">
+    Our current subprocessor list, including locations, is published at [Sub-processors](/about/sub-processors).
+  </Accordion>
+</AccordionGroup>
+
+## GitHub App permissions
+
+<AccordionGroup>
+  <Accordion title="Which permissions does the Ubicloud Managed Runners app need, and why?">
+    The app requests three repository permissions:
+
+    | Permission | Why we need it |
+    |---|---|
+    | **Metadata** | Required by default for apps to retrieve overall repository information |
+    | **Actions** | To check the status of your jobs |
+    | **Administration** | To register self-hosted runners for the repository |
+
+    GitHub doesn't offer lighter-weight permissions that allow us to register runners at the repository level and check job status.
+  </Accordion>
+
+  <Accordion title="Can we install the app on selected repositories only?">
+    Yes. You can enable our GitHub App for selected repositories rather than across your whole organization.
+  </Accordion>
+</AccordionGroup>
+
+<Note>If your review raises something this page doesn't cover, email us at [support@ubicloud.com](mailto:support@ubicloud.com) and you'll be talking directly to our engineers.</Note>
