@@ -57,15 +57,6 @@
             ]
           },
           {
-            "group": "AI Inference",
-            "pages": [
-              "inference/endpoint",
-              "inference/api-key",
-              "inference/playground",
-              "inference/chat-completion-python"
-            ]
-          },
-          {
             "group": "Github Actions Integration",
             "pages": [
               "github-actions-integration/quickstart",
@@ -128,6 +119,15 @@
               "networking/firewall",
               "networking/load-balancer",
               "networking/public-ip-ranges"
+            ]
+          },
+          {
+            "group": "AI Inference",
+            "pages": [
+              "inference/endpoint",
+              "inference/api-key",
+              "inference/playground",
+              "inference/chat-completion-python"
             ]
           },
           {
