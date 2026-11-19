@@ -97,21 +97,28 @@ To expose Windmill securely via HTTPS, we'll employ Nginx Gateway Fabric, cert-m
 ### Installing NGINX Gateway Fabric & cert-manager
 Use the following commands to install the Gateway API CRDs, NGINX Gateway Fabric, and cert-manager:
 ```bash wrap
-kubectl kustomize https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.5.1 | kubectl apply -f -
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.9.0" | kubectl apply -f -
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-  --create-namespace -n nginx-gateway
+  --version 2.9.0 \
+  --create-namespace -n nginx-gateway \
+  --set nginx.config.ipFamily=dual \
+  --set 'nginx.service.patches[0].type=StrategicMerge' \
+  --set 'nginx.service.patches[0].value.spec.ipFamilyPolicy=PreferDualStack'
 
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
 helm install cert-manager jetstack/cert-manager \
+  --version v1.21.3 \
   --namespace cert-manager --create-namespace \
   --set crds.enabled=true \
   --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
   --set config.kind="ControllerConfiguration" \
   --set config.enableGatewayAPI=true
 ```
+
+The `ipFamily` and `ipFamilyPolicy` settings make the gateway reachable over both IPv4 and IPv6, since your cluster's load balancer serves both.
 
 Next, create a ClusterIssuer to obtain certificates from Let's Encrypt:
 ```bash
@@ -137,7 +144,7 @@ EOF
 
 ### Configuring HTTPS with Gateway API
 
-To expose Windmill securely, you first need the external domain for your cluster. You can find this "Service URL" (e.g., `mycluster-services-0b1c1.k8s.ubicloud.com`) in the **Overview** page of your Kubernetes cluster in the Ubicloud console. Alternatively, you can use the address retrieved in the previous step:
+To expose Windmill securely, you first need the external domain for your cluster. You can find this "Service URL" (e.g., `mycluster-services-0b1c1.kubernetes.ubicloud.app`) in the **Overview** page of your Kubernetes cluster in the Ubicloud console. Alternatively, you can use the address retrieved in the previous step:
 
 ```bash wrap
 kubectl -n windmill get service windmill-app --output jsonpath='{.status.loadBalancer.ingress[0].hostname}'
@@ -150,7 +157,7 @@ Update the domain values and disable the built-in ingress in `values.yaml`, as w
 
 ```yaml
 windmill:
-  baseDomain: xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your Service URL or custom domain
+  baseDomain: xxxxx-services-xxxxx.kubernetes.ubicloud.app # Replace with your Service URL or custom domain
   baseProtocol: https
 
 ingress:
@@ -173,7 +180,7 @@ helm -n windmill upgrade my-windmill windmill/windmill -f values.yaml
 Finally, create the Gateway and HTTPRoute resources to expose Windmill via HTTPS:
 
 ```bash
-export WINDMILL_DOMAIN=xxxxx-services-xxxxx.k8s.ubicloud.com # Replace with your domain
+export WINDMILL_DOMAIN=xxxxx-services-xxxxx.kubernetes.ubicloud.app # Replace with your domain
 
 kubectl apply -f - <<EOF
 apiVersion: gateway.networking.k8s.io/v1
@@ -253,4 +260,6 @@ It may take a few minutes for the certificate to be issued and the gateway to be
 kubectl -n nginx-gateway describe cert windmill-tls-cert
 ```
 
-Once the certificate is ready, you can access your Windmill application securely at https://xxxxx-services-xxxxx.k8s.ubicloud.com or https://windmill.yourdomain.com.
+Once the certificate is ready, you can access your Windmill application securely at https://xxxxx-services-xxxxx.kubernetes.ubicloud.app or https://windmill.yourdomain.com.
+
+NGINX Gateway Fabric ships its own NGINX build, so keep it up to date to receive NGINX security fixes. See [Keeping NGINX Gateway Fabric up to date](https://www.ubicloud.com/docs/managed-kubernetes/expose-application-using-tls#keeping-nginx-gateway-fabric-up-to-date).
