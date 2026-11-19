@@ -1,0 +1,202 @@
+---
+title: 'VPC Peering'
+---
+
+VPC peering connects your PostgreSQL database's network to a VPC in your own
+cloud account. Your applications then reach the database over private
+addresses, and the traffic does not cross the public internet.
+
+VPC peering is available for Ubicloud PostgreSQL on AWS. For Ubicloud
+PostgreSQL on GCP, it is [available on request](#gcp).
+
+## AWS
+
+Ubicloud sends a peering request from your database's VPC to your VPC. You
+accept it in your AWS account and route traffic to the database. Your
+connection string does not change: inside your VPC, the database hostname
+resolves to its private address.
+
+### Before you start
+
+- **Same region.** Your VPC must be in the same AWS region as the database.
+  Cross-region peering is not supported yet.
+- **No overlapping ranges.** The CIDR blocks of your VPC must not overlap the
+  IPv4 range of the database's private subnet. The range is shown on the VPC
+  Peering tab. To pick it yourself, set **Private IPv4 range (optional)** when you
+  create the database (`private_subnet_ipv4_range` in the API). On AWS, it can be
+  from /16 to /24.
+- **One peering per database.** Each database, and each read replica, has its
+  own private subnet and VPC, so each one needs its own peering.
+- **Private ranges only.** Ubicloud routes only the private (RFC 1918) CIDR
+  blocks of your VPC: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. Peering is
+  IPv4 only.
+
+### Request the peering
+
+<Steps>
+  <Step title="Open VPC peering">
+    Open your database, go to the **Networking** tab and click **Manage VPC
+    peering**. This opens the **VPC Peering** tab of the database's private
+    subnet.
+  </Step>
+  <Step title="Send the request">
+    Enter the 12-digit **AWS account ID** that owns your VPC and the **VPC ID**
+    (for example `vpc-0123456789abcdef0`), then click **Send peering request**.
+    After a few seconds, the peering shows **waiting for peer** with a peering
+    connection ID (`pcx-...`), the account and VPC that sent the request, and
+    the time the request expires.
+  </Step>
+</Steps>
+
+### Set up your side
+
+The peering on the VPC Peering tab shows these steps with your own IDs and
+ranges filled in.
+
+<Steps>
+  <Step title="Accept the request">
+    In your AWS account, open the VPC console in the database's region and go to
+    **Peering connections**. Select the connection with the ID shown in
+    Ubicloud, check that the requester account, VPC and CIDR match, and choose
+    **Actions > Accept request**. Accept only the connection with the exact ID
+    shown in your Ubicloud console. Do not send a peering request to the
+    Ubicloud VPC from your side. AWS expires a request that is not accepted
+    within 7 days; after that, delete the peering in Ubicloud and create it
+    again.
+  </Step>
+  <Step title="Route traffic to the database">
+    In every route table used by subnets that must reach the database, add a
+    route with the database's subnet range as the destination and the peering
+    connection as the target. Subnets without an explicit route table
+    association use the VPC's main route table. Right after you accept, the AWS
+    console offers **Modify my route tables now**.
+  </Step>
+  <Step title="Allow the traffic">
+    If your security groups restrict outbound traffic, allow TCP to the
+    database's subnet range on the ports you use: 5432 for PostgreSQL and 6432
+    for PgBouncer. If you use custom network ACLs, also allow outbound TCP to
+    that range on those ports, and inbound return traffic from it on ports
+    1024-65535.
+  </Step>
+  <Step title="Turn on DNS in your VPC">
+    In your VPC's settings, turn on **DNS resolution** and **DNS hostnames**.
+    Ubicloud turns on DNS resolution for the peering on its side, so the
+    database hostname resolves to its private address inside your VPC.
+  </Step>
+</Steps>
+
+Ubicloud checks for your acceptance every 30 seconds, and every 5 minutes once
+the request is older than an hour. When you accept, the peering moves to
+**configuring** while Ubicloud adds its routes, and then to **active**.
+
+### Connect
+
+Keep using the database's connection string. From an instance in your VPC,
+check that the hostname resolves to an address inside the database's subnet
+range:
+
+```bash
+dig +short <database hostname>
+```
+
+The answer lists a `compute.amazonaws.com` name followed by a private address.
+To confirm that a connection goes over the peering, run:
+
+```sql
+SELECT inet_server_addr(), inet_client_addr();
+```
+
+Both addresses should be private: the database's address in its subnet range,
+and your client's address in your VPC.
+
+This works with the Amazon-provided DNS server, or with a resolver that forwards
+to it. Clients that reach your VPC over a VPN, Direct Connect, a Transit Gateway
+or another peering cannot use the peering, because AWS does not route peered
+traffic onward.
+
+### Firewall rules
+
+The database's [firewall rules](/managed-postgresql/networking) also apply to
+traffic over the peering. A new database allows connections from any address,
+so peered traffic is allowed. If your database restricts sources, for example
+because it was created with network access set to no access, add your VPC's
+CIDR blocks on ports 5432 and 6432. To allow only private access, replace the
+`0.0.0.0/0` and `::/0` rules with your VPC's CIDR blocks.
+
+### Peering states
+
+| State | Meaning |
+|---|---|
+| creating | Ubicloud is sending the peering request. |
+| waiting for peer | The request waits for you to accept it in AWS. |
+| configuring | Ubicloud is updating its routes for your VPC's CIDR blocks. |
+| active | Traffic flows over the peering. |
+| failed | The peering cannot work. The reason is shown on the peering. Delete it and create it again. |
+| deleting | Ubicloud is removing its routes and the peering connection. |
+
+An active peering can also show a warning:
+
+- **Not routed:** some CIDR blocks of your VPC are not private, or they overlap
+  the database's subnet or a range another peering of the same database already
+  routes. Ubicloud routes the others.
+- **Private DNS is off:** DNS hostnames are turned off in your VPC, so the
+  database hostname still resolves to its public address there. Turn them on;
+  Ubicloud retries every 15 minutes.
+
+A peering fails, for example, when the request is rejected or expires, when your
+VPC's CIDR blocks overlap the database's subnet, when none of them can be
+routed, or when the peering connection is deleted in AWS.
+
+### Keeping it up to date
+
+Every 15 minutes, Ubicloud checks an active peering. When you add a CIDR block
+to your VPC, Ubicloud routes it. When you remove one, Ubicloud removes its
+route. If you delete the peering connection in AWS, the peering moves to
+**failed**.
+
+### Delete a peering
+
+On the VPC Peering tab, click **Delete** next to the peering. Ubicloud removes
+its routes and deletes the peering connection, and traffic over it stops at
+once. Deleting a database also deletes its peerings.
+
+### Limits
+
+- One peering per database for each of your VPCs.
+- Up to 10 peerings per database.
+- Up to 5 peerings that are creating or waiting for peer per project in each
+  location.
+- Same region only, IPv4 only.
+
+Failed peerings count toward these limits until you delete them. In
+Ubicloud-managed locations, Ubicloud also limits the requests waiting to be
+accepted across all customers; if you reach that limit, try again later or
+contact [support@ubicloud.com](mailto:support@ubicloud.com).
+
+### API
+
+Peerings belong to the database's private subnet. Unless you named it at
+creation, the private subnet of a database is called `<database id>-subnet`, and
+each read replica has its own `<replica id>-subnet`. To request a peering, send:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $UBICLOUD_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"peer_account_id": "123456789012", "peer_vpc_id": "vpc-0123456789abcdef0"}' \
+  https://api.ubicloud.com/project/<project id>/location/<location>/private-subnet/<database id>-subnet/vpc-peering
+```
+
+The response includes `aws.peering_connection_id`, the connection to accept in
+your account. You can also list, show and delete peerings. See the
+[API reference](/api-reference/overview) for details.
+
+## GCP
+
+VPC peering for Ubicloud PostgreSQL on GCP is available on request. To get
+access, contact us at [support@ubicloud.com](mailto:support@ubicloud.com).
+
+On GCP, Ubicloud adds its side of the peering, and you create the matching side
+in your own GCP project with a `gcloud` command shown in the Ubicloud console.
+Ubicloud never needs access to your project. Connections open from your network
+into the database, and you use the database's private connection string.

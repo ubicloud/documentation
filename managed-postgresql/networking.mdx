@@ -31,3 +31,10 @@ To add a new firewall rule, click the "Add Firewall Rule" button and fill out an
 submit the form.
 
 Any changes made to the firewall rules should typically take effect within a minute.
+
+## Private Access with VPC Peering
+
+On AWS, you can connect your database to a VPC in your own AWS account with VPC
+peering, so your applications reach it over private addresses. The firewall
+rules above also apply to traffic over the peering. See
+[VPC Peering](/managed-postgresql/vpc-peering) for details.

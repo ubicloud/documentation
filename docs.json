@@ -78,6 +78,7 @@
               "managed-postgresql/metrics",
               "managed-postgresql/logs",
               "managed-postgresql/networking",
+              "managed-postgresql/vpc-peering",
               "managed-postgresql/security",
               "managed-postgresql/resize",
               "managed-postgresql/high-availability",

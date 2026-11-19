@@ -76,12 +76,15 @@ dedicated AWS account for Ubicloud. Please follow the steps below:
 				"ec2:CreateTags",
 				"ec2:CreateVpc",
 				"ec2:CreateVpcEndpoint",
+				"ec2:CreateVpcPeeringConnection",
 				"ec2:DeleteInternetGateway",
 				"ec2:DeleteNetworkInterface",
+				"ec2:DeleteRoute",
 				"ec2:DeleteSubnet",
 				"ec2:DeleteSecurityGroup",
 				"ec2:DeleteVpc",
 				"ec2:DeleteVpcEndpoints",
+				"ec2:DeleteVpcPeeringConnection",
 				"ec2:DescribeAddresses",
 				"ec2:DescribeAvailabilityZones",
 				"ec2:DescribeInstances",
@@ -92,12 +95,16 @@ dedicated AWS account for Ubicloud. Please follow the steps below:
 				"ec2:DescribeSecurityGroups",
 				"ec2:DescribeSubnets",
 				"ec2:DescribeVpcEndpoints",
+				"ec2:DescribeVpcPeeringConnections",
 				"ec2:DescribeVpcs",
 				"ec2:DetachInternetGateway",
 				"ec2:ModifyNetworkInterfaceAttribute",
 				"ec2:ModifySubnetAttribute",
 				"ec2:ModifyVpcAttribute",
+				"ec2:ModifyVpcPeeringConnectionOptions",
+				"ec2:RejectVpcPeeringConnection",
 				"ec2:ReleaseAddress",
+				"ec2:ReplaceRoute",
 				"ec2:RevokeSecurityGroupEgress",
 				"ec2:RevokeSecurityGroupIngress",
 				"ec2:RunInstances",
@@ -124,6 +131,13 @@ dedicated AWS account for Ubicloud. Please follow the steps below:
 ```
     3. Go to next page, give the policy a name (e.g., "ubicloud-byoc-policy")
     and create the policy.
+
+    [VPC peering](vpc-peering) uses `ec2:CreateVpcPeeringConnection`,
+    `ec2:DeleteRoute`, `ec2:DeleteVpcPeeringConnection`,
+    `ec2:DescribeVpcPeeringConnections`,
+    `ec2:ModifyVpcPeeringConnectionOptions`, `ec2:RejectVpcPeeringConnection`
+    and `ec2:ReplaceRoute`. If your policy was created before they were added,
+    add them before you request a VPC peering.
 2. Create new AWS IAM User for Ubicloud.
     1. Go to IAM > Users > Create user.
     2. Set a user name (e.g., "ubicloud-byoc-user") and go to next page.
