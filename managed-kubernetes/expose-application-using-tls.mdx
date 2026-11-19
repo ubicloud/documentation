@@ -25,21 +25,28 @@ export CLUSTER_ISSUER_EMAIL=email@yourcompany.com
 Next, we'll install the Gateway API CRDs, NGINX Gateway Fabric, and cert-manager.
 
 ```bash wrap
-kubectl kustomize https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.5.1 | kubectl apply -f -
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.9.0" | kubectl apply -f -
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-  --create-namespace -n nginx-gateway
+  --version 2.9.0 \
+  --create-namespace -n nginx-gateway \
+  --set nginx.config.ipFamily=dual \
+  --set 'nginx.service.patches[0].type=StrategicMerge' \
+  --set 'nginx.service.patches[0].value.spec.ipFamilyPolicy=PreferDualStack'
 
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
 helm install cert-manager jetstack/cert-manager \
+  --version v1.21.3 \
   --namespace cert-manager --create-namespace \
   --set crds.enabled=true \
   --set config.apiVersion="controller.config.cert-manager.io/v1alpha1" \
   --set config.kind="ControllerConfiguration" \
   --set config.enableGatewayAPI=true
 ```
+
+The `ipFamily` and `ipFamilyPolicy` settings make the gateway reachable over both IPv4 and IPv6, since your cluster's load balancer serves both.
 
 We'll also create a ClusterIssuer in order to get certificates from letsencrypt for our service. Note the `gatewayHTTPRoute` solver, which tells cert-manager to use the Gateway API for HTTP-01 challenges.
 ```bash
@@ -104,7 +111,7 @@ spec:
 EOF
 ```
 
-Once the Gateway is created, a Service named `gateway-nginx` will appear in the default namespace. This Service is of type LoadBalancer, and the `EXTERNAL-IP` column will display a domain that resolves to the IPs of your worker nodes.
+Once the Gateway is created, a Service named `gateway-nginx` will appear in the `nginx-gateway` namespace. This Service is of type LoadBalancer, and the `EXTERNAL-IP` column will display a domain that resolves to the IPs of your worker nodes.
 
 You can see this service using the command below
 ```bash
@@ -113,8 +120,8 @@ kubectl -n nginx-gateway get service gateway-nginx
 
 Here's a sample output of the command:
 ```
-NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                                  PORT(S)                      AGE
-gateway-nginx   LoadBalancer   10.105.61.236   devcluster-services-0b1c1.k8s.ubicloud.com   80:32271/TCP,443:30363/TCP   8m15s
+NAME            TYPE           CLUSTER-IP      EXTERNAL-IP                                         PORT(S)                      AGE
+gateway-nginx   LoadBalancer   10.105.61.236   devcluster-services-0b1c1.kubernetes.ubicloud.app   80:32271/TCP,443:30363/TCP   8m15s
 ```
 
 #### Deploy the application, Service, and HTTPRoute
@@ -172,12 +179,54 @@ spec:
     backendRefs:
     - name: hello-world-service
       port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hello-world-redirect
+spec:
+  parentRefs:
+  - name: gateway
+    namespace: nginx-gateway
+    sectionName: http
+  hostnames:
+  - "hello-world.$DOMAIN_SUFFIX"
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
 EOF
 ```
 
-This creates three resources:
+This creates four resources:
 - **Deployment**: Runs an NGINX container that serves the default welcome page on port 80.
 - **Service**: Exposes the Deployment inside the cluster so that the HTTPRoute can forward traffic to it.
 - **HTTPRoute**: Attaches to the Gateway's `https` listener (via `sectionName: https`) and routes all requests for `hello-world.<your-domain>` to the `hello-world-service`. This is the resource that connects your external HTTPS traffic all the way to your application pods.
+- **Redirect HTTPRoute**: Attaches to the Gateway's `http` listener and redirects plain HTTP requests to HTTPS. cert-manager's HTTP-01 challenge routes take precedence over it, so certificate renewals keep working.
+
+It can take a few minutes for cert-manager to issue the certificate and for the load balancer to start serving port 443. Wait until the `READY` column shows `True`:
+```bash
+kubectl -n nginx-gateway get certificate hello-world-tls
+```
 
 Now you can visit https://hello-world.somesubdomain.yourdomain.com!
+
+### Keeping NGINX Gateway Fabric up to date
+NGINX Gateway Fabric ships its own NGINX build, so NGINX security fixes reach your cluster only when you upgrade it. Check the [releases page](https://github.com/nginx/nginx-gateway-fabric/releases) and upgrade the Gateway API CRDs, the NGINX Gateway Fabric CRDs, and the chart to the same version. `helm upgrade` doesn't update CRDs, so the first two commands are required. Expect a brief interruption while the NGINX pod is replaced.
+```bash wrap
+export NGF_VERSION=2.9.0
+
+kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v$NGF_VERSION" | kubectl apply -f -
+
+kubectl apply --server-side --force-conflicts -f "https://raw.githubusercontent.com/nginx/nginx-gateway-fabric/v$NGF_VERSION/deploy/crds.yaml"
+
+helm upgrade ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
+  --version $NGF_VERSION -n nginx-gateway --reset-then-reuse-values
+```
+
+You can check the NGINX version your gateway runs with:
+```bash
+kubectl -n nginx-gateway exec deploy/gateway-nginx -c nginx -- nginx -v
+```
