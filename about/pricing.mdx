@@ -13,7 +13,6 @@ At a high level, our prices are 3-10x lower than comparable offerings. For examp
 - [Managed PostgreSQL](#managed-postgresql): \$78.15/month on Ubicloud vs. \$200/month on AWS Germany
 - [Burstable VMs](#burstable-vms) start at \$10.47/month and [Hobby Managed PostgreSQL](#hobby-postgresql) starts at \$19.54/month
 
-
 ## GitHub Actions
 
 Ubicloud runners come with dedicated CPU, memory, local block storage, and a public IPv4 address. Our GitHub Managed Runner Application allocates virtual machines (VMs) across data centers in Germany to provide high availability. Every account gets a \$2.5/month credit that's equivalent to 1,250 minutes of Ubicloud runner time.
@@ -156,3 +155,13 @@ Managed Kubernetes comes with dedicated CPU, memory, local block storage, and pu
 We calculate usage at per-minute granularity and bill you at the end of the month for usage.
 
 Ubicloud prices in our US region are now comparable to Germany for both worker and control plane nodes.
+
+## Usage Alerts and Spending Cutoffs
+
+To help track and or limit spending on Ubicloud, Ubicloud offers both usage alerts and spending cutoffs, both of which can be set on the project's Billing page.  Ubicloud checks both usage alerts and spending cutoffs every 5 minutes.
+
+After Ubicloud determines that the monthly usage for the account has exceeded the usage alert limit, the related accounts are notified via email, so they can take appropriate action. However, there is no other change in Ubicloud.
+
+After the system determines that the monthly usage for the account has exceeded the spending cutoff limit, in addition to the email, requests to incur additional spending in Ubicloud (e.g. GitHub runner requests) are rejected for the rest of the month, unless the spending cutoff is removed or increased over the current monthly spending. Note that a spending cutoff is not a hard cap on spending, as currently allocated resources are not destroyed and continue accruing spending.
+
+If you are solely using GitHub Runners, a spending cutoff approximates a spending cap, though it doesn't kick in until after the cutoff limit has been exceeded. So if you don't want to exceed a certain amount of spending, you should set a spending cutoff below that limit. How much below depends on the project's use of Ubicloud.
