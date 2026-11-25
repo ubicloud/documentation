@@ -165,3 +165,10 @@ After Ubicloud determines that the monthly usage for the account has exceeded th
 After the system determines that the monthly usage for the account has exceeded the spending cutoff limit, in addition to the email, requests to incur additional spending in Ubicloud (e.g. GitHub runner requests) are rejected for the rest of the month, unless the spending cutoff is removed or increased over the current monthly spending. Note that a spending cutoff is not a hard cap on spending, as currently allocated resources are not destroyed and continue accruing spending.
 
 If you are solely using GitHub Runners, a spending cutoff approximates a spending cap, though it doesn't kick in until after the cutoff limit has been exceeded. So if you don't want to exceed a certain amount of spending, you should set a spending cutoff below that limit. How much below depends on the project's use of Ubicloud.
+
+### Defaults
+
+To prevent unexpected runaway spending by new users and projects, starting on November 25, 2026:
+
+* New accounts have a $250 usage alert and $1000 spending cutoff added automatically to the default project created.
+* When an account creates a new project, the spending cutoff from the account's default project is applied to the new project, if the account has a default project with a spending cutoff.
