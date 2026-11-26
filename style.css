@@ -45,6 +45,10 @@
     vertical-align: middle;
   }
 
+  table td {
+    min-width: 0;
+  }
+
   table td:nth-child(1) {
     font-weight: 600;
   }
